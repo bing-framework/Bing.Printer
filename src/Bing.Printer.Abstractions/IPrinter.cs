@@ -1,4 +1,5 @@
-﻿using Bing.Printer.Operations;
+﻿using Bing.Printer.Enums;
+using Bing.Printer.Operations;
 
 namespace Bing.Printer
 {
@@ -12,6 +13,11 @@ namespace Bing.Printer
         int ColsCondensed { get; }
 
         int ColsExpanded { get; }
+
+        /// <summary>
+        /// 打印纸类型
+        /// </summary>
+        PrintPaperType PrintPaper { get; set; }
 
         /// <summary>
         /// 转换成十六进制字符串

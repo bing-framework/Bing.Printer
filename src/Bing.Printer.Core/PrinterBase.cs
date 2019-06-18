@@ -30,6 +30,11 @@ namespace Bing.Printer
         public int ColsExpanded => Command.ColsExpanded;
 
         /// <summary>
+        /// 打印纸类型
+        /// </summary>
+        public PrintPaperType PrintPaper { get; set; }
+
+        /// <summary>
         /// 转换成十六进制字符串
         /// </summary>
         public virtual string ToHex()

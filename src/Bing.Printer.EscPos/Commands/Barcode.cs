@@ -14,7 +14,7 @@ namespace Bing.Printer.EscPos.Commands
         /// <param name="value">值</param>
         public byte[] Code39(string value)
         {
-            return new byte[] { 29, 119, 2 } // Width
+            return new byte[] { ASCIIControlConst.GS, CommandConst.Barcodes.Print, 2 } // Width
                 .AddBytes(new byte[] { 29, 104, 50 }) // Height
                 .AddBytes(new byte[] { 29, 102, 0 }) // font hri character
                 .AddBytes(new byte[] { 29, 72, 0 }) // If print code informed
@@ -30,7 +30,7 @@ namespace Bing.Printer.EscPos.Commands
         /// <param name="value">值</param>
         public byte[] Code128(string value)
         {
-            return new byte[] { 29, 119, 2 } // Width
+            return new byte[] { ASCIIControlConst.GS, CommandConst.Barcodes.Print, 2 } // Width
                 .AddBytes(new byte[] { 29, 104, 50 }) // Height
                 .AddBytes(new byte[] { 29, 102, 1 }) // font hri character
                 .AddBytes(new byte[] { 29, 72, 0 }) // If print code informed
@@ -50,7 +50,7 @@ namespace Bing.Printer.EscPos.Commands
             if (value.Trim().Length != 13)
                 return new byte[0];
 
-            return new byte[] { 29, 119, 2 } // Width
+            return new byte[] { ASCIIControlConst.GS, CommandConst.Barcodes.Print, 2 } // Width
                 .AddBytes(new byte[] { 29, 104, 50 }) // Height
                 .AddBytes(new byte[] { 29, 72, 0 }) // If print code informed
                 .AddBytes(new byte[] { 29, 107, 67, 12 })

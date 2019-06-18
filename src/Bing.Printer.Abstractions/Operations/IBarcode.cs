@@ -23,5 +23,7 @@
         /// </summary>
         /// <param name="value">值</param>
         T Ean13(string value);
+
+
     }
 }

@@ -9,4 +9,8 @@
     <ProjectReference Include="..\Bing.Printer.Abstractions\Bing.Printer.Abstractions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>
