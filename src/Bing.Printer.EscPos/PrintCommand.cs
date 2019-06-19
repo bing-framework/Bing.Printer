@@ -1,4 +1,6 @@
-﻿using Bing.Printer.Enums;
+﻿using Bing.Printer.Builders;
+using Bing.Printer.Enums;
+using Bing.Printer.EscPos.Builders;
 using Bing.Printer.EscPos.Commands;
 using Bing.Printer.Extensions;
 using Bing.Printer.Operations;
@@ -55,18 +57,31 @@ namespace Bing.Printer.EscPos
         public IStyle<byte[]> Style { get; set; }
 
         /// <summary>
+        /// 条形码生成器
+        /// </summary>
+        internal IBarcodeBuilder BarcodeBuilder { get; set; }
+
+        /// <summary>
+        /// 初始化打印操作
+        /// </summary>
+        public IInitializePrint<byte[]> InitializePrint { get; set; }
+
+        /// <summary>
         /// 初始化一个<see cref="PrintCommand"/>类型的实例
         /// </summary>
         public PrintCommand()
         {
-            FontMode = new FontMode();
-            FontWidth = new FontWidth();
-            Alignment = new Alignment();
-            PagerCut = new PagerCut();
-            Drawer = new Drawer();
-            QrCode = new QRCode();
-            Barcode = new Barcode();
-            Style = new Style();
+            BarcodeBuilder = new BarcodeBuilder();
+
+            FontMode = new FontModeCommand();
+            FontWidth = new FontWidthCommand();
+            Alignment = new AlignmentCommand();
+            PagerCut = new PagerCutCommand();
+            Drawer = new DrawerCommand();
+            QrCode = new QRCodeCommand();
+            Barcode = new BarcodeCommand(BarcodeBuilder);
+            Style = new StyleCommand();
+            InitializePrint = new InitializePrintCommand();
         }
 
         /// <summary>

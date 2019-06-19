@@ -54,6 +54,11 @@ namespace Bing.Printer
         IStyle<byte[]> Style { get; set; }
 
         /// <summary>
+        /// 初始化打印操作
+        /// </summary>
+        IInitializePrint<byte[]> InitializePrint { get; set; }
+
+        /// <summary>
         /// 分隔符
         /// </summary>
         byte[] Separator();

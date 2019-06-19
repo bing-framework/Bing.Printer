@@ -1,13 +1,30 @@
-﻿using Bing.Printer.Extensions;
+﻿using Bing.Printer.Builders;
+using Bing.Printer.Enums;
+using Bing.Printer.Extensions;
 using Bing.Printer.Operations;
+using Bing.Printer.Options;
 
 namespace Bing.Printer.EscPos.Commands
 {
     /// <summary>
-    /// 条码操作
+    /// 条形码命令
     /// </summary>
-    internal class Barcode : IBarcode<byte[]>
+    internal class BarcodeCommand : IBarcode<byte[]>
     {
+        /// <summary>
+        /// 条形码生成器
+        /// </summary>
+        internal IBarcodeBuilder Builder { get; set; }
+
+        /// <summary>
+        /// 初始化一个<see cref="Barcode"/>类型的实例
+        /// </summary>
+        /// <param name="builder">条形码生成器</param>
+        public BarcodeCommand(IBarcodeBuilder builder)
+        {
+            Builder = builder;
+        }
+
         /// <summary>
         /// 设置 Code39 类型条形码
         /// </summary>
@@ -30,6 +47,11 @@ namespace Bing.Printer.EscPos.Commands
         /// <param name="value">值</param>
         public byte[] Code128(string value)
         {
+            //return Builder.Width(BarcodeWidth.Thinnest)
+            //    .Height(30)
+            //    .LabelFontB(BarcodeFontType.B)
+            //    .LabelPosition(BarcodePositionType.Above)
+            //    .Build(BarcodeType.Code128, value);
             return new byte[] { ASCIIControlConst.GS, CommandConst.Barcodes.Print, 2 } // Width
                 .AddBytes(new byte[] { 29, 104, 50 }) // Height
                 .AddBytes(new byte[] { 29, 102, 1 }) // font hri character
@@ -56,6 +78,20 @@ namespace Bing.Printer.EscPos.Commands
                 .AddBytes(new byte[] { 29, 107, 67, 12 })
                 .AddBytes(value.Substring(0, 12))
                 .AddLf();
+        }
+
+        /// <summary>
+        /// 设置条形码
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="options">条形码选项</param>
+        public byte[] Barcode(string value, BarcodeOptions options)
+        {
+            Builder.Width(options.Width ?? BarcodeWidth.Thinnest)
+                .Height(options.Height ?? 50)
+                .LabelPosition(options.Position ?? BarcodePositionType.None)
+                .LabelFontB(options.FontType ?? BarcodeFontType.B);
+            return Builder.Build(options.Type, value);
         }
     }
 }

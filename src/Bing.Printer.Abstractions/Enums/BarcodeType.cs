@@ -5,9 +5,9 @@
     /// </summary>
     public enum BarcodeType
     {
-        Ean13,
-        Ean8,
-        Code39,
-        Code128
+        Ean13 = 0x43,
+        Ean8 = 0x44,
+        Code39 = 0x45,
+        Code128 = 0x49
     }
 }

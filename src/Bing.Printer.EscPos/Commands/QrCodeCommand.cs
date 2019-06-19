@@ -9,7 +9,7 @@ namespace Bing.Printer.EscPos.Commands
     /// <summary>
     /// 二维码操作
     /// </summary>
-    internal class QRCode : IQrCode<byte[]>
+    internal class QRCodeCommand : IQrCode<byte[]>
     {
         /// <summary>
         /// 获取二维码大小二进制数组

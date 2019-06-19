@@ -6,7 +6,7 @@ namespace Bing.Printer.EscPos.Commands
     /// <summary>
     /// 字体宽度操作
     /// </summary>
-    internal class FontWidth : IFontWidth<byte[]>
+    internal class FontWidthCommand : IFontWidth<byte[]>
     {
         /// <summary>
         /// 正常宽度
@@ -21,6 +21,6 @@ namespace Bing.Printer.EscPos.Commands
         /// <summary>
         /// 3倍宽度
         /// </summary>
-        public byte[] DoubleWidth3() => new byte[] { 27, '!'.ToByte(), 32 };
+        public byte[] DoubleWidth3() => new byte[] { 27, '!'.ToByte(), 255 };
     }
 }

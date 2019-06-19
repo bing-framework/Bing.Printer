@@ -19,5 +19,11 @@ namespace Bing.Printer.Operations
         /// </summary>
         /// <param name="spaceCount">空格数</param>
         T RightCharacterSpacing(int spaceCount);
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        T Size(int size);
     }
 }

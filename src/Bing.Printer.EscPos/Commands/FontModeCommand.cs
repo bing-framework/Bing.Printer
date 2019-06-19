@@ -7,7 +7,7 @@ namespace Bing.Printer.EscPos.Commands
     /// <summary>
     /// 字体模式操作
     /// </summary>
-    internal class FontMode : IFontMode<byte[]>
+    internal class FontModeCommand : IFontMode<byte[]>
     {
         /// <summary>
         /// 倾斜。将文字变为斜体

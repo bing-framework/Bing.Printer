@@ -55,7 +55,7 @@ namespace Bing.Printer.Extensions
                 return bytes;
             var list = new List<byte>();
             list.AddRange(bytes);
-            list.AddRange(Encoding.GetEncoding(850).GetBytes(value));
+            list.AddRange(Encoding.GetEncoding("GB18030").GetBytes(value));
             return list.ToArray();
         }
 

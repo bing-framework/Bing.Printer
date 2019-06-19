@@ -5,7 +5,7 @@ namespace Bing.Printer.EscPos.Commands
     /// <summary>
     /// 绘制器操作
     /// </summary>
-    internal class Drawer : IDrawer<byte[]>
+    internal class DrawerCommand : IDrawer<byte[]>
     {
         /// <summary>
         /// 打开绘制器

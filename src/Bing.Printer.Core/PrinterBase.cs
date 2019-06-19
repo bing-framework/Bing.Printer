@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using Bing.Printer.Enums;
+using Bing.Printer.Options;
 
 namespace Bing.Printer
 {
@@ -375,6 +376,13 @@ namespace Bing.Printer
         /// </summary>
         /// <param name="value">值</param>
         public TPrinter Ean13(string value) => Append(Command.Barcode.Ean13(value));
+
+        /// <summary>
+        /// 设置条形码
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="options">条形码选项</param>
+        public TPrinter Barcode(string value, BarcodeOptions options) => Append(Command.Barcode.Barcode(value, options));
 
         #endregion
 

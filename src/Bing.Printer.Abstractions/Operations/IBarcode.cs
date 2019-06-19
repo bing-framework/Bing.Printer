@@ -1,4 +1,7 @@
-﻿namespace Bing.Printer.Operations
+﻿using Bing.Printer.Enums;
+using Bing.Printer.Options;
+
+namespace Bing.Printer.Operations
 {
     /// <summary>
     /// 条码操作
@@ -24,6 +27,11 @@
         /// <param name="value">值</param>
         T Ean13(string value);
 
-
+        /// <summary>
+        /// 设置条形码
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="options">条形码选项</param>
+        T Barcode(string value, BarcodeOptions options);
     }
 }

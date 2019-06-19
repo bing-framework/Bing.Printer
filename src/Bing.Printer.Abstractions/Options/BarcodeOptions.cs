@@ -10,7 +10,7 @@ namespace Bing.Printer.Options
         /// <summary>
         /// 宽度
         /// </summary>
-        public int? Width { get; set; }
+        public BarcodeWidth? Width { get; set; }
 
         /// <summary>
         /// 高度
@@ -31,5 +31,10 @@ namespace Bing.Printer.Options
         /// 是否包含奇偶校验
         /// </summary>
         public bool? IncludeParity { get; set; }
+
+        /// <summary>
+        /// 条码类型
+        /// </summary>
+        public BarcodeType Type { get; set; }
     }
 }

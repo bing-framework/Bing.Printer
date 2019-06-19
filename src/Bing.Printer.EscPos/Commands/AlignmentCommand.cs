@@ -7,7 +7,7 @@ namespace Bing.Printer.EscPos.Commands
     /// <summary>
     /// 对齐方式操作
     /// </summary>
-    internal class Alignment : IAlignment<byte[]>
+    internal class AlignmentCommand : IAlignment<byte[]>
     {
         /// <summary>
         /// 左对齐
