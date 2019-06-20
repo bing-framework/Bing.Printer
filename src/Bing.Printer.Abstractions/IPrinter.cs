@@ -38,6 +38,8 @@ namespace Bing.Printer
         , IDrawer<TPrinter>
         , IQrCode<TPrinter>
         , IBarcode<TPrinter>
+        , IStyle<TPrinter>
+        , IInitializePrint<TPrinter>
         where TPrinter : IPrinter<TPrinter>
     {
         /// <summary>

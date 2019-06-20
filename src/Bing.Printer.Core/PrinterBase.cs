@@ -386,5 +386,46 @@ namespace Bing.Printer
 
         #endregion
 
+        #region Style(样式)
+
+        /// <summary>
+        /// 设置打印样式
+        /// </summary>
+        /// <param name="style">打印样式</param>
+        public TPrinter Styles(PrintStyle style) => Append(Command.Style.Styles(style));
+
+        /// <summary>
+        /// 设置字符间距
+        /// </summary>
+        /// <param name="spaceCount">空格数</param>
+        public TPrinter RightCharacterSpacing(int spaceCount) => Append(Command.Style.RightCharacterSpacing(spaceCount));
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public TPrinter Size(int size) => Append(Command.Style.Size(size));
+
+        #endregion
+
+        #region InitializePrint(初始化打印)
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public TPrinter Initialize() => Append(Command.InitializePrint.Initialize());
+
+        /// <summary>
+        /// 启用
+        /// </summary>
+        public TPrinter Enable() => Append(Command.InitializePrint.Enable());
+
+        /// <summary>
+        /// 禁用
+        /// </summary>
+        public TPrinter Disable() => Append(Command.InitializePrint.Disable());
+
+        #endregion
+
     }
 }

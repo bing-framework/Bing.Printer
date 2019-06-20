@@ -10,7 +10,7 @@ namespace Bing.Printer.EscPos.Commands
         /// <summary>
         /// 初始化
         /// </summary>
-        public byte[] Initialize() => new[] {ASCIIControlConst.ESC, CommandConst.Operations.Initialize};
+        public byte[] Initialize() => Command.HardwareInit;
 
         /// <summary>
         /// 启用
