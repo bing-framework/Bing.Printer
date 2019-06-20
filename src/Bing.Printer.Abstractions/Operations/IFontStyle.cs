@@ -26,25 +26,25 @@ namespace Bing.Printer.Operations
         T Bold(PrinterModeState state);
 
         /// <summary>
-        /// 下划线(1点宽)。为文字添加下划线，仅支持英文字符数字
+        /// 下划线(1点宽)。为文字添加下划线
         /// </summary>
         /// <param name="value">值</param>
         T Underline(string value);
 
         /// <summary>
-        /// 下划线(1点宽)。为文字添加下划线，仅支持英文字符数字
+        /// 下划线(1点宽)。为文字添加下划线
         /// </summary>
         /// <param name="state">打印模式状态</param>
         T Underline(PrinterModeState state);
 
         /// <summary>
-        /// 下划线(2点宽)。为文字添加下划线，仅支持英文字符数字
+        /// 下划线(2点宽)。为文字添加下划线
         /// </summary>
         /// <param name="value">值</param>
         T Underline2(string value);
 
         /// <summary>
-        /// 下划线(2点宽)。为文字添加下划线，仅支持英文字符数字
+        /// 下划线(2点宽)。为文字添加下划线
         /// </summary>
         /// <param name="state">打印模式状态</param>
         T Underline2(PrinterModeState state);
