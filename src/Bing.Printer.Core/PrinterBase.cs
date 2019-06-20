@@ -35,110 +35,54 @@ namespace Bing.Printer
         /// </summary>
         public PrintPaperType PrintPaper { get; set; }
 
-        /// <summary>
-        /// 转换成十六进制字符串
-        /// </summary>
-        public virtual string ToHex()
-        {
-            if (_buffer == null)
-                return string.Empty;
-            var result = new StringBuilder();
-            foreach (var b in _buffer)
-                result.AppendFormat("{0:x2}", b);
-            return result.Replace("-", "").ToString();
-        }
+        #region Writer(写入器操作)
 
         /// <summary>
-        /// 创建打印命令
+        /// 写入
         /// </summary>
-        /// <returns></returns>
-        protected abstract IPrintCommand CreatePrintCommand();
-
-        /// <summary>
-        /// 追加内容
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Append(string value)
+        /// <param name="value">字节数组</param>
+        public virtual TPrinter Write(byte[] value)
         {
-            AppendString(value, true);
+            Command.Writer.Write(value);
             return This();
         }
 
         /// <summary>
-        /// 返回自身
+        /// 写入
         /// </summary>
-        private TPrinter This()
+        /// <param name="value">字符串</param>
+        public virtual TPrinter Write(string value)
         {
-            return (TPrinter)(object)this;
-        }
-
-        /// <summary>
-        /// 添加字符串
-        /// </summary>
-        /// <param name="value">值</param>
-        /// <param name="useLf">是否换行</param>
-        private void AppendString(string value, bool useLf)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-
-            if (useLf)
-                value += "\n";
-            var list = new List<byte>();
-            if (_buffer != null)
-                list.AddRange(_buffer);
-            var bytes = GetBytes(value);
-            list.AddRange(bytes);
-            _buffer = list.ToArray();
-        }
-
-        /// <summary>
-        /// 获取字节数组
-        /// </summary>
-        /// <param name="value">值</param>
-        protected abstract byte[] GetBytes(string value);
-
-        /// <summary>
-        /// 追加内容
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Append(byte[] value)
-        {
-            if (value == null)
-                return This();
-            var list = new List<byte>();
-            if (_buffer != null)
-                list.AddRange(_buffer);
-            list.AddRange(value);
-            _buffer = list.ToArray();
+            Command.Writer.Write(value);
             return This();
         }
 
         /// <summary>
-        /// 追加内容并带有换行符
+        /// 写入并换行
         /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter AppendWithoutLf(string value)
+        /// <param name="value">字符串</param>
+        public TPrinter WriteLine(string value)
         {
-            AppendString(value, false);
+            Command.Writer.WriteLine(value);
             return This();
         }
 
         /// <summary>
-        /// 添加新行
+        /// 添加行
         /// </summary>
-        public virtual TPrinter NewLine() => Append("\r");
+        public virtual TPrinter NewLine()
+        {
+            Command.Writer.NewLine();
+            return This();
+        }
 
         /// <summary>
-        /// 添加多行
+        /// 添加行
         /// </summary>
-        /// <param name="lines">行数</param>
-        public virtual TPrinter NewLines(int lines)
+        /// <param name="liens">行数</param>
+        public virtual TPrinter NewLine(int liens)
         {
-            for (var i = 1; i < lines; i++)
-                NewLine();
+            Command.Writer.NewLine(liens);
             return This();
         }
 
@@ -147,9 +91,34 @@ namespace Bing.Printer
         /// </summary>
         public virtual TPrinter Clear()
         {
-            _buffer = null;
+            Command.Writer.Clear();
             return This();
         }
+
+        /// <summary>
+        /// 获取二进制数组
+        /// </summary>
+        public virtual byte[] GetBytes() => Command.Writer.GetBytes();
+
+        /// <summary>
+        /// 转换成十六进制字符串
+        /// </summary>
+        public virtual string ToHex() => Command.Writer.ToHex();
+
+        /// <summary>
+        /// 创建打印命令
+        /// </summary>
+        /// <returns></returns>
+        protected abstract IPrintCommand CreatePrintCommand();
+
+        /// <summary>
+        /// 返回自身
+        /// </summary>
+        private TPrinter This() => (TPrinter)(object)this;
+
+        #endregion
+
+        
 
         #region Command(命令操作)
 
@@ -426,6 +395,81 @@ namespace Bing.Printer
         public TPrinter Disable() => Append(Command.InitializePrint.Disable());
 
         #endregion
+
+        /// <summary>
+        /// 添加字符串
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="useLf">是否换行</param>
+        private void AppendString(string value, bool useLf)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return;
+            }
+
+            if (useLf)
+                value += "\n";
+            var list = new List<byte>();
+            if (_buffer != null)
+                list.AddRange(_buffer);
+            var bytes = GetBytes(value);
+            list.AddRange(bytes);
+            _buffer = list.ToArray();
+        }
+
+        /// <summary>
+        /// 获取字节数组
+        /// </summary>
+        /// <param name="value">值</param>
+        protected abstract byte[] GetBytes(string value);
+
+        /// <summary>
+        /// 追加内容
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Append(byte[] value)
+        {
+            if (value == null)
+                return This();
+            var list = new List<byte>();
+            if (_buffer != null)
+                list.AddRange(_buffer);
+            list.AddRange(value);
+            _buffer = list.ToArray();
+            return This();
+        }
+
+        /// <summary>
+        /// 追加内容并带有换行符
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter AppendWithoutLf(string value)
+        {
+            AppendString(value, false);
+            return This();
+        }
+
+        /// <summary>
+        /// 添加多行
+        /// </summary>
+        /// <param name="lines">行数</param>
+        public virtual TPrinter NewLines(int lines)
+        {
+            for (var i = 1; i < lines; i++)
+                NewLine();
+            return This();
+        }
+
+        /// <summary>
+        /// 追加内容
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Append(string value)
+        {
+            AppendString(value, true);
+            return This();
+        }
 
     }
 }

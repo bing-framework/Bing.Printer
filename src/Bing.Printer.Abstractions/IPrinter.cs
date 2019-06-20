@@ -18,11 +18,6 @@ namespace Bing.Printer
         /// 打印纸类型
         /// </summary>
         PrintPaperType PrintPaper { get; set; }
-
-        /// <summary>
-        /// 转换成十六进制字符串
-        /// </summary>
-        string ToHex();
     }
 
     /// <summary>
@@ -30,6 +25,7 @@ namespace Bing.Printer
     /// </summary>
     /// <typeparam name="TPrinter">打印机类型</typeparam>
     public interface IPrinter<out TPrinter> : IPrinter
+        , IWriter<TPrinter>
         , ICommand<TPrinter>
         , IFontMode<TPrinter>
         , IFontWidth<TPrinter>
@@ -59,21 +55,5 @@ namespace Bing.Printer
         /// </summary>
         /// <param name="value">值</param>
         TPrinter AppendWithoutLf(string value);
-
-        /// <summary>
-        /// 添加新行
-        /// </summary>
-        TPrinter NewLine();
-
-        /// <summary>
-        /// 添加多行
-        /// </summary>
-        /// <param name="lines">行数</param>
-        TPrinter NewLines(int lines);
-
-        /// <summary>
-        /// 清空
-        /// </summary>
-        TPrinter Clear();
     }
 }

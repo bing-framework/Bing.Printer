@@ -1,4 +1,5 @@
-﻿using Bing.Printer.Builders;
+﻿using System.Text;
+using Bing.Printer.Builders;
 using Bing.Printer.Enums;
 using Bing.Printer.EscPos.Builders;
 using Bing.Printer.EscPos.Commands;
@@ -67,12 +68,19 @@ namespace Bing.Printer.EscPos
         public IInitializePrint<byte[]> InitializePrint { get; set; }
 
         /// <summary>
+        /// 写入器操作
+        /// </summary>
+        public IWriter Writer { get; set; }
+
+        /// <summary>
         /// 初始化一个<see cref="PrintCommand"/>类型的实例
         /// </summary>
-        public PrintCommand()
+        /// <param name="encoding">字符编码</param>
+        public PrintCommand(Encoding encoding)
         {
-            BarcodeBuilder = new BarcodeBuilder();
+            Writer = new WriterCommand(encoding);
 
+            BarcodeBuilder = new BarcodeBuilder();
             FontMode = new FontModeCommand();
             FontWidth = new FontWidthCommand();
             Alignment = new AlignmentCommand();

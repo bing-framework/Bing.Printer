@@ -10,7 +10,7 @@ namespace Bing.Printer.EscPos
         /// <summary>
         /// 创建打印命令
         /// </summary>
-        protected override IPrintCommand CreatePrintCommand() => new PrintCommand();
+        protected override IPrintCommand CreatePrintCommand() => new PrintCommand(Encoding.GetEncoding("GB18030"));
 
         /// <summary>
         /// 获取字节数组
