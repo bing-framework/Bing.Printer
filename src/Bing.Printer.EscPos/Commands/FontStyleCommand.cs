@@ -71,17 +71,17 @@ namespace Bing.Printer.EscPos.Commands
         /// <summary>
         /// 下划线(1点宽)。为文字添加下划线
         /// </summary>
-        public byte[] UnderlineOn() => Command.Chinese.UnderlineOn.AddBytes(Command.TxtUnderlineOn);
+        public byte[] UnderlineOn() => Command.Chinese.UnderlineOn.AddBytes(Command.ASCII.UnderlineOn);
 
         /// <summary>
         /// 下划线(2点宽)。为文字添加下划线
         /// </summary>
-        public byte[] Underline2On() => Command.Chinese.Underline2On.AddBytes(Command.TxtUnderline2On);
+        public byte[] Underline2On() => Command.Chinese.Underline2On.AddBytes(Command.ASCII.Underline2On);
 
         /// <summary>
         /// 下划线。为文字添加下划线
         /// </summary>
-        public byte[] UnderlineOff() => Command.Chinese.UnderlineOff.AddBytes(Command.TxtUnderlineOff);
+        public byte[] UnderlineOff() => Command.Chinese.UnderlineOff.AddBytes(Command.ASCII.UnderlineOff);
 
         /// <summary>
         /// 黑白反显
@@ -136,5 +136,10 @@ namespace Bing.Printer.EscPos.Commands
         /// 顺时针旋转-关
         /// </summary>
         public byte[] RotateOff() => Command.TxtRotateOff;
+
+        public byte[] FontSize(int width, int height)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

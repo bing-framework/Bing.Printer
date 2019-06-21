@@ -304,10 +304,17 @@ namespace Bing.Printer.Tests
         public void Test_TxtFormat_Bold()
         {
             _printer.Write(Command.HardwareInit);
-            _printer.Bold("加粗格式字体")
-                .NewLine();
-            _printer.Bold("Test Txt Format Bold")
-                .NewLine();
+            _printer.WriteLine("准备加粗字体测试1");
+            _printer.WriteLine("Ready Test Txt Format Bold");
+
+            _printer.Write(Command.TxtBoldOn);
+            _printer.WriteLine("加粗字体测试2");
+            _printer.WriteLine("Test Txt Format Bold");
+
+            _printer.Write(Command.TxtBoldOff);
+            _printer.WriteLine("取消加粗字体测试3");
+            _printer.WriteLine("Cancel Test Txt Format Bold");
+
             var result = _printer.ToHex();
             Output.WriteLine(result);
         }
@@ -334,12 +341,19 @@ namespace Bing.Printer.Tests
         public void Test_TxtFormat_Underline()
         {
             _printer.Initialize();
-            _printer.Write(new byte[] {0x1B, 0x2D, 50});
-            _printer.Write(new byte[] { 0x1C, 0x2D, 50 });
-            _printer.WriteLine("测试下划线字符串！！！@@@");
-            _printer.WriteLine("Test Txt Format Underline!!!@@@");
-            _printer.Write(new byte[] {0x1B, 0x2D, 0});
-            _printer.Write(new byte[] { 0x1C, 0x2D, 0 });
+            _printer.WriteLine("测试下划线字符串");
+            _printer.WriteLine("Test Txt Format Underline");
+
+            _printer.Write(Command.Chinese.Underline2On);
+            _printer.Write(Command.ASCII.Underline2On);
+            _printer.WriteLine("测试下划线字符串");
+            _printer.WriteLine("Test Txt Format Underline");
+
+            _printer.Write(Command.Chinese.UnderlineOff);
+            _printer.Write(Command.ASCII.UnderlineOff);
+            _printer.WriteLine("测试下划线字符串");
+            _printer.WriteLine("Test Txt Format Underline");
+
             var result = _printer.ToHex();
             Output.WriteLine(result);
         }
@@ -354,9 +368,11 @@ namespace Bing.Printer.Tests
             _printer.WriteLine("Test Double Width");
             _printer.WriteLine("正常文本大小");
             _printer.Write(new byte[] {0x1C, 0x21, 0x04});
+            _printer.Write(new byte[] { 0x1B, 0x21, 0x20 });
             _printer.WriteLine("Test Double Width");
             _printer.WriteLine("选择倍宽文本大小");
             _printer.Write(new byte[] { 0x1C, 0x21, 0x00 });
+            _printer.Write(new byte[] { 0x1B, 0x21, 0x00 });
             _printer.WriteLine("Test Double Width");
             _printer.WriteLine("取消倍宽文本大小");
 
@@ -498,37 +514,18 @@ namespace Bing.Printer.Tests
             Output.WriteLine(result);
         }
 
-
+        /// <summary>
+        /// 测试文本格式-大小
+        /// </summary>
         [Fact]
-        public void Test_Demo()
+        public void Test_TxtFormat_Size_1()
         {
-            _printer.Write(Command.HardwareInit);
-
-            _printer.Left();
-            _printer.Write(Command.TxtNormal);
-            _printer.WriteLine("正常格式文本");
-
-            _printer.Write(Command.Txt2Height);
-            _printer.WriteLine("双倍高度格式文本");
-
-            _printer.Write(Command.Txt2Width);
-            _printer.WriteLine("双倍宽度格式文本");
-
-            _printer.Write(Command.Txt4Quare);
-            _printer.WriteLine("四区域格式文本");
-
-            _printer.Write(Command.TxtUnderlineOn);
-            _printer.WriteLine("下划线格式文本");
-            _printer.Write(Command.TxtUnderlineOff);
-
-            _printer
-                .Underline("下划线文本测试")
-                .NewLine();
-
-            _printer
-                .Underline("test under line")
-                .NewLine();
-
+            _printer.Initialize();
+            for (int i = 0; i <= 255; i++)
+            {
+                _printer.Write(new byte[] {0x1D, 0x21, (byte) i});
+                _printer.WriteLine($"{i} 级字体");
+            }
             var result = _printer.ToHex();
             Output.WriteLine(result);
         }
@@ -969,6 +966,31 @@ namespace Bing.Printer.Tests
             _printer.Left();
             _printer.WriteLine("测试开始");
             _printer.WriteLine("(1、标题，居中，3倍大小，下划线，粗体)");
+        }
+
+        /// <summary>
+        /// 测试字体格式-黑白反显打印模式
+        /// </summary>
+        [Fact]
+        public void Test_TxtFormat_BlackWhiteReverse()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+            _printer.WriteLine("准备测试黑白反显打印模式");
+            _printer.WriteLine("Ready Test Black White Reverse");
+
+            _printer.Write(Command.TxtBlackWhiteReverseOn);
+            _printer.WriteLine("测试黑白反显打印模式");
+            _printer.WriteLine("Test Black White Reverse");
+
+            _printer.Write(Command.TxtBlackWhiteReverseOff);
+            _printer.WriteLine("取消测试黑白反显打印模式");
+            _printer.WriteLine("Cancel Test Black White Reverse");
+
+            _printer.NewLine(2);
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
         }
     }
 }

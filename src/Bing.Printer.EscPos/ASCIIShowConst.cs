@@ -349,12 +349,146 @@
         public const byte G = 0x47;
 
         /// <summary>
+        /// H。
+        /// 显示图形 : H;
+        /// 二进制 : 0100 1000;
+        /// 十进制 : 72;
+        /// 十六进制 : 0x48;
+        /// </summary>
+        public const byte H = 0x48;
+
+        /// <summary>
+        /// L。
+        /// 显示图形 : L;
+        /// 二进制 : 0100 1100;
+        /// 十进制 : 76;
+        /// 十六进制 : 0x4C;
+        /// </summary>
+        public const byte L = 0x4C;
+
+        /// <summary>
+        /// P。
+        /// 显示图形 : P;
+        /// 二进制 : 0101 0000;
+        /// 十进制 : 80;
+        /// 十六进制 : 0x50;
+        /// </summary>
+        public const byte P = 0x50;
+
+        /// <summary>
+        /// R。
+        /// 显示图形 : R;
+        /// 二进制 : 0101 0010;
+        /// 十进制 : 82;
+        /// 十六进制 : 0x52;
+        /// </summary>
+        public const byte R = 0x52;
+
+        /// <summary>
         /// V。
         /// 显示图形 : V;
-        /// 二进制 : 0101  0110;
+        /// 二进制 : 0101 0110;
         /// 十进制 : 86;
         /// 十六进制 : 0x56;
         /// </summary>
         public const byte V = 0x56;
+
+        /// <summary>
+        /// w。
+        /// 显示图形 : w;
+        /// 二进制 : 0101 0111;
+        /// 十进制 : 87;
+        /// 十六进制 : 0x57;
+        /// </summary>
+        public const byte W = 0x57;
+
+        /// <summary>
+        /// 反斜线。
+        /// 显示图形 : \;
+        /// 二进制 : 0101 1100;
+        /// 十进制 : 92;
+        /// 十六进制 : 0x5C;
+        /// </summary>
+        public const byte Backslash = 0x5C;
+
+        /// <summary>
+        /// a。
+        /// 显示图形 : a;
+        /// 二进制 : 0110 0001;
+        /// 十进制 : 97;
+        /// 十六进制 : 0x61;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte a = 0x61;
+
+        /// <summary>
+        /// f。
+        /// 显示图形 : f;
+        /// 二进制 : 0110 0110;
+        /// 十进制 : 102;
+        /// 十六进制 : 0x66;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte f = 0x66;
+
+        /// <summary>
+        /// h。
+        /// 显示图形 : h;
+        /// 二进制 : 0110 1000;
+        /// 十进制 : 104;
+        /// 十六进制 : 0x68;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte h = 0x68;
+
+        /// <summary>
+        /// o。
+        /// 显示图形 : o;
+        /// 二进制 : 0111 1111;
+        /// 十进制 : 111;
+        /// 十六进制 : 0x6F;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte o = 0x6F;
+
+        /// <summary>
+        /// p。
+        /// 显示图形 : p;
+        /// 二进制 : 0111 0000;
+        /// 十进制 : 112;
+        /// 十六进制 : 0x70;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte p = 0x70;
+
+        /// <summary>
+        /// q。
+        /// 显示图形 : q;
+        /// 二进制 : 0111 0001;
+        /// 十进制 : 113;
+        /// 十六进制 : 0x71;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte q = 0x71;
+
+        /// <summary>
+        /// t。
+        /// 显示图形 : t;
+        /// 二进制 : 0111 0100;
+        /// 十进制 : 116;
+        /// 十六进制 : 0x74;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte t = 0x74;
+
+        /// <summary>
+        /// w。
+        /// 显示图形 : w;
+        /// 二进制 : 0111 0111;
+        /// 十进制 : 119;
+        /// 十六进制 : 0x77;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte w = 0x77;
     }
 }

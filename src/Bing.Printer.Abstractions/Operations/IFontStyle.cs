@@ -134,5 +134,12 @@
         /// 顺时针旋转-关
         /// </summary>
         T RotateOff();
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        T FontSize(int width, int height);
     }
 }
