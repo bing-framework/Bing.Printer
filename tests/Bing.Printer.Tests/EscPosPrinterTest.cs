@@ -344,6 +344,64 @@ namespace Bing.Printer.Tests
             Output.WriteLine(result);
         }
 
+        /// <summary>
+        /// 测试文本格式-双倍宽度
+        /// </summary>
+        [Fact]
+        public void Test_TxtFormat_DoubleWidth()
+        {
+            _printer.Initialize();
+            _printer.WriteLine("Test Double Width");
+            _printer.WriteLine("正常文本大小");
+            _printer.Write(new byte[] {0x1C, 0x21, 0x04});
+            _printer.WriteLine("Test Double Width");
+            _printer.WriteLine("选择倍宽文本大小");
+            _printer.Write(new byte[] { 0x1C, 0x21, 0x00 });
+            _printer.WriteLine("Test Double Width");
+            _printer.WriteLine("取消倍宽文本大小");
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试文本格式-旋转
+        /// </summary>
+        [Fact]
+        public void Test_TxtFormat_Rotate()
+        {
+            _printer.Initialize();
+            _printer.WriteLine("正常文本");
+            _printer.Write(Command.TxtRotate90On);
+            _printer.WriteLine("旋转90度文本");
+            _printer.Write(Command.TxtRotate180On);
+            _printer.WriteLine("旋转180度文本");
+            _printer.Write(Command.TxtRotate270On);
+            _printer.WriteLine("旋转270度文本");
+            _printer.Write(Command.TxtRotateOff);
+            _printer.WriteLine("取消旋转文本");
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试文本格式-双重打印
+        /// </summary>
+        [Fact]
+        public void Test_TxtFormat_DoublePrint()
+        {
+            _printer.Initialize();
+            _printer.WriteLine("正常文本");
+            _printer.Write(new byte[] {0x1B, 0x47, 0x01});
+            _printer.WriteLine("双重打印文本");
+            _printer.Write(new byte[] { 0x1B, 0x47, 0x00 });
+            _printer.WriteLine("取消双重打印文本");
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
 
         /// <summary>
         /// 测试文本格式-宽度
