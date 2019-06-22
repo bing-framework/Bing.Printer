@@ -28,11 +28,6 @@ namespace Bing.Printer.EscPos
         public IFontWidth<byte[]> FontWidth { get; set; }
 
         /// <summary>
-        /// 对齐方式操作
-        /// </summary>
-        public IAlignment<byte[]> Alignment { get; set; }
-
-        /// <summary>
         /// 页面截断操作
         /// </summary>
         public IPagerCut<byte[]> PagerCut { get; set; }
@@ -68,6 +63,11 @@ namespace Bing.Printer.EscPos
         public IInitializePrint<byte[]> InitializePrint { get; set; }
 
         /// <summary>
+        /// 打印样式操作
+        /// </summary>
+        public IPrintStyle<byte[]> PrintStyle { get; set; }
+
+        /// <summary>
         /// 写入器操作
         /// </summary>
         public IWriter Writer { get; set; }
@@ -83,13 +83,13 @@ namespace Bing.Printer.EscPos
             BarcodeBuilder = new BarcodeBuilder();
             FontMode = new FontModeCommand();
             FontWidth = new FontWidthCommand();
-            Alignment = new AlignmentCommand();
             PagerCut = new PagerCutCommand();
             Drawer = new DrawerCommand();
             QrCode = new QRCodeCommand();
             Barcode = new BarcodeCommand(BarcodeBuilder);
             Style = new StyleCommand();
             InitializePrint = new InitializePrintCommand();
+            PrintStyle = new PrintStyleCommand();
         }
 
         /// <summary>

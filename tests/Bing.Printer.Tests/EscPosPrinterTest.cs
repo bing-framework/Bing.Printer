@@ -1,6 +1,12 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Text;
 using Bing.Printer.Enums;
 using Bing.Printer.EscPos;
+using Bing.Printer.Extensions;
 using Bing.Printer.Options;
 using Xunit;
 using Xunit.Abstractions;
@@ -991,6 +997,276 @@ namespace Bing.Printer.Tests
 
             var result = _printer.ToHex();
             Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试打印样式-左边距
+        /// </summary>
+        [Fact]
+        public void Test_PrintStyle_MarginLeft()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+            _printer.WriteLine("正常字体位置");
+            _printer.WriteLine("Margin Left Font Position");
+            var oldLeft = 10;
+            var oldnH = oldLeft >> 8;
+            var oldnL = oldLeft - (oldnH << 8);
+
+            int left = 30;
+            var nH = left >> 8;
+            var nL = left - (nH << 8);
+
+            _printer.Write(new byte[] {0x1D, 0x4C, nL.ToByte(), nH.ToByte()});
+            _printer.WriteLine("设置 30 左边距的字体位置");
+            _printer.WriteLine("Set 30 Margin Left Font Position");
+
+            _printer.Write(new byte[] { 0x1D, 0x4C, oldnL.ToByte(), oldnH.ToByte() });
+            _printer.WriteLine("恢复 左边距的字体位置");
+            _printer.WriteLine("Return Margin Left Font Position");
+
+            _printer.Write(new byte[] { 0x1D, 0x4C, nL.ToByte(), nH.ToByte() });
+            _printer.WriteLine("设置 30 nL 10 nH 左边距的字体位置");
+            _printer.WriteLine("Set 30 nL 10 nH Margin Left Font Position");
+
+            _printer.Write(new byte[] { 0x1D, 0x4C, oldnL.ToByte(), oldnH.ToByte() });
+            _printer.WriteLine("恢复 左边距的字体位置");
+            _printer.WriteLine("Return Margin Left Font Position");
+
+            _printer.NewLine(2);
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试打印图片
+        /// </summary>
+        [Fact]
+        public void Test_PrintImage()
+        {
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            Output.WriteLine(basePath);
+
+            _printer.Initialize();
+            _printer.Center();
+            _printer.WriteLine("Test PNG images with widths 100 - 600 px at native resolution");
+
+            _printer.WriteLine("-- pd-logo-100.png --");
+            _printer.Write(PrintImage($"{basePath}images\\pd-logo-100.png"));
+            _printer.NewLine(1);
+
+            _printer.WriteLine("-- pd-logo-200.png --");
+            _printer.Write(PrintImage($"{basePath}images\\pd-logo-200.png"));
+            _printer.NewLine(1);
+
+            //_printer.WriteLine("-- pd-logo-300.png --");
+            //_printer.Write(PrintImage($"{basePath}images\\pd-logo-300.png"));
+            //_printer.NewLine(1);
+
+            //_printer.WriteLine("-- pd-logo-400.png --");
+            //_printer.Write(PrintImage($"{basePath}images\\pd-logo-400.png"));
+            //_printer.NewLine(1);
+
+            //_printer.WriteLine("-- pd-logo-500.png --");
+            //_printer.Write(PrintImage($"{basePath}images\\pd-logo-500.png"));
+            //_printer.NewLine(1);
+
+            //_printer.WriteLine("-- pd-logo-600.png --");
+            //_printer.Write(PrintImage($"{basePath}images\\pd-logo-600.png"));
+            //_printer.NewLine(1);
+
+            _printer.NewLine(2);
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        private byte[] PrintImage(string filePath)
+        {
+            var list = new List<byte>();
+            using (var image=Image.FromFile(filePath))
+            {
+                var bmp = new Bitmap(image);
+                //设置字符行间距为n点行
+                //byte[] data = new byte[] { 0x1B, 0x33, 0x00 };
+                string send = "" + (char)(27) + (char)(51) + (char)(0);
+                byte[] data = new byte[send.Length];
+                for (int i = 0; i < send.Length; i++)
+                {
+                    data[i] = (byte)send[i];
+                }
+                list.AddRange(data);
+                data[0] = (byte)'\x00';
+                data[1] = (byte)'\x00';
+                data[2] = (byte)'\x00';    // Clear to Zero.
+                Color pixelColor;
+                //ESC * m nL nH d1…dk   选择位图模式
+                // ESC * m nL nH
+                byte[] escBmp = new byte[] { 0x1B, 0x2A, 0x00, 0x00, 0x00 };
+                escBmp[2] = (byte)'\x21';
+                //nL, nH
+                escBmp[3] = (byte)(bmp.Width % 256);
+                escBmp[4] = (byte)(bmp.Width / 256);
+                //循环图片像素打印图片
+                //循环高
+                for (int i = 0; i < (bmp.Height / 24 + 1); i++)
+                {
+                    //设置模式为位图模式
+                    list.AddRange(escBmp);
+                    //循环宽
+                    for (int j = 0; j < bmp.Width; j++)
+                    {
+                        for (int k = 0; k < 24; k++)
+                        {
+                            if (((i * 24) + k) < bmp.Height)  // if within the BMP size
+                            {
+                                pixelColor = bmp.GetPixel(j, (i * 24) + k);
+                                if (pixelColor.R == 0)
+                                {
+                                    data[k / 8] += (byte)(128 >> (k % 8));
+
+                                }
+                            }
+                        }
+                        //一次写入一个data，24个像素
+                        list.AddRange(data);
+
+                        data[0] = (byte)'\x00';
+                        data[1] = (byte)'\x00';
+                        data[2] = (byte)'\x00';    // Clear to Zero.
+                    }
+
+                    //换行，打印第二行
+                    byte[] data2 = { 0xA };
+                    list.AddRange(data2);
+                } // data
+            }
+
+            return list.ToArray();
+        }
+
+        private byte[] GetImageData(string bmpFileName)
+        {
+            if (!File.Exists(bmpFileName))
+            {
+                return null;
+            }
+
+            var data = GetBitmapData(bmpFileName);
+            var dots = data.Dots;
+            var width = BitConverter.GetBytes(data.Width);
+
+            var offset = 0;
+            var ms = new MemoryStream();
+            var bw = new BinaryWriter(ms);
+
+            bw.Write((char)0x1B);
+            bw.Write('@');
+
+            bw.Write((char)0x1B);
+            bw.Write('3');
+            bw.Write((byte)24);
+
+            while (offset < data.Height)
+            {
+                bw.Write((char)0x1B);
+                bw.Write('*');         // bit-image mode
+                bw.Write((byte)33);    // 24-dot double-density
+                bw.Write(width[0]);  // width low byte
+                bw.Write(width[1]);  // width high byte
+
+                for (int x = 0; x < data.Width; ++x)
+                {
+                    for (int k = 0; k < 3; ++k)
+                    {
+                        byte slice = 0;
+                        for (int b = 0; b < 8; ++b)
+                        {
+                            int y = (((offset / 8) + k) * 8) + b;
+                            // Calculate the location of the pixel we want in the bit array.
+                            // It'll be at (y * width) + x.
+                            int i = (y * data.Width) + x;
+
+                            // If the image is shorter than 24 dots, pad with zero.
+                            bool v = false;
+                            if (i < dots.Length)
+                            {
+                                v = dots[i];
+                            }
+                            slice |= (byte)((v ? 1 : 0) << (7 - b));
+                        }
+
+                        bw.Write(slice);
+                    }
+                }
+                offset += 24;
+                bw.Write((char)0x0A);
+            }
+            // Restore the line spacing to the default of 30 dots.
+            bw.Write((char)0x1B);
+            bw.Write('3');
+            bw.Write((byte)30);
+
+            bw.Flush();
+            byte[] bytes = ms.ToArray();
+            bw.Dispose();
+            ms.Dispose();
+            return bytes;
+        }
+
+        private BitmapData GetBitmapData(string bmpFileName)
+        {
+            using (var bitmap = (Bitmap) Bitmap.FromFile(bmpFileName))
+            {
+                var threshold = 127;
+                var index = 0;
+                double multiplier = 500;
+                double scale = (double) (multiplier / (double) bitmap.Width);
+                var xHeight = (int) (bitmap.Height * scale);
+                var xWidth = (int) (bitmap.Width * scale);
+                var dimensions = xWidth * xHeight;
+                var dots = new BitArray(dimensions);
+                for (var y = 0; y < xHeight; y++)
+                {
+                    for (var x = 0; x < xWidth; x++)
+                    {
+                        var _x = (int)(x / scale);
+                        var _y = (int)(y / scale);
+                        var color = bitmap.GetPixel(_x, _y);
+                        var luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
+                        dots[index] = (luminance < threshold);
+                        index++;
+                    }
+                }
+
+                return new BitmapData()
+                {
+                    Dots = dots,
+                    Height = (int) (bitmap.Height * scale),
+                    Width = (int) (bitmap.Width * scale)
+                };
+            }
+        }
+        
+        /// <summary>
+        /// 位图数据
+        /// </summary>
+        private class BitmapData
+        {
+            /// <summary>
+            /// 点
+            /// </summary>
+            public BitArray Dots { get; set; }
+
+            /// <summary>
+            /// 高度
+            /// </summary>
+            public int Height { get; set; }
+
+            /// <summary>
+            /// 宽度
+            /// </summary>
+            public int Width { get; set; }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Bing.Printer
         , ICommand<TPrinter>
         , IFontMode<TPrinter>
         , IFontWidth<TPrinter>
-        , IAlignment<TPrinter>
+        , IPrintStyle<TPrinter>
         , IPagerCut<TPrinter>
         , IDrawer<TPrinter>
         , IQrCode<TPrinter>

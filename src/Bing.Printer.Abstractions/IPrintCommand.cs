@@ -24,11 +24,6 @@ namespace Bing.Printer
         IFontWidth<byte[]> FontWidth { get; set; }
 
         /// <summary>
-        /// 对齐方式操作
-        /// </summary>
-        IAlignment<byte[]> Alignment { get; set; }
-
-        /// <summary>
         /// 页面截断操作
         /// </summary>
         IPagerCut<byte[]> PagerCut { get; set; }
@@ -57,6 +52,11 @@ namespace Bing.Printer
         /// 初始化打印操作
         /// </summary>
         IInitializePrint<byte[]> InitializePrint { get; set; }
+
+        /// <summary>
+        /// 打印样式操作
+        /// </summary>
+        IPrintStyle<byte[]> PrintStyle { get; set; }
 
         /// <summary>
         /// 写入操作

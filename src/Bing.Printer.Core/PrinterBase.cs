@@ -267,22 +267,26 @@ namespace Bing.Printer
 
         #endregion
 
-        #region Alignment(对齐方式)
+        #region PrintStyle(打印样式)
+
+        public virtual TPrinter LeftMargin(int value = 10) => Append(Command.PrintStyle.LeftMargin(value));
+
+        public virtual TPrinter LeftMargin(int nL, int nH) => Append(Command.PrintStyle.LeftMargin(nL, nH));
 
         /// <summary>
         /// 左对齐
         /// </summary>
-        public virtual TPrinter Left() => Append(Command.Alignment.Left());
+        public virtual TPrinter Left() => Append(Command.PrintStyle.Left());
 
         /// <summary>
         /// 右对齐
         /// </summary>
-        public virtual TPrinter Right() => Append(Command.Alignment.Right());
+        public virtual TPrinter Right() => Append(Command.PrintStyle.Right());
 
         /// <summary>
         /// 居中
         /// </summary>
-        public virtual TPrinter Center() => Append(Command.Alignment.Center());
+        public virtual TPrinter Center() => Append(Command.PrintStyle.Center());
 
         #endregion
 
