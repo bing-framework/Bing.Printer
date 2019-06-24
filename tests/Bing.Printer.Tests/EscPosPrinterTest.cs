@@ -1719,5 +1719,27 @@ namespace Bing.Printer.Tests
             var result = _printer.ToHex();
             Output.WriteLine(result);
         }
+
+        /// <summary>
+        /// 测试打印-分隔符 设置左边距
+        /// </summary>
+        [Fact]
+        public void Test_Print_Separator_LeftMargin()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+            _printer.WriteLine("开始内容");
+            _printer.Separator();
+            _printer.LeftMargin(30);
+            _printer.WriteLine("设置左边距内容");
+            _printer.Separator();
+            _printer.LeftMargin();
+            _printer.WriteLine("恢复左边距内容");
+            _printer.Separator();
+
+            _printer.NewLine(2);
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
     }
 }

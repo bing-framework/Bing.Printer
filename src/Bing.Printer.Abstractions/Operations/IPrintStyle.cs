@@ -10,7 +10,7 @@
         /// 设置左边距
         /// </summary>
         /// <param name="value">值</param>
-        T LeftMargin(int value = 10);
+        T LeftMargin(int value = 0);
 
         /// <summary>
         /// 设置左边距

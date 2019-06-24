@@ -192,7 +192,7 @@ namespace Bing.Printer
 
         #region PrintStyle(打印样式)
 
-        public virtual TPrinter LeftMargin(int value = 10) => Write(Command.PrintStyle.LeftMargin(value));
+        public virtual TPrinter LeftMargin(int value = 0) => Write(Command.PrintStyle.LeftMargin(value));
 
         public virtual TPrinter LeftMargin(int nL, int nH) => Write(Command.PrintStyle.LeftMargin(nL, nH));
 

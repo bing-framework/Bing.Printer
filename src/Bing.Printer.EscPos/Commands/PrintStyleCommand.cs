@@ -12,7 +12,7 @@ namespace Bing.Printer.EscPos.Commands
         /// 设置左边距
         /// </summary>
         /// <param name="value">值</param>
-        public byte[] LeftMargin(int value = 10)
+        public byte[] LeftMargin(int value = 0)
         {
             var nH = value >> 8;
             var nL = value - (nH << 8);
