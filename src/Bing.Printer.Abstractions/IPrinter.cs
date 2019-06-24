@@ -20,7 +20,6 @@ namespace Bing.Printer
     /// <typeparam name="TPrinter">打印机类型</typeparam>
     public interface IPrinter<out TPrinter> : IPrinter
         , IWriter<TPrinter>
-        , ICommand<TPrinter>
         , IFontMode<TPrinter>
         , IFontWidth<TPrinter>
         , IPrintStyle<TPrinter>

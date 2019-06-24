@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Printer.Core", "src\Bi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-document", "00-document", "{8B83F472-19F3-4DD7-A4C2-87A0143FA6EB}"
 	ProjectSection(SolutionItems) = preProject
+		build\pack.bat = build\pack.bat
 		README.md = README.md
+		build\version.props = build\version.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-src", "01-src", "{28D3ECD1-D78F-4BEF-B627-9B6D495E8C12}"
