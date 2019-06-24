@@ -1,4 +1,5 @@
-﻿using Bing.Printer.Enums;
+﻿using System.Text;
+using Bing.Printer.Enums;
 using Bing.Printer.Extensions;
 using Bing.Printer.Operations;
 
@@ -9,6 +10,27 @@ namespace Bing.Printer.EscPos.Commands
     /// </summary>
     internal class StyleCommand : IStyle<byte[]>
     {
+        /// <summary>
+        /// 打印纸
+        /// </summary>
+        private IPrintPaper _printPaper;
+
+        /// <summary>
+        /// 字符编码
+        /// </summary>
+        private Encoding _encoding;
+
+        /// <summary>
+        /// 初始化一个<see cref="StyleCommand"/>类型的实例
+        /// </summary>
+        /// <param name="printPaper">打印纸</param>
+        /// <param name="encoding">字符编码</param>
+        public StyleCommand(IPrintPaper printPaper, Encoding encoding)
+        {
+            _printPaper = printPaper;
+            _encoding = encoding;
+        }
+
         /// <summary>
         /// 设置打印样式
         /// </summary>
@@ -26,6 +48,11 @@ namespace Bing.Printer.EscPos.Commands
         /// </summary>
         /// <param name="size">字体大小</param>
         public byte[] Size(int size) => GetFontSizeSetBig(size);
+
+        /// <summary>
+        /// 设置分隔符
+        /// </summary>
+        public byte[] Separator() => _encoding.GetBytes(new string('-', _printPaper.GetLineStringWidth(2)));
 
         /// <summary>
         /// 获取字体表达为标准的n倍

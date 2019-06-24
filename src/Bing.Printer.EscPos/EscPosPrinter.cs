@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Bing.Printer.Factories;
 
 namespace Bing.Printer.EscPos
 {
@@ -10,12 +11,7 @@ namespace Bing.Printer.EscPos
         /// <summary>
         /// 创建打印命令
         /// </summary>
-        protected override IPrintCommand CreatePrintCommand() => new PrintCommand(Encoding.GetEncoding("GB18030"));
-
-        /// <summary>
-        /// 获取字节数组
-        /// </summary>
-        /// <param name="value">值</param>
-        protected override byte[] GetBytes(string value) => Encoding.GetEncoding("GB18030").GetBytes(value);
+        protected override IPrintCommand CreatePrintCommand() =>
+            new PrintCommand(PrintPaperFactory.GetOrCreate(PrintPaper), Encoding.GetEncoding("GB18030"));
     }
 }

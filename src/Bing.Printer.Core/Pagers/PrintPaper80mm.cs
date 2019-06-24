@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Bing.Printer.Pagers
+﻿namespace Bing.Printer.Pagers
 {
     /// <summary>
     /// 80mm 打印纸
@@ -17,6 +15,8 @@ namespace Bing.Printer.Pagers
                     return 47;
                 case 1:
                     return 23;
+                case 2:
+                    return 72;
                 default:
                     return 47;
             }

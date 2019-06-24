@@ -38,7 +38,7 @@ namespace Bing.Printer.EscPos.Commands
         /// <summary>
         /// 倍宽-关
         /// </summary>
-        public byte[] DoubleWidthOff() => Command.Chinese.DoubleWidthOff;
+        public byte[] DoubleWidthOff() => Command.Chinese.FontSizeReset;
 
         /// <summary>
         /// 倍高
@@ -54,7 +54,7 @@ namespace Bing.Printer.EscPos.Commands
         /// <summary>
         /// 倍高-关
         /// </summary>
-        public byte[] DoubleHeightOff() => Command.Chinese.DoubleHeightOff;
+        public byte[] DoubleHeightOff() => Command.Chinese.FontSizeReset;
 
         /// <summary>
         /// 下划线(1点宽)。为文字添加下划线

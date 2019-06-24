@@ -81,6 +81,60 @@ namespace Bing.Printer.EscPos.Commands
         }
 
         /// <summary>
+        /// 设置 Code39 类型条形码
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="position">标签显示位置</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        /// <param name="fontB">是否使用字体B</param>
+        public byte[] Code39(string value, BarcodePositionType position, BarcodeWidth width, int height, bool fontB) =>
+            Barcode(value, new BarcodeOptions()
+            {
+                Position = position,
+                Width = width,
+                Height = height,
+                FontType = fontB ? BarcodeFontType.B : BarcodeFontType.A,
+                Type = BarcodeType.Code39
+            });
+
+        /// <summary>
+        /// 设置 Code128 类型条形码
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="position">标签显示位置</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        /// <param name="fontB">是否使用字体B</param>
+        public byte[] Code128(string value, BarcodePositionType position, BarcodeWidth width, int height, bool fontB) =>
+            Barcode(value, new BarcodeOptions()
+            {
+                Position = position,
+                Width = width,
+                Height = height,
+                FontType = fontB ? BarcodeFontType.B : BarcodeFontType.A,
+                Type = BarcodeType.Code128
+            });
+
+        /// <summary>
+        /// 设置 Ean13 类型条形码
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="position">标签显示位置</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        /// <param name="fontB">是否使用字体B</param>
+        public byte[] Ean13(string value, BarcodePositionType position, BarcodeWidth width, int height, bool fontB) =>
+            Barcode(value, new BarcodeOptions()
+            {
+                Position = position,
+                Width = width,
+                Height = height,
+                FontType = fontB ? BarcodeFontType.B : BarcodeFontType.A,
+                Type = BarcodeType.Ean13
+            });
+
+        /// <summary>
         /// 设置条形码
         /// </summary>
         /// <param name="value">值</param>

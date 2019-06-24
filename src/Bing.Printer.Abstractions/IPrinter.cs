@@ -8,12 +8,6 @@ namespace Bing.Printer
     /// </summary>
     public interface IPrinter
     {
-        int ColsNomal { get; }
-
-        int ColsCondensed { get; }
-
-        int ColsExpanded { get; }
-
         /// <summary>
         /// 打印纸类型
         /// </summary>
@@ -38,22 +32,5 @@ namespace Bing.Printer
         , IInitializePrint<TPrinter>
         where TPrinter : IPrinter<TPrinter>
     {
-        /// <summary>
-        /// 追加内容
-        /// </summary>
-        /// <param name="value">值</param>
-        TPrinter Append(string value);
-
-        /// <summary>
-        /// 追加内容
-        /// </summary>
-        /// <param name="value">值</param>
-        TPrinter Append(byte[] value);
-
-        /// <summary>
-        /// 追加内容并带有换行符
-        /// </summary>
-        /// <param name="value">值</param>
-        TPrinter AppendWithoutLf(string value);
     }
 }

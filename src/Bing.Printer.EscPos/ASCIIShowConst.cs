@@ -442,6 +442,16 @@
         public const byte h = 0x68;
 
         /// <summary>
+        /// k。
+        /// 显示图形 : k;
+        /// 二进制 : 0110 1011;
+        /// 十进制 : 107;
+        /// 十六进制 : 0x6B;
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        public const byte k = 0x6B;
+
+        /// <summary>
         /// o。
         /// 显示图形 : o;
         /// 二进制 : 0111 1111;

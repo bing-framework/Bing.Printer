@@ -1,9 +1,7 @@
 ﻿using System.Text;
 using Bing.Printer.Builders;
-using Bing.Printer.Enums;
 using Bing.Printer.EscPos.Builders;
 using Bing.Printer.EscPos.Commands;
-using Bing.Printer.Extensions;
 using Bing.Printer.Operations;
 
 namespace Bing.Printer.EscPos
@@ -13,10 +11,6 @@ namespace Bing.Printer.EscPos
     /// </summary>
     internal class PrintCommand : IPrintCommand
     {
-        public int ColsNomal => 48;
-        public int ColsCondensed => 64;
-        public int ColsExpanded => 24;
-
         /// <summary>
         /// 字体模式操作
         /// </summary>
@@ -68,6 +62,11 @@ namespace Bing.Printer.EscPos
         public IPrintStyle<byte[]> PrintStyle { get; set; }
 
         /// <summary>
+        /// 图片操作
+        /// </summary>
+        public IImage<byte[]> Image { get; set; }
+
+        /// <summary>
         /// 写入器操作
         /// </summary>
         public IWriter Writer { get; set; }
@@ -75,34 +74,23 @@ namespace Bing.Printer.EscPos
         /// <summary>
         /// 初始化一个<see cref="PrintCommand"/>类型的实例
         /// </summary>
+        /// <param name="printPaper">打印纸</param>
         /// <param name="encoding">字符编码</param>
-        public PrintCommand(Encoding encoding)
+        public PrintCommand(IPrintPaper printPaper ,Encoding encoding)
         {
             Writer = new WriterCommand(encoding);
+            BarcodeBuilder = new BarcodeBuilder(encoding);
 
-            BarcodeBuilder = new BarcodeBuilder();
             FontMode = new FontModeCommand();
             FontWidth = new FontWidthCommand();
             PagerCut = new PagerCutCommand();
             Drawer = new DrawerCommand();
             QrCode = new QRCodeCommand();
             Barcode = new BarcodeCommand(BarcodeBuilder);
-            Style = new StyleCommand();
+            Style = new StyleCommand(printPaper, encoding);
             InitializePrint = new InitializePrintCommand();
             PrintStyle = new PrintStyleCommand();
+            Image = new ImageCommand(printPaper);
         }
-
-        /// <summary>
-        /// 分隔符
-        /// </summary>
-        public byte[] Separator() => FontMode.Condensed(PrinterModeState.On)
-            .AddBytes(new string('-', ColsCondensed))
-            .AddBytes(FontMode.Condensed(PrinterModeState.Off))
-            .AddCrLf();
-
-        /// <summary>
-        /// 自动测试
-        /// </summary>
-        public byte[] AutoTest() => new byte[] {29, 40, 65, 2, 0, 0, 2};
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Bing.Printer.Enums;
 using Bing.Printer.EscPos;
@@ -27,37 +28,22 @@ namespace Bing.Printer.Tests
         }
 
         /// <summary>
-        /// 测试 自动测试
-        /// </summary>
-        [Fact]
-        public void Test_AutoTest()
-        {
-            _printer.AutoTest();
-            var result = _printer.ToHex();
-            Output.WriteLine(result);
-        }
-
-        /// <summary>
-        /// 测试 自动打印内容
-        /// </summary>
-        [Fact]
-        public void Test_AutoPrinter()
-        {
-            _printer.AutoPrinter();
-            var result = _printer.ToHex();
-            Output.WriteLine(result);
-        }
-
-        /// <summary>
         /// 测试 简单例子
         /// </summary>
         [Fact]
         public void Test_Simple()
         {
-            _printer.Center()
+            _printer
+                //.Write(new byte[]{0x1B,0x61,0x01})
+                //.Write(Command.StyleCenterAlign)
+                .Center()
                 .WriteLine("居中字符串")
+                //.Write(new byte[] { 0x1B, 0x61, 0x00 })
+                //.Write(Command.StyleLeftAlign)
                 .Left()
                 .WriteLine("左对齐字符串")
+                //.Write(new byte[] { 0x1B, 0x61, 0x02 })
+                //.Write(Command.StyleRightAlign)
                 .Right()
                 .WriteLine("右对齐字符串")
                 .Full();
@@ -210,14 +196,6 @@ namespace Bing.Printer.Tests
                 Type = BarcodeType.Code128,
                 Height = 50,
                 Position = BarcodePositionType.Above
-            }).NewLine();
-
-            _printer.WriteLine("Label Above and Below:");
-            _printer.Barcode("Y20190618000001", new BarcodeOptions()
-            {
-                Type = BarcodeType.Code128,
-                Height = 50,
-                Position = BarcodePositionType.Both
             }).NewLine();
 
             _printer.WriteLine("Label Below:");
@@ -374,11 +352,11 @@ namespace Bing.Printer.Tests
             _printer.WriteLine("Test Double Width");
             _printer.WriteLine("正常文本大小");
             _printer.Write(new byte[] {0x1C, 0x21, 0x04});
-            _printer.Write(new byte[] { 0x1B, 0x21, 0x20 });
+            _printer.Write(new byte[] {0x1B, 0x21, 0x20});
             _printer.WriteLine("Test Double Width");
             _printer.WriteLine("选择倍宽文本大小");
-            _printer.Write(new byte[] { 0x1C, 0x21, 0x00 });
-            _printer.Write(new byte[] { 0x1B, 0x21, 0x00 });
+            _printer.Write(new byte[] {0x1C, 0x21, 0x00});
+            _printer.Write(new byte[] {0x1B, 0x21, 0x00});
             _printer.WriteLine("Test Double Width");
             _printer.WriteLine("取消倍宽文本大小");
 
@@ -417,7 +395,7 @@ namespace Bing.Printer.Tests
             _printer.WriteLine("正常文本");
             _printer.Write(new byte[] {0x1B, 0x47, 0x01});
             _printer.WriteLine("双重打印文本");
-            _printer.Write(new byte[] { 0x1B, 0x47, 0x00 });
+            _printer.Write(new byte[] {0x1B, 0x47, 0x00});
             _printer.WriteLine("取消双重打印文本");
 
             var result = _printer.ToHex();
@@ -532,6 +510,7 @@ namespace Bing.Printer.Tests
                 _printer.Write(new byte[] {0x1D, 0x21, (byte) i});
                 _printer.WriteLine($"{i} 级字体");
             }
+
             var result = _printer.ToHex();
             Output.WriteLine(result);
         }
@@ -742,52 +721,56 @@ namespace Bing.Printer.Tests
             _printer.NewLine();
             _printer.WriteLine("原始打印例子");
             _printer.WriteLine("（18、条码）");
-            _printer.Write(new byte[] {0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00});// 打印UPC-E码：01977110
+            _printer.Write(new byte[]
+                {0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00}); // 打印UPC-E码：01977110
             _printer.NewLine();
 
             _printer.WriteLine("（19、0X30点的字符间距）");
-            _printer.Write(new byte[] {0x1B, 0x20, 0x30});// 设置字符间距0x30个点
+            _printer.Write(new byte[] {0x1B, 0x20, 0x30}); // 设置字符间距0x30个点
             _printer.WriteLine("1、0123456789-ABCD-9876543210芝柯无敌。");
 
-            _printer.Write(new byte[] {0x1B, 0x20, 0x00});// 设置字符间距0x00个点
+            _printer.Write(new byte[] {0x1B, 0x20, 0x00}); // 设置字符间距0x00个点
             _printer.WriteLine("（20、粗体，下划线，2倍大小）");
             _printer.Write(new byte[] {0x1b, 0x21, (byte) 0xfe}); // 设置字体为粗体，下划线，2倍大小的24点阵
             _printer.WriteLine("1、0123456789-ABCD-9876543210芝柯无敌。");
 
-            _printer.Write(new byte[] { 0x1B, 0x40 }); // 打印机复位
+            _printer.Write(new byte[] {0x1B, 0x40}); // 打印机复位
             _printer.WriteLine("（21、条码）");
-            _printer.Write(new byte[] { 0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00 });// 打印UPC-E码：01977110
+            _printer.Write(new byte[]
+                {0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00}); // 打印UPC-E码：01977110
             _printer.NewLine();
 
             _printer.WriteLine("（22、左边距0x2F）");
-            _printer.Write(new byte[] {0x1D, 0x4C, 0x2F, 0x00});// 设置左边距0x2F
+            _printer.Write(new byte[] {0x1D, 0x4C, 0x2F, 0x00}); // 设置左边距0x2F
             _printer.WriteLine(
                 "1、0123456789-ABCD-9876543210芝柯无敌。2、0123456789-ABCD-9876543210芝柯无敌。3、0123456789-ABCD-9876543210芝柯无敌。4、0123456789-ABCD-9876543210芝柯无敌。");
 
             _printer.WriteLine("（23、竖直条码）");
 
             _printer.WriteLine("(24、条码) ");
-            _printer.Write(new byte[] { 0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00 });// 打印UPC-E码：01977110
+            _printer.Write(new byte[]
+                {0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00}); // 打印UPC-E码：01977110
             _printer.NewLine();
 
             _printer.WriteLine("(25、旋转90度) ");
-            _printer.Write(new byte[] { 0x1B, 0x40 }); // 打印机复位
-            _printer.Write(new byte[] {0x1B, 0x56, 0x01});// 设置顺时针旋转90度
+            _printer.Write(new byte[] {0x1B, 0x40}); // 打印机复位
+            _printer.Write(new byte[] {0x1B, 0x56, 0x01}); // 设置顺时针旋转90度
             _printer.WriteLine("1、0123456789-ABCD-9876543210芝柯无敌。 ");
 
-            _printer.Write(new byte[] {0x1B, 0x56, 0x00});// 设置为不旋转
+            _printer.Write(new byte[] {0x1B, 0x56, 0x00}); // 设置为不旋转
             _printer.WriteLine("(26、条码) ");
-            _printer.Write(new byte[] { 0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00 });// 打印UPC-E码：01977110
+            _printer.Write(new byte[]
+                {0x1D, 0x6B, 0x01, 0x30, 0x31, 0x39, 0x37, 0x37, 0x31, 0x31, 0x30, 0x00}); // 打印UPC-E码：01977110
             _printer.NewLine();
 
             _printer.WriteLine("(27、旋转180度)");
-            _printer.Write(new byte[] {0x1B, 0x56, 0x02});// 设置顺时针旋转180度
+            _printer.Write(new byte[] {0x1B, 0x56, 0x02}); // 设置顺时针旋转180度
             _printer.WriteLine("1、0123456789-ABCD-9876543210芝柯无敌。 ");
 
-            _printer.Write(new byte[] { 0x1B, 0x56, 0x00 });// 设置为不旋转
+            _printer.Write(new byte[] {0x1B, 0x56, 0x00}); // 设置为不旋转
             _printer.WriteLine("(28、二维条码DataMatrix)");
-            _printer.Write(new byte[] {0x1D, 0x77, 0x04});// 条码宽度4倍
-            _printer.Write(new byte[] {0x1D, 0x5A, 0x01});// 选择DataMatrix条码
+            _printer.Write(new byte[] {0x1D, 0x77, 0x04}); // 条码宽度4倍
+            _printer.Write(new byte[] {0x1D, 0x5A, 0x01}); // 选择DataMatrix条码
             _printer.Write(new byte[]
             {
                 0x1B, 0x5A, 0x00, 0x00, 0x00, 0x39, 0x00, (byte) 0xC9, (byte) 0xCF, (byte) 0xBA, (byte) 0xA3,
@@ -798,17 +781,17 @@ namespace Bing.Printer.Tests
                 (byte) 0xCF, (byte) 0xBA, (byte) 0xA3, (byte) 0xC6, (byte) 0xD6, (byte) 0xB6, (byte) 0xAB,
                 (byte) 0xD0, (byte) 0xE3, (byte) 0xC6, (byte) 0xCC, (byte) 0xC2, (byte) 0xB7, 0x33, 0x39,
                 0x39, 0x39, (byte) 0xBA, (byte) 0xC5, 0x36, (byte) 0xBA, (byte) 0xC5, (byte) 0xC2, (byte) 0xA5
-            });// 打印DataMatrix条码
+            }); // 打印DataMatrix条码
             _printer.NewLine();
 
             _printer.WriteLine("(29、旋转270度)");
-            _printer.Write(new byte[] {0x1B, 0x56, 0x03});// 设置顺时针旋转270度
+            _printer.Write(new byte[] {0x1B, 0x56, 0x03}); // 设置顺时针旋转270度
             _printer.WriteLine("1、0123456789-ABCD-9876543210芝柯无敌。 ");
 
-            _printer.Write(new byte[] { 0x1B, 0x56, 0x00 });// 设置为不旋转
+            _printer.Write(new byte[] {0x1B, 0x56, 0x00}); // 设置为不旋转
             _printer.WriteLine("(30、二维条码QR-CODE 曲线，曲线上打印文字)");
-            _printer.Write(new byte[] { 0x1D, 0x77, 0x04 });// 条码宽度4倍
-            _printer.Write(new byte[] {0x1D, 0x5A, 0x02});// 选择QR-CODE条码
+            _printer.Write(new byte[] {0x1D, 0x77, 0x04}); // 条码宽度4倍
+            _printer.Write(new byte[] {0x1D, 0x5A, 0x02}); // 选择QR-CODE条码
             _printer.Write(new byte[]
             {
                 0x1B, 0x5A, 0x00, 0x01, 0x00, 0x39, 0x00, (byte) 0xC9, (byte) 0xCF, (byte) 0xBA, (byte) 0xA3,
@@ -819,7 +802,7 @@ namespace Bing.Printer.Tests
                 (byte) 0xCF, (byte) 0xBA, (byte) 0xA3, (byte) 0xC6, (byte) 0xD6, (byte) 0xB6, (byte) 0xAB,
                 (byte) 0xD0, (byte) 0xE3, (byte) 0xC6, (byte) 0xCC, (byte) 0xC2, (byte) 0xB7, 0x33, 0x39,
                 0x39, 0x39, (byte) 0xBA, (byte) 0xC5, 0x36, (byte) 0xBA, (byte) 0xC5, (byte) 0xC2, (byte) 0xA5
-            });// 打印DataMatrix条码
+            }); // 打印DataMatrix条码
             _printer.NewLine();
 
             var result = _printer.ToHex();
@@ -832,70 +815,71 @@ namespace Bing.Printer.Tests
         [Fact]
         public void Test_Print_4()
         {
-            _printer.Write(new byte[] { 0x1B, 0x40 }); // 打印机复位
+            _printer.Write(new byte[] {0x1B, 0x40}); // 打印机复位
             _printer.NewLine();
             _printer.WriteLine("原始打印例子");
 
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x01, 0x1A, 0x00, 0x3F, 0x02 });                           //打印第1行线段
-            _printer.Write(new byte[] { 0x1D, 0x22, 0x00, 0x00, 0x00, (byte)0xCE, (byte)0xD2, 0x00 });     //2行线段上打印第1个字符
-            _printer.Write(new byte[] { 0x1D, 0x22, 0x01, 0x27, 0x02, (byte)0xB5, (byte)0xC4, 0x00 });     //2行线段上打印第2个字符
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x1B, 0x00, 0x1C, 0x00 });       //打印第2行2节线段		
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x1E, 0x00, 0x1F, 0x00 });       //打印第3行2节线段
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x20, 0x00, 0x21, 0x00 });       //打印第4行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x22, 0x00, 0x23, 0x00 });       //打印第5行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x24, 0x00, 0x25, 0x00 });       //打印第6行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x26, 0x00, 0x27, 0x00 });       //打印第7行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x28, 0x00, 0x29, 0x00 });       //打印第8行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x2A, 0x00, 0x2B, 0x00 });       //打印第9行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x2C, 0x00, 0x2D, 0x00 });       //打印第10行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x2E, 0x00, 0x2F, 0x00 });       //打印第11行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x30, 0x00, 0x31, 0x00 });       //打印第12行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x32, 0x00, 0x33, 0x00 });       //打印第13行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x34, 0x00, 0x35, 0x00 });       //打印第14行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x36, 0x00, 0x37, 0x00 });       //打印第15行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x38, 0x00, 0x39, 0x00 });       //打印第16行2节线段						
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x3A, 0x00, 0x3B, 0x00 });       //打印第17行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x3C, 0x00, 0x3D, 0x00 });       //打印第18行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x3E, 0x00, 0x3F, 0x00 });       //打印第19行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x40, 0x00, 0x41, 0x00 });       //打印第20行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x42, 0x00, 0x43, 0x00 });       //打印第21行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x44, 0x00, 0x45, 0x00 });       //打印第22行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x46, 0x00, 0x47, 0x00 });       //打印第23行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x48, 0x00, 0x49, 0x00 });       //打印第24行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x4A, 0x00, 0x4B, 0x00 });       //打印第25行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x4C, 0x00, 0x4D, 0x00 });       //打印第26行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x22, 0x00, 0x00, 0x00, 0x41, 0x00 });                       //27行线段上打印第1个字符
-            _printer.Write(new byte[] { 0x1D, 0x22, 0x01, 0x4C, 0x00, 0x42, 0x00 });                       //27行线段上打印第2个字符		
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x4E, 0x00, 0x4F, 0x00 });       //打印第27行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x50, 0x00, 0x51, 0x00 });       //打印第28行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x52, 0x00, 0x53, 0x00 });       //打印第29行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x54, 0x00, 0x55, 0x00 });       //打印第30行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x56, 0x00, 0x57, 0x00 });       //打印第31行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x58, 0x00, 0x59, 0x00 });       //打印第32行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x5A, 0x00, 0x5B, 0x00 });       //打印第33行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x5C, 0x00, 0x5D, 0x00 });       //打印第34行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x5E, 0x00, 0x5F, 0x00 });       //打印第35行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x60, 0x00, 0x61, 0x00 });       //打印第36行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x62, 0x00, 0x63, 0x00 });       //打印第37行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x64, 0x00, 0x65, 0x00 });       //打印第38行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x66, 0x00, 0x67, 0x00 });       //打印第39行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x68, 0x00, 0x69, 0x00 });       //打印第40行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x6A, 0x00, 0x6B, 0x00 });       //打印第41行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x6C, 0x00, 0x6D, 0x00 });       //打印第42行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x6E, 0x00, 0x6F, 0x00 });       //打印第43行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x70, 0x00, 0x71, 0x00 });       //打印第44行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x72, 0x00, 0x73, 0x00 });       //打印第45行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x74, 0x00, 0x75, 0x00 });       //打印第46行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x76, 0x00, 0x77, 0x00 });       //打印第47行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x78, 0x00, 0x79, 0x00 });       //打印第48行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x7A, 0x00, 0x7B, 0x00 });       //打印第49行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x7C, 0x00, 0x7D, 0x00 });       //打印第50行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x7E, 0x00, 0x7F, 0x00 });       //打印第51行2节线段	
-            _printer.Write(new byte[] { 0x1D, 0x27, 0x01, 0x1A, 0x00, 0x3F, 0x02 });
+            _printer.Write(new byte[] {0x1D, 0x27, 0x01, 0x1A, 0x00, 0x3F, 0x02}); //打印第1行线段
+            _printer.Write(new byte[] {0x1D, 0x22, 0x00, 0x00, 0x00, (byte) 0xCE, (byte) 0xD2, 0x00}); //2行线段上打印第1个字符
+            _printer.Write(new byte[] {0x1D, 0x22, 0x01, 0x27, 0x02, (byte) 0xB5, (byte) 0xC4, 0x00}); //2行线段上打印第2个字符
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x1B, 0x00, 0x1C, 0x00}); //打印第2行2节线段		
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x1E, 0x00, 0x1F, 0x00}); //打印第3行2节线段
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x20, 0x00, 0x21, 0x00}); //打印第4行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x22, 0x00, 0x23, 0x00}); //打印第5行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x24, 0x00, 0x25, 0x00}); //打印第6行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x26, 0x00, 0x27, 0x00}); //打印第7行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x28, 0x00, 0x29, 0x00}); //打印第8行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x2A, 0x00, 0x2B, 0x00}); //打印第9行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x2C, 0x00, 0x2D, 0x00}); //打印第10行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x2E, 0x00, 0x2F, 0x00}); //打印第11行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x30, 0x00, 0x31, 0x00}); //打印第12行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x32, 0x00, 0x33, 0x00}); //打印第13行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x34, 0x00, 0x35, 0x00}); //打印第14行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x36, 0x00, 0x37, 0x00}); //打印第15行2节线段	
+            _printer.Write(new byte[]
+                {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x38, 0x00, 0x39, 0x00}); //打印第16行2节线段						
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x3A, 0x00, 0x3B, 0x00}); //打印第17行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x3C, 0x00, 0x3D, 0x00}); //打印第18行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x3E, 0x00, 0x3F, 0x00}); //打印第19行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x40, 0x00, 0x41, 0x00}); //打印第20行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x42, 0x00, 0x43, 0x00}); //打印第21行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x44, 0x00, 0x45, 0x00}); //打印第22行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x46, 0x00, 0x47, 0x00}); //打印第23行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x48, 0x00, 0x49, 0x00}); //打印第24行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x4A, 0x00, 0x4B, 0x00}); //打印第25行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x4C, 0x00, 0x4D, 0x00}); //打印第26行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x22, 0x00, 0x00, 0x00, 0x41, 0x00}); //27行线段上打印第1个字符
+            _printer.Write(new byte[] {0x1D, 0x22, 0x01, 0x4C, 0x00, 0x42, 0x00}); //27行线段上打印第2个字符		
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x4E, 0x00, 0x4F, 0x00}); //打印第27行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x50, 0x00, 0x51, 0x00}); //打印第28行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x52, 0x00, 0x53, 0x00}); //打印第29行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x54, 0x00, 0x55, 0x00}); //打印第30行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x56, 0x00, 0x57, 0x00}); //打印第31行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x58, 0x00, 0x59, 0x00}); //打印第32行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x5A, 0x00, 0x5B, 0x00}); //打印第33行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x5C, 0x00, 0x5D, 0x00}); //打印第34行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x5E, 0x00, 0x5F, 0x00}); //打印第35行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x60, 0x00, 0x61, 0x00}); //打印第36行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x62, 0x00, 0x63, 0x00}); //打印第37行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x64, 0x00, 0x65, 0x00}); //打印第38行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x66, 0x00, 0x67, 0x00}); //打印第39行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x68, 0x00, 0x69, 0x00}); //打印第40行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x6A, 0x00, 0x6B, 0x00}); //打印第41行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x6C, 0x00, 0x6D, 0x00}); //打印第42行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x6E, 0x00, 0x6F, 0x00}); //打印第43行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x70, 0x00, 0x71, 0x00}); //打印第44行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x72, 0x00, 0x73, 0x00}); //打印第45行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x74, 0x00, 0x75, 0x00}); //打印第46行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x76, 0x00, 0x77, 0x00}); //打印第47行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x78, 0x00, 0x79, 0x00}); //打印第48行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x7A, 0x00, 0x7B, 0x00}); //打印第49行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x7C, 0x00, 0x7D, 0x00}); //打印第50行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x02, 0x1A, 0x00, 0x1A, 0x00, 0x7E, 0x00, 0x7F, 0x00}); //打印第51行2节线段	
+            _printer.Write(new byte[] {0x1D, 0x27, 0x01, 0x1A, 0x00, 0x3F, 0x02});
             _printer.NewLine(2);
 
-            _printer.Write(new byte[] { 0x1B, 0x40 }); // 打印机复位
-            _printer.Write(new byte[] {0x1B, 0x61, 0x01});// 居中
+            _printer.Write(new byte[] {0x1B, 0x40}); // 打印机复位
+            _printer.Write(new byte[] {0x1B, 0x61, 0x01}); // 居中
             _printer.WriteLine("===================================== ");
             _printer.NewLine(2);
             _printer.WriteLine("******** 测试结束 ******** ");
@@ -911,43 +895,43 @@ namespace Bing.Printer.Tests
         [Fact]
         public void Test_Print_5()
         {
-            _printer.Write(new byte[] { 0x1B, 0x40 }); // 打印机复位
+            _printer.Write(new byte[] {0x1B, 0x40}); // 打印机复位
             _printer.NewLine();
             _printer.WriteLine("原始打印例子");
-            _printer.Write(new byte[] { 0x1B, 0x40 });     //打印机复位
-            _printer.Write(new byte[] { 0x1B, 0x33, 0x00 });   //设置行间距为0
+            _printer.Write(new byte[] {0x1B, 0x40}); //打印机复位
+            _printer.Write(new byte[] {0x1B, 0x33, 0x00}); //设置行间距为0
             _printer.NewLine();
-            _printer.Write(new byte[] { 0x1B, 0x61, 0x00 });   //设置不居中
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x01 });   //设置倍高
+            _printer.Write(new byte[] {0x1B, 0x61, 0x00}); //设置不居中
+            _printer.Write(new byte[] {0x1d, 0x21, 0x01}); //设置倍高
             _printer.WriteLine("    苏驰物流");
-            _printer.Write(new byte[] { 0x1d, 0x48, 0x02 });   //设置条码内容打印在条码下方
-            _printer.Write(new byte[] { 0x1d, 0x77, 0x03 });   //设置条码宽度0.375
-            _printer.Write(new byte[] { 0x1d, 0x68, 0x40 });   //设置条码高度64
+            _printer.Write(new byte[] {0x1d, 0x48, 0x02}); //设置条码内容打印在条码下方
+            _printer.Write(new byte[] {0x1d, 0x77, 0x03}); //设置条码宽度0.375
+            _printer.Write(new byte[] {0x1d, 0x68, 0x40}); //设置条码高度64
             //打印code128条码
-            _printer.Write(new byte[] { 0x1D, 0x6B, 0x18 });
+            _printer.Write(new byte[] {0x1D, 0x6B, 0x18});
             _printer.WriteLine("1234567890\0");
             _printer.NewLine();
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x00 });   //设置不倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x00}); //设置不倍高
             _printer.WriteLine("┏━━┳━━━━━━━┳━━┳━━━━━━━━┓");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x01 });   //设置倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x01}); //设置倍高
             _printer.WriteLine("┃发站┃杭州┃到站┃宝应┃");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x00 });   //设置不倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x00}); //设置不倍高
             _printer.WriteLine("┣━━╋━━━━━━━╋━━╋━━━━━━━━┫");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x01 });   //设置倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x01}); //设置倍高
             _printer.WriteLine("┃件数┃1/222┃单号┃55555555┃");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x00 });   //设置不倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x00}); //设置不倍高
             _printer.WriteLine("┣━━┻┳━━━━━━┻━━┻━━━━━━━━┫");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x01 });   //设置倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x01}); //设置倍高
             _printer.WriteLine("┃收件人┃【送】孙俊/宁新富┃");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x00 });   //设置不倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x00}); //设置不倍高
             _printer.WriteLine("┣━━━╋━━━━━━┳━━┳━━━━━━━━┫");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x01 });   //设置倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x01}); //设置倍高
             _printer.WriteLine("┃业务员┃测试┃名称┃杭州┃");
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x00 });   //设置不倍高
+            _printer.Write(new byte[] {0x1d, 0x21, 0x00}); //设置不倍高
             _printer.WriteLine("┗━━━┻━━━━━━┻━━┻━━━━━━━━┛");
 
-            _printer.Write(new byte[] { 0x1b, 0x61, 0x01 });   //设置居中
-            _printer.Write(new byte[] { 0x1d, 0x21, 0x01 });   //设置倍高
+            _printer.Write(new byte[] {0x1b, 0x61, 0x01}); //设置居中
+            _printer.Write(new byte[] {0x1d, 0x21, 0x01}); //设置倍高
             _printer.WriteLine("日期：2011-05-16");
 
             _printer.NewLine(5);
@@ -1021,15 +1005,15 @@ namespace Bing.Printer.Tests
             _printer.WriteLine("设置 30 左边距的字体位置");
             _printer.WriteLine("Set 30 Margin Left Font Position");
 
-            _printer.Write(new byte[] { 0x1D, 0x4C, oldnL.ToByte(), oldnH.ToByte() });
+            _printer.Write(new byte[] {0x1D, 0x4C, oldnL.ToByte(), oldnH.ToByte()});
             _printer.WriteLine("恢复 左边距的字体位置");
             _printer.WriteLine("Return Margin Left Font Position");
 
-            _printer.Write(new byte[] { 0x1D, 0x4C, nL.ToByte(), nH.ToByte() });
+            _printer.Write(new byte[] {0x1D, 0x4C, nL.ToByte(), nH.ToByte()});
             _printer.WriteLine("设置 30 nL 10 nH 左边距的字体位置");
             _printer.WriteLine("Set 30 nL 10 nH Margin Left Font Position");
 
-            _printer.Write(new byte[] { 0x1D, 0x4C, oldnL.ToByte(), oldnH.ToByte() });
+            _printer.Write(new byte[] {0x1D, 0x4C, oldnL.ToByte(), oldnH.ToByte()});
             _printer.WriteLine("恢复 左边距的字体位置");
             _printer.WriteLine("Return Margin Left Font Position");
 
@@ -1037,6 +1021,340 @@ namespace Bing.Printer.Tests
 
             var result = _printer.ToHex();
             Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试打印-列模式
+        /// </summary>
+        [Fact]
+        public void Test_Print_Columns_3()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+
+            _printer.Left()
+                .Write("货号/品号/数量")
+                .Right()
+                .WriteLine("金额");
+
+            _printer.Left()
+                .WriteLine("412117");
+
+            _printer.Left()
+                .WriteLine("鲜甜豆浆500ml/瓶");
+
+            _printer.Left()
+                .Write("x 1")
+                .Right()
+                .WriteLine("￥1.46");
+
+            _printer.Write(new byte[] {0x1B, 0x61, 0x32})
+                .Write("测试右侧对齐")
+                .NewLine();
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试打印-列模式
+        /// </summary>
+        [Fact]
+        public void Test_Print_Columns_4()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+
+            _printer.Left()
+                .WriteLine(PrintInOneLine("货号/品号/数量", "金额"));
+
+            _printer.Left()
+                .WriteLine("412117");
+
+            _printer.Left()
+                .WriteLine("鲜甜豆浆500ml/瓶");
+
+            _printer.Left()
+                .WriteLine(PrintInOneLine("x 1", "￥1.46"));
+
+            _printer.NewLine(2);
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 打印在一行
+        /// </summary>
+        /// <param name="text1"></param>
+        /// <param name="text2"></param>
+        /// <returns></returns>
+        private string PrintInOneLine(string text1, string text2)
+        {
+            var lineLength = 48;//48,23
+            var needEmpty = lineLength - (GetStringWidth(text1) + GetStringWidth(text2)) % lineLength;
+            StringBuilder sb = new StringBuilder();
+            while (needEmpty>0)
+            {
+                sb.Append(" ");
+                needEmpty--;
+            }
+
+            return $"{text1}{sb.ToString()}{text2}";
+        }
+
+        private int GetStringWidth(string text)
+        {
+            var width = 0;
+            foreach (char c in text.ToCharArray())
+            {
+                width += IsAscii(c) ? 1 : 2;
+            }
+
+            return width;
+        }
+
+        private bool IsAscii(char c)
+        {
+            return (int) c >= 0 && (int) c <= 128;
+        }
+
+        /// <summary>
+        /// 测试打印-列模式
+        /// </summary>
+        [Fact]
+        public void Test_Print_Columns_2()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+
+            var pageWidth = 23;
+            var weights = new[] {15, 5};
+            var aligins = new[] {0, 2};
+            foreach (var item in PrintColumns(new[] {"货号/品号/数量", "金额"}, weights, aligins, pageWidth))
+            {
+                _printer.Write(item);
+            }
+
+            _printer.WriteLine("412117");
+            _printer.WriteLine("鲜甜豆浆500ml/瓶");
+            foreach (var item in PrintColumns(new[] {"x 1", "￥1.46"}, weights, aligins, pageWidth))
+            {
+                _printer.Write(item);
+            }
+
+            _printer.NewLine(2);
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试打印-列模式
+        /// </summary>
+        [Fact]
+        public void Test_Print_Columns()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+
+            var pageWidth = 23;
+            var weights = new[] {20, 5, 5, 5};
+            var aligins = new[] {0, 1, 1, 1};
+
+            //for (int i = 0; i < pageWidth; i++)
+            //{
+            //    _printer.Write("测");
+            //}
+
+            //_printer.NewLine();
+
+            //foreach (var item in PrintColumns(new []{"商品","单价","数量","小计"}, weights, aligins, pageWidth))
+            //{
+            //    _printer.Write(item);
+            //}
+
+            //_printer.NewLine();
+
+            foreach (var item in PrintColumns(new[] {"可口可乐可口可乐", "2.5", "4", "10"}, weights, aligins, pageWidth))
+            {
+                _printer.Write(item);
+            }
+
+            _printer.NewLine();
+
+            //foreach (var item in PrintColumns(new[] { "可口可乐可口可乐11111111111111111111111111111111", "2.5", "4", "10" }, weights, aligins, pageWidth))
+            //{
+            //    _printer.Write(item);
+            //}
+            //_printer.NewLine();
+
+            //foreach (var item in PrintColumns(new[] { "可口可乐可口可乐2222222222222222222222222222", "2.5", "4", "10" }, weights, aligins, pageWidth))
+            //{
+            //    _printer.Write(item);
+            //}
+            //_printer.NewLine();
+            //foreach (var item in PrintColumns(new[] { "可口可乐可口可乐33333333333333333333333", "2.5", "4", "10" }, weights, aligins, pageWidth))
+            //{
+            //    _printer.Write(item);
+            //}
+
+            _printer.NewLine(2);
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 打印一行多列
+        /// </summary>
+        /// <param name="texts">文本内容</param>
+        /// <param name="weights">每个字段权重</param>
+        /// <param name="aligins">对齐方式</param>
+        /// <param name="pageWidth">页面可容纳的字符长度</param>
+        /// <param name="zoom">是否缩放</param>
+        /// <returns></returns>
+        private List<string> PrintColumns(string[] texts, int[] weights, int[] aligins, int pageWidth, bool zoom = true)
+        {
+            var total = weights.Sum();
+            var maxOfRows = 1;
+            List<List<string>> list = new List<List<string>>();
+            for (var i = 0; i < texts.Length; i++)
+            {
+                var text = texts[i];
+
+                var width = (decimal) (((double) weights[i] / (double) total) * (double) pageWidth);
+                var columnRowLength = (int) Math.Ceiling(width);
+                var align = aligins[i];
+                // 因为一个单元格无法容纳这么多字符串 ，将自动列换行
+                var columnRowArray = MultiText(text, (int) columnRowLength, align, zoom);
+                var rowCount = columnRowArray.Count;
+                if (rowCount > maxOfRows)
+                {
+                    maxOfRows = rowCount;
+                }
+
+                list.Add(columnRowArray);
+            }
+
+            var index = 0;
+            string[] result = new string[texts.Length];
+            list.ForEach(item =>
+            {
+                var sb = new StringBuilder();
+                item.ForEach(x =>
+                {
+                    // 将每一列溢出的行 自动换到下一行打印
+                    var currentRow = !string.IsNullOrEmpty(x)
+                        ? x
+                        : new string(' ', (int) Math.Ceiling((decimal) ((weights[index] / total) * pageWidth)));
+                    if (currentRow.Length == pageWidth && 0 == currentRow.Trim().Length)
+                    {
+                        return;
+                    }
+
+                    result[index] = (result[index] != null ? result[index] + currentRow : currentRow);
+                });
+                index += 1;
+            });
+
+            return result.ToList();
+        }
+
+
+        private List<string> MultiText(string text, int lineMax, int aliginType, bool zoom)
+        {
+            var length = text.Length;
+            var containCount = Math.Ceiling(zoom ? lineMax * 0.8 : lineMax);
+            List<string> list = new List<string>();
+            do
+            {
+                var content = ColumnText(text, lineMax, containCount, aliginType);
+                if (!string.IsNullOrEmpty(content))
+                {
+                    list.Add(content);
+                }
+
+                content = content.Trim();
+                text = text.Substring(content.Length, text.Length - content.Length);
+                length = text.Length;
+                if (length < containCount)
+                {
+                    list.Add(ColumnText(text, lineMax, containCount, aliginType));
+                }
+
+            } while (length >= containCount);
+
+            return list;
+        }
+
+        private string ColumnText(string text, int lineMax, double containCount, int aliginType)
+        {
+            var length = GetLength(text) > containCount ? containCount : GetLength(text);
+            var tempLength = 0;
+            List<char> chars = new List<char>();
+            for (int i = 0; i < text.Length; i++)
+            {
+                var charCode = (int) text[i];
+                tempLength += (charCode >= 0 && charCode <= 128 ? 1 : 2);
+                if (tempLength > length)
+                {
+                    break;
+                }
+
+                chars.Add((char) charCode);
+            }
+
+            var result = new string(chars.ToArray());
+            result = result.Replace("�", "");
+            var t1 = lineMax - length;
+            var empty = " ";
+            while (t1 > 0)
+            {
+                switch (aliginType)
+                {
+                    case 0:
+                        result = result + empty;
+                        break;
+                    case 1:
+                        result = (t1 % 2 == 0 ? empty + result : result + empty);
+                        break;
+                    case 2:
+                        result = empty + result;
+                        break;
+                    default:
+                        result = empty + result;
+                        break;
+                }
+
+                --t1;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取文本长度
+        /// </summary>
+        /// <param name="text">文本</param>
+        private int GetLength(string text)
+        {
+            var realLength = 0;
+            var charCode = -1;
+            for (var i = 0; i < text.Length; i++)
+            {
+                charCode = text[i];
+                if (charCode >= 0 && charCode <= 128)
+                {
+                    realLength += 1;
+                }
+                else
+                {
+                    realLength += 2;
+                }
+            }
+
+            return realLength;
         }
 
         /// <summary>
@@ -1084,29 +1402,30 @@ namespace Bing.Printer.Tests
         private byte[] PrintImage(string filePath)
         {
             var list = new List<byte>();
-            using (var image=Image.FromFile(filePath))
+            using (var image = Image.FromFile(filePath))
             {
                 var bmp = new Bitmap(image);
                 //设置字符行间距为n点行
                 //byte[] data = new byte[] { 0x1B, 0x33, 0x00 };
-                string send = "" + (char)(27) + (char)(51) + (char)(0);
+                string send = "" + (char) (27) + (char) (51) + (char) (0);
                 byte[] data = new byte[send.Length];
                 for (int i = 0; i < send.Length; i++)
                 {
-                    data[i] = (byte)send[i];
+                    data[i] = (byte) send[i];
                 }
+
                 list.AddRange(data);
-                data[0] = (byte)'\x00';
-                data[1] = (byte)'\x00';
-                data[2] = (byte)'\x00';    // Clear to Zero.
+                data[0] = (byte) '\x00';
+                data[1] = (byte) '\x00';
+                data[2] = (byte) '\x00'; // Clear to Zero.
                 Color pixelColor;
                 //ESC * m nL nH d1…dk   选择位图模式
                 // ESC * m nL nH
-                byte[] escBmp = new byte[] { 0x1B, 0x2A, 0x00, 0x00, 0x00 };
-                escBmp[2] = (byte)'\x21';
+                byte[] escBmp = new byte[] {0x1B, 0x2A, 0x00, 0x00, 0x00};
+                escBmp[2] = (byte) '\x21';
                 //nL, nH
-                escBmp[3] = (byte)(bmp.Width % 256);
-                escBmp[4] = (byte)(bmp.Width / 256);
+                escBmp[3] = (byte) (bmp.Width % 256);
+                escBmp[4] = (byte) (bmp.Width / 256);
                 //循环图片像素打印图片
                 //循环高
                 for (int i = 0; i < (bmp.Height / 24 + 1); i++)
@@ -1118,26 +1437,27 @@ namespace Bing.Printer.Tests
                     {
                         for (int k = 0; k < 24; k++)
                         {
-                            if (((i * 24) + k) < bmp.Height)  // if within the BMP size
+                            if (((i * 24) + k) < bmp.Height) // if within the BMP size
                             {
                                 pixelColor = bmp.GetPixel(j, (i * 24) + k);
                                 if (pixelColor.R == 0)
                                 {
-                                    data[k / 8] += (byte)(128 >> (k % 8));
+                                    data[k / 8] += (byte) (128 >> (k % 8));
 
                                 }
                             }
                         }
+
                         //一次写入一个data，24个像素
                         list.AddRange(data);
 
-                        data[0] = (byte)'\x00';
-                        data[1] = (byte)'\x00';
-                        data[2] = (byte)'\x00';    // Clear to Zero.
+                        data[0] = (byte) '\x00';
+                        data[1] = (byte) '\x00';
+                        data[2] = (byte) '\x00'; // Clear to Zero.
                     }
 
                     //换行，打印第二行
-                    byte[] data2 = { 0xA };
+                    byte[] data2 = {0xA};
                     list.AddRange(data2);
                 } // data
             }
@@ -1160,20 +1480,20 @@ namespace Bing.Printer.Tests
             var ms = new MemoryStream();
             var bw = new BinaryWriter(ms);
 
-            bw.Write((char)0x1B);
+            bw.Write((char) 0x1B);
             bw.Write('@');
 
-            bw.Write((char)0x1B);
+            bw.Write((char) 0x1B);
             bw.Write('3');
-            bw.Write((byte)24);
+            bw.Write((byte) 24);
 
             while (offset < data.Height)
             {
-                bw.Write((char)0x1B);
-                bw.Write('*');         // bit-image mode
-                bw.Write((byte)33);    // 24-dot double-density
-                bw.Write(width[0]);  // width low byte
-                bw.Write(width[1]);  // width high byte
+                bw.Write((char) 0x1B);
+                bw.Write('*'); // bit-image mode
+                bw.Write((byte) 33); // 24-dot double-density
+                bw.Write(width[0]); // width low byte
+                bw.Write(width[1]); // width high byte
 
                 for (int x = 0; x < data.Width; ++x)
                 {
@@ -1193,19 +1513,22 @@ namespace Bing.Printer.Tests
                             {
                                 v = dots[i];
                             }
-                            slice |= (byte)((v ? 1 : 0) << (7 - b));
+
+                            slice |= (byte) ((v ? 1 : 0) << (7 - b));
                         }
 
                         bw.Write(slice);
                     }
                 }
+
                 offset += 24;
-                bw.Write((char)0x0A);
+                bw.Write((char) 0x0A);
             }
+
             // Restore the line spacing to the default of 30 dots.
-            bw.Write((char)0x1B);
+            bw.Write((char) 0x1B);
             bw.Write('3');
-            bw.Write((byte)30);
+            bw.Write((byte) 30);
 
             bw.Flush();
             byte[] bytes = ms.ToArray();
@@ -1230,10 +1553,10 @@ namespace Bing.Printer.Tests
                 {
                     for (var x = 0; x < xWidth; x++)
                     {
-                        var _x = (int)(x / scale);
-                        var _y = (int)(y / scale);
+                        var _x = (int) (x / scale);
+                        var _y = (int) (y / scale);
                         var color = bitmap.GetPixel(_x, _y);
-                        var luminance = (int)(color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
+                        var luminance = (int) (color.R * 0.3 + color.G * 0.59 + color.B * 0.11);
                         dots[index] = (luminance < threshold);
                         index++;
                     }
@@ -1247,7 +1570,7 @@ namespace Bing.Printer.Tests
                 };
             }
         }
-        
+
         /// <summary>
         /// 位图数据
         /// </summary>
@@ -1267,6 +1590,126 @@ namespace Bing.Printer.Tests
             /// 宽度
             /// </summary>
             public int Width { get; set; }
+        }
+
+        /// <summary>
+        /// 测试打印订单
+        /// </summary>
+        [Fact]
+        public void Test_PrintOrder()
+        {
+            var logoPath = "D:\\utb_logo.png";
+            _printer.Initialize();
+            _printer.Center();
+            _printer.Write(PrintImage(logoPath));
+            _printer.NewLine();
+            _printer.Code128("0201902134");
+
+            _printer.Left();
+            _printer.WriteLine("运单号：Y20190618000001");
+            _printer.WriteLine("配送中心：天河高志体验店");
+            _printer.WriteLine("配送时段：2019-06-24 14:00-18:00");
+            _printer.WriteLine("收货人：来自隔壁老王的新手大礼包");
+            _printer.WriteLine("联系电话：18975927788");
+            _printer.WriteLine("收货地址：广州市天河区黄埔大道西120号高志大厦B1层");
+            _printer.WriteLine("订单号：lbz53968504");
+            _printer.WriteLine(PrintInOneLine("商品名称/数量/单价", "合计"));
+            var total = 0;
+            for (int i = 0; i < 4; i++)
+            {
+                _printer.WriteLine($"苹果{i}");
+                _printer.WriteLine($"￥{i + 3}");
+                _printer.WriteLine(PrintInOneLine($"{i + 5}", $"￥{(i + 5) * (i + 3)}"));
+                total += (i + 5);
+            }
+
+            _printer.WriteLine($"商品件数：{total} 件");
+
+            _printer.NewLine(2);
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试打印-条码
+        /// </summary>
+        [Fact]
+        public void Test_Print_Barcode()
+        {
+            _printer.Initialize();
+            for (var i = 2; i <= 6; i++)
+            {
+                _printer.Write(Code128(i, 100, "0201902134", 1, true));
+                _printer.NewLine();
+            }
+            _printer.NewLine(2);
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        private byte[] Code128(int width, int height, string content, int showContentPosition, bool fontB)
+        {
+            var list = new List<byte>();
+            // 设置宽度
+            list.AddRange(Command.BarcodeWidth);
+            list.Add((byte) width);
+
+            // 设置高度
+            list.AddRange(Command.BarcodeHeight);
+            list.Add((byte) height);
+
+            // 设置条码打印位置
+            list.AddRange(Command.BarcodeLabelPosition);
+            switch (showContentPosition)
+            {
+                case 1:
+                    list.Add(0x01);
+                    break;
+                case 2:
+                    list.Add(0x02);
+                    break;
+                case 3:
+                    list.Add(0x01);
+                    list.AddRange(Command.BarcodeLabelPosition);
+                    list.Add(0x02);
+                    break;
+                default:
+                    list.Add(0x00);
+                    break;
+            }
+
+            // 设置条码识读字符字体
+            list.AddRange(fontB ? Command.BarcodeLabelFontB : Command.BarcodeLabelFontA);
+
+            // 设置打印条码
+            list.AddRange(new byte[] {0x1D, 0X6B, 0x49});
+            list.Add((byte) (content.Length + 2));
+            list.AddRange(Encoding.GetEncoding("GB18030").GetBytes(content));
+            list.Add(0);
+            return list.ToArray();
+        }
+
+        /// <summary>
+        /// 测试打印分隔符
+        /// </summary>
+        [Fact]
+        public void Test_Print_Separator()
+        {
+            _printer.Initialize();
+            _printer.NewLine();
+            int length = 72;
+            _printer.Bold(PrinterModeState.On);
+            _printer.WriteLine(new string('-', length - 24));// 48个字符
+            _printer.WriteLine($"开始内容 {length}");
+            
+            _printer.Condensed(new string('-', length));
+            _printer.Bold(PrinterModeState.Off);
+            _printer.NewLine();
+
+            _printer.WriteLine($"结束内容 {length}");
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
         }
     }
 }

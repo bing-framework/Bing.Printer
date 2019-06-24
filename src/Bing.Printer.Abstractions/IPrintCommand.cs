@@ -7,12 +7,6 @@ namespace Bing.Printer
     /// </summary>
     public interface IPrintCommand
     {
-        int ColsNomal { get; }
-
-        int ColsCondensed { get; }
-
-        int ColsExpanded { get; }
-
         /// <summary>
         /// 字体模式操作
         /// </summary>
@@ -59,18 +53,15 @@ namespace Bing.Printer
         IPrintStyle<byte[]> PrintStyle { get; set; }
 
         /// <summary>
+        /// 图片操作
+        /// </summary>
+        IImage<byte[]> Image { get; set; }
+
+        /// <summary>
         /// 写入操作
         /// </summary>
         IWriter Writer { get; set; }
 
-        /// <summary>
-        /// 分隔符
-        /// </summary>
-        byte[] Separator();
-
-        /// <summary>
-        /// 自动测试
-        /// </summary>
-        byte[] AutoTest();
+        
     }
 }

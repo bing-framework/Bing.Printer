@@ -26,7 +26,7 @@ namespace Bing.Printer.Builders
         IBarcodeBuilder LabelPosition(BarcodePositionType position);
 
         /// <summary>
-        /// 设置标签字体加粗
+        /// 设置标签字体
         /// </summary>
         /// <param name="type">类型</param>
         IBarcodeBuilder LabelFontB(BarcodeFontType type);

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-using Bing.Printer.Enums;
+﻿using Bing.Printer.Enums;
 using Bing.Printer.Options;
 
 namespace Bing.Printer
@@ -12,11 +10,6 @@ namespace Bing.Printer
     public abstract class PrinterBase<TPrinter> : IPrinter<TPrinter> where TPrinter : IPrinter<TPrinter>
     {
         /// <summary>
-        /// 流
-        /// </summary>
-        protected byte[] _buffer;
-
-        /// <summary>
         /// 打印命令
         /// </summary>
         private IPrintCommand _command;
@@ -26,14 +19,10 @@ namespace Bing.Printer
         /// </summary>
         protected IPrintCommand Command => _command ?? (_command = CreatePrintCommand());
 
-        public int ColsNomal => Command.ColsNomal;
-        public int ColsCondensed => Command.ColsCondensed;
-        public int ColsExpanded => Command.ColsExpanded;
-
         /// <summary>
         /// 打印纸类型
         /// </summary>
-        public PrintPaperType PrintPaper { get; set; }
+        public PrintPaperType PrintPaper { get; set; } = PrintPaperType.Paper80;
 
         #region Writer(写入器操作)
 
@@ -118,133 +107,67 @@ namespace Bing.Printer
 
         #endregion
 
-        
-
-        #region Command(命令操作)
-
-        /// <summary>
-        /// 设置分隔符
-        /// </summary>
-        public virtual TPrinter Separator()
-        {
-            Append(Command.Separator());
-            return This();
-        }
-
-        /// <summary>
-        /// 设置自动测试内容
-        /// </summary>
-        public virtual TPrinter AutoTest()
-        {
-            Append(Command.AutoTest());
-            return This();
-        }
-
-        /// <summary>
-        /// 设置自动打印内容
-        /// </summary>
-        public virtual TPrinter AutoPrinter()
-        {
-            Append("TESTE DE IMPRESSÃO NORMAL - 48 COLUNAS");
-            Append("....+....1....+....2....+....3....+....4....+...");
-            Separator();
-            Append("Texto Normal");
-            Italic("Texto Itálico");
-            Bold("Texto Negrito");
-            Underline("Texto Sublinhado");
-            Expanded(PrinterModeState.On);
-            Append("Texto Expandido");
-            Append("....+....1....+....2....");
-            Expanded(PrinterModeState.Off);
-            Condensed(PrinterModeState.On);
-            Append("Texto condensado");
-            Condensed(PrinterModeState.Off);
-            Separator();
-
-            DoubleWidth2();
-            Append("Largura da Fonte 2");
-            DoubleWidth3();
-            Append("Largura da Fonte 3");
-            NormalWidth();
-            Append("Largura normal");
-            Separator();
-
-            Right();
-            Append("Texto alinhado à direita");
-            Center();
-            Append("Texto alinhado ao centro");
-            Left();
-            Append("Texto alinhado à esquerda");
-            NewLines(5);
-            Append("Final de Teste :)");
-            Separator();
-
-            return This();
-        }
-
-        #endregion
-
         #region FontMode(字体模式)
 
         /// <summary>
         /// 倾斜。将文字变为斜体
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter Italic(string value) => Append(Command.FontMode.Italic(value));
+        public virtual TPrinter Italic(string value) => Write(Command.FontMode.Italic(value));
 
         /// <summary>
         /// 倾斜。将文字变为斜体
         /// </summary>
         /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Italic(PrinterModeState state) => Append(Command.FontMode.Italic(state));
+        public virtual TPrinter Italic(PrinterModeState state) => Write(Command.FontMode.Italic(state));
 
         /// <summary>
         /// 加粗。将文字加粗
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter Bold(string value) => Append(Command.FontMode.Bold(value));
+        public virtual TPrinter Bold(string value) => Write(Command.FontMode.Bold(value));
 
         /// <summary>
         /// 加粗。将文字加粗
         /// </summary>
         /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Bold(PrinterModeState state) => Append(Command.FontMode.Bold(state));
+        public virtual TPrinter Bold(PrinterModeState state) => Write(Command.FontMode.Bold(state));
 
         /// <summary>
         /// 下划线。为文字添加下划线
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter Underline(string value) => Append(Command.FontMode.Underline(value));
+        public virtual TPrinter Underline(string value) => Write(Command.FontMode.Underline(value));
 
         /// <summary>
         /// 下划线。为文字添加下划线
         /// </summary>
         /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Underline(PrinterModeState state) => Append(Command.FontMode.Underline(state));
+        public virtual TPrinter Underline(PrinterModeState state) => Write(Command.FontMode.Underline(state));
 
         /// <summary>
         /// 稀疏
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter Expanded(string value) => Append(Command.FontMode.Expanded(value));
+        public virtual TPrinter Expanded(string value) => Write(Command.FontMode.Expanded(value));
 
         /// <summary>
         /// 稀疏
         /// </summary>
         /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Expanded(PrinterModeState state) => Append(Command.FontMode.Expanded(state));
+        public virtual TPrinter Expanded(PrinterModeState state) => Write(Command.FontMode.Expanded(state));
 
         /// <summary>
         /// 简明
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter Condensed(string value) => Append(Command.FontMode.Condensed(value));
+        public virtual TPrinter Condensed(string value) => Write(Command.FontMode.Condensed(value));
 
         /// <summary>
         /// 简明
         /// </summary>
         /// <param name="state">打印模式</param>
-        public virtual TPrinter Condensed(PrinterModeState state) => Append(Command.FontMode.Condensed(state));
+        public virtual TPrinter Condensed(PrinterModeState state) => Write(Command.FontMode.Condensed(state));
 
         #endregion
 
@@ -253,40 +176,40 @@ namespace Bing.Printer
         /// <summary>
         /// 正常宽度
         /// </summary>
-        public virtual TPrinter NormalWidth() => Append(Command.FontWidth.NormalWidth());
+        public virtual TPrinter NormalWidth() => Write(Command.FontWidth.NormalWidth());
 
         /// <summary>
         /// 2倍宽度
         /// </summary>
-        public virtual TPrinter DoubleWidth2() => Append(Command.FontWidth.DoubleWidth2());
+        public virtual TPrinter DoubleWidth2() => Write(Command.FontWidth.DoubleWidth2());
 
         /// <summary>
         /// 3倍宽度
         /// </summary>
-        public virtual TPrinter DoubleWidth3() => Append(Command.FontWidth.DoubleWidth3());
+        public virtual TPrinter DoubleWidth3() => Write(Command.FontWidth.DoubleWidth3());
 
         #endregion
 
         #region PrintStyle(打印样式)
 
-        public virtual TPrinter LeftMargin(int value = 10) => Append(Command.PrintStyle.LeftMargin(value));
+        public virtual TPrinter LeftMargin(int value = 10) => Write(Command.PrintStyle.LeftMargin(value));
 
-        public virtual TPrinter LeftMargin(int nL, int nH) => Append(Command.PrintStyle.LeftMargin(nL, nH));
+        public virtual TPrinter LeftMargin(int nL, int nH) => Write(Command.PrintStyle.LeftMargin(nL, nH));
 
         /// <summary>
         /// 左对齐
         /// </summary>
-        public virtual TPrinter Left() => Append(Command.PrintStyle.Left());
+        public virtual TPrinter Left() => Write(Command.PrintStyle.Left());
 
         /// <summary>
         /// 右对齐
         /// </summary>
-        public virtual TPrinter Right() => Append(Command.PrintStyle.Right());
+        public virtual TPrinter Right() => Write(Command.PrintStyle.Right());
 
         /// <summary>
         /// 居中
         /// </summary>
-        public virtual TPrinter Center() => Append(Command.PrintStyle.Center());
+        public virtual TPrinter Center() => Write(Command.PrintStyle.Center());
 
         #endregion
 
@@ -295,12 +218,12 @@ namespace Bing.Printer
         /// <summary>
         /// 全页截断
         /// </summary>
-        public virtual TPrinter Full() => Append(Command.PagerCut.Full());
+        public virtual TPrinter Full() => Write(Command.PagerCut.Full());
 
         /// <summary>
         /// 部分截断
         /// </summary>
-        public virtual TPrinter Partial() => Append(Command.PagerCut.Partial());
+        public virtual TPrinter Partial() => Write(Command.PagerCut.Partial());
 
         #endregion
 
@@ -309,7 +232,7 @@ namespace Bing.Printer
         /// <summary>
         /// 打开绘制器
         /// </summary>
-        public virtual TPrinter OpenDrawer() => Append(Command.Drawer.OpenDrawer());
+        public virtual TPrinter OpenDrawer() => Write(Command.Drawer.OpenDrawer());
 
         #endregion
 
@@ -319,14 +242,14 @@ namespace Bing.Printer
         /// 设置二维码
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter QrCode(string value) => Append(Command.QrCode.QrCode(value));
+        public virtual TPrinter QrCode(string value) => Write(Command.QrCode.QrCode(value));
 
         /// <summary>
         /// 设置二维码
         /// </summary>
         /// <param name="value">值</param>
         /// <param name="size">二维码大小</param>
-        public virtual TPrinter QrCode(string value, QrCodeSize size) => Append(Command.QrCode.QrCode(value, size));
+        public virtual TPrinter QrCode(string value, QrCodeSize size) => Write(Command.QrCode.QrCode(value, size));
 
         #endregion
 
@@ -336,26 +259,43 @@ namespace Bing.Printer
         /// 设置 Code39 类型条形码
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter Code39(string value) => Append(Command.Barcode.Code39(value));
+        /// <param name="position">标签显示位置</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        /// <param name="fontB">是否使用字体B</param>
+        public TPrinter
+            Code39(string value, BarcodePositionType position, BarcodeWidth width, int height, bool fontB) =>
+            Write(Command.Barcode.Code39(value, position, width, height, fontB));
 
         /// <summary>
         /// 设置 Code128 类型条形码
         /// </summary>
         /// <param name="value">值</param>
-        public virtual TPrinter Code128(string value) => Append(Command.Barcode.Code128(value));
+        /// <param name="position">标签显示位置</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        /// <param name="fontB">是否使用字体B</param>
+        public TPrinter Code128(string value, BarcodePositionType position, BarcodeWidth width, int height,
+            bool fontB) =>
+            Write(Command.Barcode.Code128(value, position, width, height, fontB));
 
         /// <summary>
         /// 设置 Ean13 类型条形码
         /// </summary>
         /// <param name="value">值</param>
-        public TPrinter Ean13(string value) => Append(Command.Barcode.Ean13(value));
+        /// <param name="position">标签显示位置</param>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        /// <param name="fontB">是否使用字体B</param>
+        public TPrinter Ean13(string value, BarcodePositionType position, BarcodeWidth width, int height, bool fontB) =>
+            Write(Command.Barcode.Ean13(value, position, width, height, fontB));
 
         /// <summary>
         /// 设置条形码
         /// </summary>
         /// <param name="value">值</param>
         /// <param name="options">条形码选项</param>
-        public TPrinter Barcode(string value, BarcodeOptions options) => Append(Command.Barcode.Barcode(value, options));
+        public TPrinter Barcode(string value, BarcodeOptions options) => Write(Command.Barcode.Barcode(value, options));
 
         #endregion
 
@@ -365,19 +305,30 @@ namespace Bing.Printer
         /// 设置打印样式
         /// </summary>
         /// <param name="style">打印样式</param>
-        public TPrinter Styles(PrintStyle style) => Append(Command.Style.Styles(style));
+        public TPrinter Styles(PrintStyle style) => Write(Command.Style.Styles(style));
 
         /// <summary>
         /// 设置字符间距
         /// </summary>
         /// <param name="spaceCount">空格数</param>
-        public TPrinter RightCharacterSpacing(int spaceCount) => Append(Command.Style.RightCharacterSpacing(spaceCount));
+        public TPrinter RightCharacterSpacing(int spaceCount) => Write(Command.Style.RightCharacterSpacing(spaceCount));
 
         /// <summary>
         /// 设置字体大小
         /// </summary>
         /// <param name="size">字体大小</param>
-        public TPrinter Size(int size) => Append(Command.Style.Size(size));
+        public TPrinter Size(int size) => Write(Command.Style.Size(size));
+
+        /// <summary>
+        /// 设置分隔符
+        /// </summary>
+        public virtual TPrinter Separator()
+        {
+            Condensed(PrinterModeState.On);
+            Write(Command.Style.Separator());
+            Condensed(PrinterModeState.Off);
+            return This();
+        }
 
         #endregion
 
@@ -386,94 +337,18 @@ namespace Bing.Printer
         /// <summary>
         /// 初始化
         /// </summary>
-        public TPrinter Initialize() => Append(Command.InitializePrint.Initialize());
+        public TPrinter Initialize() => Write(Command.InitializePrint.Initialize());
 
         /// <summary>
         /// 启用
         /// </summary>
-        public TPrinter Enable() => Append(Command.InitializePrint.Enable());
+        public TPrinter Enable() => Write(Command.InitializePrint.Enable());
 
         /// <summary>
         /// 禁用
         /// </summary>
-        public TPrinter Disable() => Append(Command.InitializePrint.Disable());
+        public TPrinter Disable() => Write(Command.InitializePrint.Disable());
 
         #endregion
-
-        /// <summary>
-        /// 添加字符串
-        /// </summary>
-        /// <param name="value">值</param>
-        /// <param name="useLf">是否换行</param>
-        private void AppendString(string value, bool useLf)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return;
-            }
-
-            if (useLf)
-                value += "\n";
-            var list = new List<byte>();
-            if (_buffer != null)
-                list.AddRange(_buffer);
-            var bytes = GetBytes(value);
-            list.AddRange(bytes);
-            _buffer = list.ToArray();
-        }
-
-        /// <summary>
-        /// 获取字节数组
-        /// </summary>
-        /// <param name="value">值</param>
-        protected abstract byte[] GetBytes(string value);
-
-        /// <summary>
-        /// 追加内容
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Append(byte[] value)
-        {
-            if (value == null)
-                return This();
-            var list = new List<byte>();
-            if (_buffer != null)
-                list.AddRange(_buffer);
-            list.AddRange(value);
-            _buffer = list.ToArray();
-            return This();
-        }
-
-        /// <summary>
-        /// 追加内容并带有换行符
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter AppendWithoutLf(string value)
-        {
-            AppendString(value, false);
-            return This();
-        }
-
-        /// <summary>
-        /// 添加多行
-        /// </summary>
-        /// <param name="lines">行数</param>
-        public virtual TPrinter NewLines(int lines)
-        {
-            for (var i = 1; i < lines; i++)
-                NewLine();
-            return This();
-        }
-
-        /// <summary>
-        /// 追加内容
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Append(string value)
-        {
-            AppendString(value, true);
-            return This();
-        }
-
     }
 }

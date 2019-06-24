@@ -25,5 +25,10 @@ namespace Bing.Printer.Operations
         /// </summary>
         /// <param name="size">字体大小</param>
         T Size(int size);
+
+        /// <summary>
+        /// 设置分隔符
+        /// </summary>
+        T Separator();
     }
 }

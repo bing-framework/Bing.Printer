@@ -339,6 +339,15 @@ namespace Bing.Printer.EscPos
             public static readonly byte[] Disable = {FS, ASCIIShowConst.Dot};
 
             /// <summary>
+            /// 重置字体大小。
+            /// 格式：
+            /// ASCII码    FS ! NULL
+            /// 十六进制码  0x1C 0x21 0x00
+            /// 十进制码    28 33 0
+            /// </summary>
+            public static readonly byte[] FontSizeReset = {FS, ASCIIShowConst.Bang, ASCIIControlConst.NULL};
+
+            /// <summary>
             /// 设置倍宽。
             /// 格式：
             /// ASCII码    FS ! EOT
@@ -348,15 +357,6 @@ namespace Bing.Printer.EscPos
             public static readonly byte[] DoubleWidthOn = {FS, ASCIIShowConst.Bang, ASCIIControlConst.EOT};
 
             /// <summary>
-            /// 取消倍宽。
-            /// 格式：
-            /// ASCII码    FS ! NULL
-            /// 十六进制码  0x1C 0x21 0x00
-            /// 十进制码    28 33 0
-            /// </summary>
-            public static readonly byte[] DoubleWidthOff = {FS, ASCIIShowConst.Bang, ASCIIControlConst.NULL};
-
-            /// <summary>
             /// 设置倍高。
             /// 格式：
             /// ASCII码    FS ! BS
@@ -364,15 +364,6 @@ namespace Bing.Printer.EscPos
             /// 十进制码    28 33 8
             /// </summary>
             public static readonly byte[] DoubleHeightOn = {FS, ASCIIShowConst.Bang, ASCIIControlConst.BS};
-
-            /// <summary>
-            /// 取消倍高。
-            /// 格式：
-            /// ASCII码    FS ! NULL
-            /// 十六进制码  0x1C 0x21 0x00
-            /// 十进制码    28 33 0
-            /// </summary>
-            public static readonly byte[] DoubleHeightOff = {FS, ASCIIShowConst.Bang, ASCIIControlConst.NULL};
 
             /// <summary>
             /// 设置1点宽下划线。
@@ -559,7 +550,7 @@ namespace Bing.Printer.EscPos
         /// 十六进制码  0x1D 0x77 n
         /// 十进制码    29 119 n
         /// </summary>
-        public static readonly byte[] BarcodeWeight = {GS, ASCIIShowConst.w};
+        public static readonly byte[] BarcodeWidth = {GS, ASCIIShowConst.w};
 
         /// <summary>
         /// 设置条形码标签字符的打印位置。需要额外添加 n (0-3) 值。
@@ -614,6 +605,15 @@ namespace Bing.Printer.EscPos
         /// 十进制码    29 111 m nA
         /// </summary>
         public static readonly byte[] BarcodeQrCodeParam = {GS, ASCIIShowConst.o};
+
+        /// <summary>
+        /// 设置条形码类型。
+        /// 格式：
+        /// ASCII码    GS k m nL d1···dn
+        /// 十六进制码  0x1D 0x6B m nL d1···dn
+        /// 十进制码    29 107 m nL d1···dn
+        /// </summary>
+        public static readonly byte[] BarcodeType = {GS, ASCIIShowConst.k};
 
         #endregion
 

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using Bing.Printer.Builders;
 using Bing.Printer.Enums;
 using Bing.Printer.Extensions;
@@ -17,28 +17,44 @@ namespace Bing.Printer.EscPos.Builders
         private byte[] _buffer;
 
         /// <summary>
+        /// 字符编码
+        /// </summary>
+        private Encoding _encoding;
+
+        /// <summary>
+        /// 初始化一个<see cref="BarcodeBuilder"/>类型的实例
+        /// </summary>
+        /// <param name="encoding">字符编码</param>
+        public BarcodeBuilder(Encoding encoding)
+        {
+            _encoding = encoding;
+        }
+
+        /// <summary>
         /// 设置宽度
         /// </summary>
         /// <param name="width">宽度</param>
-        public IBarcodeBuilder Width(BarcodeWidth width) => Append(new[] {ASCIIControlConst.GS, CommandConst.Barcodes.Width, width.ToByte()});
+        public IBarcodeBuilder Width(BarcodeWidth width) =>
+            Append(Command.BarcodeWidth.AddBytes(new[] {width.ToByte()}));
 
         /// <summary>
         /// 设置高度
         /// </summary>
         /// <param name="height">高度</param>
-        public IBarcodeBuilder Height(int height) => Append(new[] {ASCIIControlConst.GS, CommandConst.Barcodes.Height, height.ToByte()});
+        public IBarcodeBuilder Height(int height) => Append(Command.BarcodeHeight.AddBytes(new[] {height.ToByte()}));
 
         /// <summary>
         /// 设置标签显示位置
         /// </summary>
         /// <param name="position">位置</param>
-        public IBarcodeBuilder LabelPosition(BarcodePositionType position) => Append(new[] {ASCIIControlConst.GS, CommandConst.Barcodes.LabelPosition, position.ToByte()});
+        public IBarcodeBuilder LabelPosition(BarcodePositionType position) =>
+            Append(Command.BarcodeLabelPosition.AddBytes(new[] {position.ToByte()}));
 
         /// <summary>
-        /// 设置标签字体加粗
+        /// 设置标签字体
         /// </summary>
         /// <param name="type">类型</param>
-        public IBarcodeBuilder LabelFontB(BarcodeFontType type) => Append(new[] {ASCIIControlConst.GS, CommandConst.Barcodes.LabelFont, type.ToByte()});
+        public IBarcodeBuilder LabelFontB(BarcodeFontType type) => Append(type == BarcodeFontType.B ? Command.BarcodeLabelFontB : Command.BarcodeLabelFontA);
 
         /// <summary>
         /// 生成条形码
@@ -47,10 +63,11 @@ namespace Bing.Printer.EscPos.Builders
         /// <param name="value">值</param>
         public byte[] Build(BarcodeType type, string value)
         {
-            var command = new List<byte> {ASCIIControlConst.GS, CommandConst.Barcodes.Print, type.ToByte(), (value.Length + 2).ToByte()};
-            command.AddRange(value.ToCharArray().Select(x => x.ToByte()));
-            Append(command.ToArray());
-            //return _buffer.AddBytes(new[] { '{'.ToByte(), 'C'.ToByte() });
+            // 设置条形码类型
+            Append(Command.BarcodeType.AddBytes(new[] {type.ToByte()}));
+            Append(new[] {(byte) (value.Length + 2)});
+            Append(_encoding.GetBytes(value));
+            Append(new byte[] {0});
             return _buffer;
         }
 

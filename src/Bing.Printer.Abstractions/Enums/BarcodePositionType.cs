@@ -17,9 +17,5 @@
         /// 下面
         /// </summary>
         Below = 2,
-        /// <summary>
-        /// 上下都显示
-        /// </summary>
-        Both = 3
     }
 }

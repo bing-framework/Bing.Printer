@@ -28,11 +28,6 @@ namespace Bing.Printer.Options
         public BarcodeFontType? FontType { get; set; }
 
         /// <summary>
-        /// 是否包含奇偶校验
-        /// </summary>
-        public bool? IncludeParity { get; set; }
-
-        /// <summary>
         /// 条码类型
         /// </summary>
         public BarcodeType Type { get; set; }

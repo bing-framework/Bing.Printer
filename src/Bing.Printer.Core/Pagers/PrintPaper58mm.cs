@@ -15,6 +15,8 @@
                     return 31;
                 case 1:
                     return 15;
+                case 2:
+                    return 60;
                 default:
                     return 31;
             }
