@@ -1600,11 +1600,13 @@ namespace Bing.Printer.Tests
         {
             var logoPath = "D:\\utb_logo.png";
             _printer.Initialize();
-            _printer.Center();
-            _printer.Write(PrintImage(logoPath));
             _printer.NewLine();
-            _printer.Code128("0201902134");
-
+            _printer.Center();
+            _printer.WriteLine("预留Logo位置");
+            //_printer.Write(PrintImage(logoPath));
+            _printer.Code128("0201902134", BarcodePositionType.Above, BarcodeWidth.Default, 100, true);
+            _printer.NewLine();
+            _printer.Separator();
             _printer.Left();
             _printer.WriteLine("运单号：Y20190618000001");
             _printer.WriteLine("配送中心：天河高志体验店");
@@ -1612,8 +1614,12 @@ namespace Bing.Printer.Tests
             _printer.WriteLine("收货人：来自隔壁老王的新手大礼包");
             _printer.WriteLine("联系电话：18975927788");
             _printer.WriteLine("收货地址：广州市天河区黄埔大道西120号高志大厦B1层");
+            _printer.Separator();
             _printer.WriteLine("订单号：lbz53968504");
+            _printer.Separator();
             _printer.WriteLine(PrintInOneLine("商品名称/数量/单价", "合计"));
+            _printer.Separator();
+            _printer.Left();
             var total = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -1623,7 +1629,9 @@ namespace Bing.Printer.Tests
                 total += (i + 5);
             }
 
+            _printer.Separator();
             _printer.WriteLine($"商品件数：{total} 件");
+            _printer.Separator();
 
             _printer.NewLine(2);
             var result = _printer.ToHex();

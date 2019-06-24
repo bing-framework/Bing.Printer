@@ -91,7 +91,7 @@ namespace Bing.Printer.EscPos.Commands
         /// </summary>
         /// <param name="state">打印模式</param>
         public byte[] Condensed(PrinterModeState state) => state == PrinterModeState.On
-            ? new byte[] {27, '!'.ToByte(), 1}
-            : new byte[] {27, '!'.ToByte(), 0};
+            ? Command.ASCII.CompressionSize
+            : Command.ASCII.NormalSize.AddBytes(Command.Chinese.FontSizeReset);
     }
 }

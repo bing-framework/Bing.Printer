@@ -327,6 +327,7 @@ namespace Bing.Printer
             Condensed(PrinterModeState.On);
             Write(Command.Style.Separator());
             Condensed(PrinterModeState.Off);
+            NewLine();
             return This();
         }
 
