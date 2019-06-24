@@ -7,9 +7,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Printer.Abstractions",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Printer.EscPos", "src\Bing.Printer.EscPos\Bing.Printer.EscPos.csproj", "{AF63462E-B1D9-4F27-B0BC-A0A85E9AEC3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Printer.Tests", "tests\Bing.Printer.Tests\Bing.Printer.Tests.csproj", "{ECAF6355-0F49-48E2-9CD3-E88EA9453149}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Printer.Tests", "tests\Bing.Printer.Tests\Bing.Printer.Tests.csproj", "{ECAF6355-0F49-48E2-9CD3-E88EA9453149}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bing.Printer.Core", "src\Bing.Printer.Core\Bing.Printer.Core.csproj", "{6D06AA61-4ADB-475D-8FE5-8AAAFFC71803}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bing.Printer.Core", "src\Bing.Printer.Core\Bing.Printer.Core.csproj", "{6D06AA61-4ADB-475D-8FE5-8AAAFFC71803}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-document", "00-document", "{8B83F472-19F3-4DD7-A4C2-87A0143FA6EB}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-src", "01-src", "{28D3ECD1-D78F-4BEF-B627-9B6D495E8C12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-tests", "02-tests", "{098A1272-8524-4584-BA97-FDA569B72455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +45,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FF74E367-1062-4031-B712-4B79A283C8AE} = {28D3ECD1-D78F-4BEF-B627-9B6D495E8C12}
+		{AF63462E-B1D9-4F27-B0BC-A0A85E9AEC3A} = {28D3ECD1-D78F-4BEF-B627-9B6D495E8C12}
+		{ECAF6355-0F49-48E2-9CD3-E88EA9453149} = {098A1272-8524-4584-BA97-FDA569B72455}
+		{6D06AA61-4ADB-475D-8FE5-8AAAFFC71803} = {28D3ECD1-D78F-4BEF-B627-9B6D495E8C12}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B180E80-4532-4EF0-8658-3C57193CEDFF}
