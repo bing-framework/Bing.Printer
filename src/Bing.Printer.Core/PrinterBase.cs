@@ -107,6 +107,164 @@ namespace Bing.Printer
 
         #endregion
 
+        #region FontStyle(字体样式)
+
+        /// <summary>
+        /// 加粗。将文字加粗
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Bold(string value) => Write(Command.FontStyle.Bold(value));
+
+        /// <summary>
+        /// 加粗-开。将文字加粗
+        /// </summary>
+        public virtual TPrinter BoldOn() => Write(Command.FontStyle.BoldOn());
+
+        /// <summary>
+        /// 加粗-关。将文字加粗
+        /// </summary>
+        public virtual TPrinter BoldOff() => Write(Command.FontStyle.BoldOff());
+
+        /// <summary>
+        /// 倍宽
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter DoubleWidth(string value) => Write(Command.FontStyle.DoubleWidth(value));
+
+        /// <summary>
+        /// 倍宽-开
+        /// </summary>
+        public virtual TPrinter DoubleWidthOn() => Write(Command.FontStyle.DoubleWidthOn());
+
+        /// <summary>
+        /// 倍宽-关
+        /// </summary>
+        public virtual TPrinter DoubleWidthOff() => Write(Command.FontStyle.DoubleWidthOff());
+
+        /// <summary>
+        /// 倍高
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter DoubleHeight(string value) => Write(Command.FontStyle.DoubleHeight(value));
+
+        /// <summary>
+        /// 倍高-开
+        /// </summary>
+        public virtual TPrinter DoubleHeightOn() => Write(Command.FontStyle.DoubleHeightOn());
+
+        /// <summary>
+        /// 倍高-关
+        /// </summary>
+        public virtual TPrinter DoubleHeightOff() => Write(Command.FontStyle.DoubleHeightOff());
+
+        /// <summary>
+        /// 下划线(1点宽)。为文字添加下划线
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Underline(string value) => Write(Command.FontStyle.Underline(value));
+
+        /// <summary>
+        /// 下划线(2点宽)。为文字添加下划线
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Underline2(string value) => Write(Command.FontStyle.Underline2(value));
+
+        /// <summary>
+        /// 下划线(1点宽)。为文字添加下划线
+        /// </summary>
+        public virtual TPrinter UnderlineOn() => Write(Command.FontStyle.UnderlineOn());
+
+        /// <summary>
+        /// 下划线(2点宽)。为文字添加下划线
+        /// </summary>
+        public virtual TPrinter Underline2On() => Write(Command.FontStyle.Underline2On());
+
+        /// <summary>
+        /// 下划线。为文字添加下划线
+        /// </summary>
+        public virtual TPrinter UnderlineOff() => Write(Command.FontStyle.UnderlineOff());
+
+        /// <summary>
+        /// 黑白反显
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter BlackWhite(string value) => Write(Command.FontStyle.BlackWhite(value));
+
+        /// <summary>
+        /// 黑白反显-开
+        /// </summary>
+        public virtual TPrinter BlackWhiteOn() => Write(Command.FontStyle.BlackWhiteOn());
+
+        /// <summary>
+        /// 黑白反显-关
+        /// </summary>
+        public virtual TPrinter BlackWhiteOff() => Write(Command.FontStyle.BlackWhiteOff());
+
+        /// <summary>
+        /// 顺时针90度旋转
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Rotate90(string value) => Write(Command.FontStyle.Rotate90(value));
+
+        /// <summary>
+        /// 顺时针180度旋转
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Rotate180(string value) => Write(Command.FontStyle.Rotate180(value));
+
+        /// <summary>
+        /// 顺时针270度旋转
+        /// </summary>
+        /// <param name="value">值</param>
+        public virtual TPrinter Rotate270(string value) => Write(Command.FontStyle.Rotate270(value));
+
+        /// <summary>
+        /// 顺时针90度旋转-开
+        /// </summary>
+        public virtual TPrinter Rotate90On() => Write(Command.FontStyle.Rotate90On());
+
+        /// <summary>
+        /// 顺时针180度旋转-开
+        /// </summary>
+        public virtual TPrinter Rotate180On() => Write(Command.FontStyle.Rotate180On());
+
+        /// <summary>
+        /// 顺时针270度旋转-开
+        /// </summary>
+        public virtual TPrinter Rotate270On() => Write(Command.FontStyle.Rotate270On());
+
+        /// <summary>
+        /// 顺时针旋转-关
+        /// </summary>
+        public virtual TPrinter RotateOff() => Write(Command.FontStyle.RotateOff());
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public virtual TPrinter FontSize(FontSize size) => Write(Command.FontStyle.FontSize(size));
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public virtual TPrinter FontSize(int size) => Write(Command.FontStyle.FontSize(size));
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
+        public virtual TPrinter FontSize(int width, int height) => Write(Command.FontStyle.FontSize(width, height));
+
+        /// <summary>
+        /// 设置字体类型
+        /// </summary>
+        /// <param name="type">字体类型</param>
+        public virtual TPrinter FontType(FontType type) => Write(Command.FontStyle.FontType(type));
+
+        #endregion
+
         #region FontMode(字体模式)
 
         /// <summary>
@@ -124,20 +282,8 @@ namespace Bing.Printer
         /// <summary>
         /// 加粗。将文字加粗
         /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Bold(string value) => Write(Command.FontMode.Bold(value));
-
-        /// <summary>
-        /// 加粗。将文字加粗
-        /// </summary>
         /// <param name="state">打印模式状态</param>
         public virtual TPrinter Bold(PrinterModeState state) => Write(Command.FontMode.Bold(state));
-
-        /// <summary>
-        /// 下划线。为文字添加下划线
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Underline(string value) => Write(Command.FontMode.Underline(value));
 
         /// <summary>
         /// 下划线。为文字添加下划线
@@ -192,9 +338,39 @@ namespace Bing.Printer
 
         #region PrintStyle(打印样式)
 
+        /// <summary>
+        /// 设置左边距
+        /// </summary>
+        /// <param name="value">值</param>
         public virtual TPrinter LeftMargin(int value = 0) => Write(Command.PrintStyle.LeftMargin(value));
 
+        /// <summary>
+        /// 设置左边距
+        /// </summary>
+        /// <param name="nL">边距值</param>
+        /// <param name="nH">高度</param>
         public virtual TPrinter LeftMargin(int nL, int nH) => Write(Command.PrintStyle.LeftMargin(nL, nH));
+
+        /// <summary>
+        /// 设置打印区域宽度
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        public TPrinter PrintWidth(int nL, int nH) => Write(Command.PrintStyle.PrintWidth(nL, nH));
+
+        /// <summary>
+        /// 设置相对横向打印位置
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        public TPrinter RelativeHorizontalPosition(int nL, int nH) => Write(Command.PrintStyle.PrintWidth(nL, nH));
+
+        /// <summary>
+        /// 设置绝对打印位置
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        public TPrinter AbsolutePosition(int nL, int nH) => Write(Command.PrintStyle.PrintWidth(nL, nH));
 
         /// <summary>
         /// 左对齐
@@ -314,12 +490,6 @@ namespace Bing.Printer
         public TPrinter RightCharacterSpacing(int spaceCount) => Write(Command.Style.RightCharacterSpacing(spaceCount));
 
         /// <summary>
-        /// 设置字体大小
-        /// </summary>
-        /// <param name="size">字体大小</param>
-        public TPrinter Size(int size) => Write(Command.Style.Size(size));
-
-        /// <summary>
         /// 设置分隔符
         /// </summary>
         public virtual TPrinter Separator()
@@ -349,6 +519,76 @@ namespace Bing.Printer
         /// 禁用
         /// </summary>
         public TPrinter Disable() => Write(Command.InitializePrint.Disable());
+
+        #endregion
+
+        #region PrintLine(打印行)
+
+        /// <summary>
+        /// 设置实线
+        /// </summary>
+        public virtual TPrinter SolidLine() => Write(Command.PrintLine.SolidLine());
+
+        /// <summary>
+        /// 设置空行
+        /// </summary>
+        public virtual TPrinter EmptyLine() => Write(Command.PrintLine.EmptyLine());
+
+        /// <summary>
+        /// 设置虚线
+        /// </summary>
+        public virtual TPrinter DottedLine() => Write(Command.PrintLine.DottedLine());
+
+        /// <summary>
+        /// 写入一行输出
+        /// </summary>
+        /// <param name="text1">文本1</param>
+        /// <param name="text2">文本2</param>
+        public virtual TPrinter WriteOneLine(string text1, string text2) => Write(Command.PrintLine.WriteOneLine(text1, text2));
+
+        /// <summary>
+        /// 写入一行输出
+        /// </summary>
+        /// <param name="text1">文本1</param>
+        /// <param name="text2">文本2</param>
+        /// <param name="textSize">文字大小</param>
+        public virtual TPrinter WriteOneLine(string text1, string text2, int textSize) => Write(Command.PrintLine.WriteOneLine(text1, text2, textSize));
+
+        /// <summary>
+        /// 写入一行输出
+        /// </summary>
+        /// <param name="text1">文本1</param>
+        /// <param name="text2">文本2</param>
+        /// <param name="text3">文本3</param>
+        public virtual TPrinter WriteOneLine(string text1, string text2, string text3) => Write(Command.PrintLine.WriteOneLine(text1, text2, text3));
+
+        /// <summary>
+        /// 写入一行输出
+        /// </summary>
+        /// <param name="text1">文本1</param>
+        /// <param name="text2">文本2</param>
+        /// <param name="text3">文本3</param>
+        /// <param name="textSize">文字大小</param>
+        public virtual TPrinter WriteOneLine(string text1, string text2, string text3, int textSize) => Write(Command.PrintLine.WriteOneLine(text1, text2, text3, textSize));
+
+        /// <summary>
+        /// 写入一行输出
+        /// </summary>
+        /// <param name="text1">文本1</param>
+        /// <param name="text2">文本2</param>
+        /// <param name="text3">文本3</param>
+        /// <param name="text4">文本4</param>
+        public virtual TPrinter WriteOneLine(string text1, string text2, string text3, string text4) => Write(Command.PrintLine.WriteOneLine(text1, text2, text3, text4));
+
+        /// <summary>
+        /// 写入一行输出
+        /// </summary>
+        /// <param name="text1">文本1</param>
+        /// <param name="text2">文本2</param>
+        /// <param name="text3">文本3</param>
+        /// <param name="text4">文本4</param>
+        /// <param name="textSize">文字大小</param>
+        public virtual TPrinter WriteOneLine(string text1, string text2, string text3, string text4, int textSize) => Write(Command.PrintLine.WriteOneLine(text1, text2, text3, text4, textSize));
 
         #endregion
     }

@@ -52,34 +52,6 @@ namespace Bing.Printer.Tests
         }
 
         /// <summary>
-        /// 测试 简单例子1
-        /// </summary>
-        [Fact]
-        public void Test_Simple_1()
-        {
-            _printer.Write(new byte[] {0x1B, 0x40});
-            _printer.Center()
-                .WriteLine("测试打印机")
-                .DoubleWidth2()
-                .NewLine(2);
-
-            _printer.Left()
-                .WriteLine("这里是打印机描述")
-                .NewLine();
-
-            _printer.Left()
-                .WriteLine("\x1B\x44\x12\x19\x24\x00")
-                .NewLine();
-
-            _printer.WriteLine("_______________________________________");
-            _printer.Code39("0201902018");
-            _printer.Full();
-
-            var result = _printer.ToHex();
-            Output.WriteLine(result);
-        }
-
-        /// <summary>
         /// 测试 快递单号
         /// </summary>
         [Fact]
@@ -304,21 +276,6 @@ namespace Bing.Printer.Tests
         }
 
         /// <summary>
-        /// 测试文本格式-倾斜
-        /// </summary>
-        [Fact]
-        public void Test_TxtFormat_Italic()
-        {
-            _printer.Write(Command.HardwareInit);
-            _printer.Italic("倾斜格式字体")
-                .NewLine();
-            _printer.Bold("Test Txt Format Italic")
-                .NewLine();
-            var result = _printer.ToHex();
-            Output.WriteLine(result);
-        }
-
-        /// <summary>
         /// 测试文本格式-下划线
         /// </summary>
         [Fact]
@@ -454,42 +411,42 @@ namespace Bing.Printer.Tests
                 .WriteLine("Normal Size Text")
                 .NewLine();
 
-            _printer.Size(0)
+            _printer.FontSize(FontSize.Size0)
                 .WriteLine("0 级文本")
                 .WriteLine("0 Level Size Text")
                 .NewLine();
 
-            _printer.Size(1)
+            _printer.FontSize(FontSize.Size1)
                 .WriteLine("1 级文本")
                 .WriteLine("1 Level Size Text")
                 .NewLine();
 
-            _printer.Size(2)
+            _printer.FontSize(FontSize.Size2)
                 .WriteLine("2 级文本")
                 .WriteLine("2 Level Size Text")
                 .NewLine();
 
-            _printer.Size(3)
+            _printer.FontSize(FontSize.Size3)
                 .WriteLine("3 级文本")
                 .WriteLine("3 Level Size Text")
                 .NewLine();
 
-            _printer.Size(4)
+            _printer.FontSize(FontSize.Size4)
                 .WriteLine("4 级文本")
                 .WriteLine("4 Level Size Text")
                 .NewLine();
 
-            _printer.Size(5)
+            _printer.FontSize(FontSize.Size5)
                 .WriteLine("5 级文本")
                 .WriteLine("5 Level Size Text")
                 .NewLine();
 
-            _printer.Size(6)
+            _printer.FontSize(FontSize.Size6)
                 .WriteLine("6 级文本")
                 .WriteLine("6 Level Size Text")
                 .NewLine();
 
-            _printer.Size(7)
+            _printer.FontSize(FontSize.Size7)
                 .WriteLine("7 级文本")
                 .WriteLine("7 Level Size Text")
                 .NewLine();
@@ -1344,14 +1301,7 @@ namespace Bing.Printer.Tests
             for (var i = 0; i < text.Length; i++)
             {
                 charCode = text[i];
-                if (charCode >= 0 && charCode <= 128)
-                {
-                    realLength += 1;
-                }
-                else
-                {
-                    realLength += 2;
-                }
+                realLength += charCode >= 0 && charCode <= 128 ? 1 : 2;
             }
 
             return realLength;
@@ -1707,13 +1657,13 @@ namespace Bing.Printer.Tests
             _printer.Initialize();
             _printer.NewLine();
             int length = 72;
-            _printer.Bold(PrinterModeState.On);
-            _printer.WriteLine(new string('-', length - 24));// 48个字符
-            _printer.WriteLine($"开始内容 {length}");
+            //_printer.Bold(PrinterModeState.On);
+            //_printer.WriteLine(new string('-', length - 24));// 48个字符
+            //_printer.WriteLine($"开始内容 {length}");
             
-            _printer.Condensed(new string('-', length));
-            _printer.Bold(PrinterModeState.Off);
-            _printer.NewLine();
+            //_printer.Condensed(new string('-', length));
+            //_printer.Bold(PrinterModeState.Off);
+            //_printer.NewLine();
 
             _printer.WriteLine($"结束内容 {length}");
             var result = _printer.ToHex();
@@ -1740,6 +1690,240 @@ namespace Bing.Printer.Tests
             _printer.NewLine(2);
             var result = _printer.ToHex();
             Output.WriteLine(result);
+        }
+
+        /// <summary>
+        /// 测试权重
+        /// </summary>
+        [Fact]
+        public void Test_Weights()
+        {
+            //_printer.Initialize();
+            //for (var i = 0; i < 48; i++)
+            //{
+            //    _printer.Write("1");
+            //}
+
+            //_printer.NewLine();
+
+            //var result = _printer.ToHex();
+            //Output.WriteLine(result);
+
+            var result = WeightsHandler(new string[] {"等于最大长度，需要切割字符串", "这是一首歌的时间66666666666666", "感觉凉凉的说", "有一句凉凉不知道改改说"},
+                new int[] {7, 5, 5, 5}, 48);
+            foreach (var item in result)
+            {
+                Output.WriteLine(new string('-', 48));
+                Output.WriteLine(item);
+            }
+        }
+
+        /// <summary>
+        /// 权重处理
+        /// </summary>
+        /// <param name="source">源</param>
+        /// <param name="proportion">比例</param>
+        /// <param name="maxWidth">最大宽度</param>
+        private List<string> WeightsHandler(string[] source, int[] proportion,int maxWidth)
+        {
+            var sum = proportion.Sum();
+            List<List<string>> list = new List<List<string>>();
+            int[] width = new int[source.Length];
+            for (var i = 0; i < source.Length; i++)
+            {
+                width[i]= GetWidth(proportion[i], sum, maxWidth);
+                list.Add(CutString(source[i], width[i]));
+            }
+
+            var maxLine = list.Max(x => x.Count);
+            var result = new string[maxLine];
+            var index = 0;
+            foreach (var item in list)
+            {
+                for (int i = 0; i < maxLine; i++)
+                {
+                    if (i < item.Count)
+                    {
+                        result[i] = result[i] == null ? item[i] : result[i] + item[i];
+                    }
+                    else
+                    {
+                        result[i] += new string(' ', width[index]);
+                    }
+                }
+
+                index++;
+            }
+
+            return result.ToList();
+        }
+
+        /// <summary>
+        /// 切割字符串
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="maxLength"></param>
+        private List<string> CutString(string text, int maxLength)
+        {
+            List<string> list = new List<string>();
+            StringBuilder sb = new StringBuilder();
+            var length = 0;
+            var index = -1;
+            foreach (var c in text.ToCharArray())
+            {
+                index++;
+                var cLength = IsAscii(c) ? 1 : 2;
+                // 等于最大长度，需要切割字符串
+                if (length + cLength == maxLength)
+                {
+                    length = 0;
+                    sb.Append(c);
+                    sb.Append(" ");
+                    list.Add(sb.ToString());
+                    sb.Clear();
+                    continue;
+                }
+
+                // 大于最大长度，需要切割字符串，当前字符填充到下面
+                if (length + cLength > maxLength && index != text.Length - 1)
+                {
+                    length = cLength;
+                    sb.Append(" ");
+                    list.Add(sb.ToString());
+                    sb.Clear();
+                    sb.Append(c);
+                    continue;
+                }
+
+                if (length + cLength < maxLength)
+                {
+                    length += cLength;
+                    sb.Append(c);
+                }
+
+                // 如果为最后字符，则需要填充空格
+                if (index == text.Length - 1)
+                {
+                    sb.Append(new string(' ', maxLength - length));
+                    list.Add(sb.ToString());
+                }
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        /// 获取文本宽度
+        /// </summary>
+        /// <param name="source">权重</param>
+        /// <param name="total">总比例</param>
+        /// <param name="maxWidth">最大长度</param>
+        private int GetWidth(int source, int total, int maxWidth)
+        {
+            return (int) Math.Ceiling((double) source / (double) total * (double) maxWidth);
+        }
+
+        /// <summary>
+        /// 测试打印-物流订单详情
+        /// </summary>
+        [Fact]
+        public void Test_Print_DeliveryOrderDetail()
+        {
+            _printer.Initialize();
+            _printer.Center();
+            // 箱子抬头 logo
+            var logoPath = "D:\\utb_logo.png";
+            //_printer.Write(PrintImage(logoPath));
+            _printer.NewLine();
+            // 左对齐
+            _printer.Left();
+            // 设置字体 ASCII 字体（8×16）+ 中文字体（16×16）
+            _printer.FontType(FontType.Compress2);
+            // 字符大小，设置为放大2倍
+            _printer.FontSize(FontSize.Size1);
+            PrintItem(_printer,0,168,"配送站点", "高德置地广场D座19楼");
+            PrintItem(_printer, 0, 168, "配送时间", "2019-06-04 15:00-16:00");
+            // 重置排版
+            _printer.Initialize();
+            PrintItem(_printer, "订单数", "10");
+            PrintItem(_printer,"箱子数", "第1个/共2个（7件商品）");
+            // 重置排版
+            _printer.Initialize();
+            // 实线
+            _printer.SolidLine();
+
+            // 订单信息
+            _printer.NewLine(2);
+            _printer.Center();
+            //_printer.Write(PrintImage(logoPath));
+            _printer.NewLine(2);
+            _printer.Left();
+            PrintItem(_printer,"订单号", "DD8070600015");
+            PrintItem(_printer,"收件人","盛茂");
+            PrintItem(_printer,26,168,"联系电话", "134149**358");
+            PrintItem(_printer,26,168,"收货地址", "广州市天河区珠江西路8号高德置地广场D座19楼");
+
+            // 重置排版
+            _printer.Initialize();
+            // 虚线
+            _printer.DottedLine();
+            _printer.NewLine();
+            _printer.WriteOneLine("商品名称", "数量", "单价", "合计    ");
+            _printer.NewLine();
+            _printer.DottedLine();
+            _printer.NewLine(2);
+
+            for (int i = 0; i < 3; i++)
+            {
+                _printer.WriteLine($"10023332  白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜-{i}");
+                _printer.NewLine();
+
+                _printer.LeftMargin(180, 0);
+                _printer.PrintWidth(128, 0);
+                _printer.Write("1000000000");
+
+                _printer.LeftMargin(54, 1);
+                _printer.PrintWidth(130, 0);
+                _printer.Write("9999999.50");
+
+                _printer.LeftMargin(190, 1);
+                _printer.PrintWidth(180, 0);
+                _printer.Write("999999950000000.00");
+
+                _printer.NewLine();
+                _printer.Initialize();
+                _printer.NewLine();
+            }
+
+            _printer.DottedLine();
+            _printer.NewLine();
+            _printer.Right();
+            _printer.WriteLine("商品件数：3件 ");
+            _printer.Left();
+            _printer.NewLine();
+            _printer.DottedLine();
+            _printer.NewLine(2);
+
+            var result = _printer.ToHex();
+            Output.WriteLine(result);
+        }
+
+        private void PrintItem(IEscPosPrinter printer, string left, string right)
+        {
+            printer.LeftMargin(50);
+            printer.Write(left);
+            printer.LeftMargin(168);
+            printer.Write(right);
+            printer.NewLine(2);
+        }
+
+        private void PrintItem(IEscPosPrinter printer, int leftMargin, int rightMargin, string left, string right)
+        {
+            printer.LeftMargin(leftMargin);
+            printer.Write(left);
+            printer.LeftMargin(rightMargin);
+            printer.Write(right);
+            printer.NewLine(2);
         }
     }
 }

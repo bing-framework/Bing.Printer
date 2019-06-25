@@ -221,6 +221,15 @@ namespace Bing.Printer.EscPos
         // ReSharper disable once InconsistentNaming
         public static readonly byte[] I18nChar = {Esc, ASCIIShowConst.R};
 
+        /// <summary>
+        /// 选择字体。需要额外添加 n (0-3) 值。
+        /// 格式：
+        /// ASCII码    ESC M n
+        /// 十六进制码  0x1B 0x4D n
+        /// 十进制码    27 77 n
+        /// </summary>
+        public static readonly byte[] FontType = {Esc, ASCIIShowConst.M};
+
         #region ASCII相关操作设置
 
         /// <summary>
@@ -398,6 +407,15 @@ namespace Bing.Printer.EscPos
         #endregion
 
         #region 打印排版参数设置指令
+
+        /// <summary>
+        /// 设置绝对打印位置。需要额外添加 nL (0-255), nH (0-255) 值。
+        /// 格式：
+        /// ASCII码    ESC $ nL nH
+        /// 十六进制码  0x1B 0x24 nL nH
+        /// 十进制码    27 36 nL nH
+        /// </summary>
+        public static readonly byte[] StyleAbsolutePrintPosition = { Esc, ASCIIShowConst.DollarSign };
 
         /// <summary>
         /// 设置默认行高。
@@ -641,7 +659,7 @@ namespace Bing.Printer.EscPos
         /// <summary>
         /// 硬件初始化。在缓冲和复位模式下清除数据
         /// </summary>
-        public static readonly byte[] HardwareInit = {ASCIIControlConst.ESC, ASCIIShowConst.AtSign};
+        public static readonly byte[] HardwareInit = {Esc, ASCIIShowConst.AtSign};
 
         /// <summary>
         /// 切纸-全切纸

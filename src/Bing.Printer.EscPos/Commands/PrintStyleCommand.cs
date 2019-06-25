@@ -27,6 +27,27 @@ namespace Bing.Printer.EscPos.Commands
         public byte[] LeftMargin(int nL, int nH) => Command.StyleLeftMargin.AddBytes(new[] { nL.ToByte(), nH.ToByte() });
 
         /// <summary>
+        /// 设置打印区域宽度
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        public byte[] PrintWidth(int nL, int nH) => Command.StylePrintWidth.AddBytes(new[] {nL.ToByte(), nH.ToByte()});
+
+        /// <summary>
+        /// 设置相对横向打印位置
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        public byte[] RelativeHorizontalPosition(int nL, int nH) => Command.StyleRelativeXPosition.AddBytes(new[] {nL.ToByte(), nH.ToByte()});
+
+        /// <summary>
+        /// 设置绝对打印位置
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        public byte[] AbsolutePosition(int nL, int nH) => Command.StyleAbsolutePrintPosition.AddBytes(new[] { nL.ToByte(), nH.ToByte() });
+
+        /// <summary>
         /// 左对齐
         /// </summary>
         public byte[] Left() => Command.StyleLeftAlign;

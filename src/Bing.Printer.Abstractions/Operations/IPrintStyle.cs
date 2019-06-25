@@ -20,6 +20,27 @@
         T LeftMargin(int nL, int nH);
 
         /// <summary>
+        /// 设置打印区域宽度
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        T PrintWidth(int nL, int nH);
+
+        /// <summary>
+        /// 设置相对横向打印位置
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        T RelativeHorizontalPosition(int nL, int nH);
+
+        /// <summary>
+        /// 设置绝对打印位置
+        /// </summary>
+        /// <param name="nL">长度</param>
+        /// <param name="nH">高度</param>
+        T AbsolutePosition(int nL, int nH);
+
+        /// <summary>
         /// 左对齐
         /// </summary>
         T Left();

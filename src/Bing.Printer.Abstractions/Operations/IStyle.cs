@@ -21,12 +21,6 @@ namespace Bing.Printer.Operations
         T RightCharacterSpacing(int spaceCount);
 
         /// <summary>
-        /// 设置字体大小
-        /// </summary>
-        /// <param name="size">字体大小</param>
-        T Size(int size);
-
-        /// <summary>
         /// 设置分隔符
         /// </summary>
         T Separator();

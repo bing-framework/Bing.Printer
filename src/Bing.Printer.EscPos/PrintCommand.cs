@@ -12,6 +12,11 @@ namespace Bing.Printer.EscPos
     internal class PrintCommand : IPrintCommand
     {
         /// <summary>
+        /// 字体样式操作
+        /// </summary>
+        public IFontStyle<byte[]> FontStyle { get; set; }
+
+        /// <summary>
         /// 字体模式操作
         /// </summary>
         public IFontMode<byte[]> FontMode { get; set; }
@@ -72,6 +77,11 @@ namespace Bing.Printer.EscPos
         public IWriter Writer { get; set; }
 
         /// <summary>
+        /// 打印行操作
+        /// </summary>
+        public IPrintLine<string> PrintLine { get; set; }
+
+        /// <summary>
         /// 初始化一个<see cref="PrintCommand"/>类型的实例
         /// </summary>
         /// <param name="printPaper">打印纸</param>
@@ -81,6 +91,7 @@ namespace Bing.Printer.EscPos
             Writer = new WriterCommand(encoding);
             BarcodeBuilder = new BarcodeBuilder(encoding);
 
+            FontStyle = new FontStyleCommand();
             FontMode = new FontModeCommand();
             FontWidth = new FontWidthCommand();
             PagerCut = new PagerCutCommand();
@@ -91,6 +102,7 @@ namespace Bing.Printer.EscPos
             InitializePrint = new InitializePrintCommand();
             PrintStyle = new PrintStyleCommand();
             Image = new ImageCommand(printPaper);
+            PrintLine = new PrintLineCommand(printPaper);
         }
     }
 }

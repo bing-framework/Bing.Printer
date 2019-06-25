@@ -1,4 +1,6 @@
-﻿namespace Bing.Printer.Operations
+﻿using Bing.Printer.Enums;
+
+namespace Bing.Printer.Operations
 {
     /// <summary>
     /// 字体样式操作
@@ -138,8 +140,26 @@
         /// <summary>
         /// 设置字体大小
         /// </summary>
+        /// <param name="size">字体大小</param>
+        T FontSize(FontSize size);
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        T FontSize(int size);
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
         /// <param name="width">宽度</param>
         /// <param name="height">高度</param>
         T FontSize(int width, int height);
+
+        /// <summary>
+        /// 设置字体类型
+        /// </summary>
+        /// <param name="type">字体类型</param>
+        T FontType(FontType type);
     }
 }

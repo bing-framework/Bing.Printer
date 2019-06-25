@@ -1,4 +1,5 @@
-﻿using Bing.Printer.Extensions;
+﻿using Bing.Printer.Enums;
+using Bing.Printer.Extensions;
 using Bing.Printer.Operations;
 
 namespace Bing.Printer.EscPos.Commands
@@ -137,9 +138,67 @@ namespace Bing.Printer.EscPos.Commands
         /// </summary>
         public byte[] RotateOff() => Command.TxtRotateOff;
 
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public byte[] FontSize(FontSize size)
+        {
+            byte realSize = 0;
+            switch (size)
+            {
+                case Enums.FontSize.Size0:
+                    realSize = 0;
+                    break;
+                case Enums.FontSize.Size1:
+                    realSize = 17;
+                    break;
+                case Enums.FontSize.Size2:
+                    realSize = 34;
+                    break;
+                case Enums.FontSize.Size3:
+                    realSize = 51;
+                    break;
+                case Enums.FontSize.Size4:
+                    realSize = 68;
+                    break;
+                case Enums.FontSize.Size5:
+                    realSize = 85;
+                    break;
+                case Enums.FontSize.Size6:
+                    realSize = 102;
+                    break;
+                case Enums.FontSize.Size7:
+                    realSize = 119;
+                    break;
+            }
+
+            return Command.Size.AddByte(realSize);
+        }
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public byte[] FontSize(int size)
+        {
+            return Command.Size.AddByte(size.ToByte());
+        }
+
+        /// <summary>
+        /// 设置字体大小
+        /// </summary>
+        /// <param name="width">宽度</param>
+        /// <param name="height">高度</param>
         public byte[] FontSize(int width, int height)
         {
             throw new System.NotImplementedException();
         }
+
+        /// <summary>
+        /// 设置字体类型
+        /// </summary>
+        /// <param name="type">字体类型</param>
+        public byte[] FontType(FontType type) => Command.FontType.AddByte(type.ToByte());
     }
 }

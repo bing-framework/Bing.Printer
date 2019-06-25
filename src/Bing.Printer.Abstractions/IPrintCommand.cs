@@ -8,6 +8,11 @@ namespace Bing.Printer
     public interface IPrintCommand
     {
         /// <summary>
+        /// 字体样式操作
+        /// </summary>
+        IFontStyle<byte[]> FontStyle { get; set; }
+
+        /// <summary>
         /// 字体模式操作
         /// </summary>
         IFontMode<byte[]> FontMode { get; set; }
@@ -62,6 +67,9 @@ namespace Bing.Printer
         /// </summary>
         IWriter Writer { get; set; }
 
-        
+        /// <summary>
+        /// 打印行操作
+        /// </summary>
+        IPrintLine<string> PrintLine { get; set; }
     }
 }

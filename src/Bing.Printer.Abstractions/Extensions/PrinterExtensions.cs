@@ -45,6 +45,21 @@ namespace Bing.Printer.Extensions
         }
 
         /// <summary>
+        /// 添加字节
+        /// </summary>
+        /// <param name="bytes">字节数组</param>
+        /// <param name="addByte">待添加的字节</param>
+        public static byte[] AddByte(this byte[] bytes, byte? addByte)
+        {
+            if (addByte == null)
+                return bytes;
+            var list = new List<byte>();
+            list.AddRange(bytes);
+            list.Add(addByte.Value);
+            return list.ToArray();
+        }
+
+        /// <summary>
         /// 添加字节数组
         /// </summary>
         /// <param name="bytes">字节数组</param>

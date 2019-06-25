@@ -367,6 +367,15 @@
         public const byte L = 0x4C;
 
         /// <summary>
+        /// M。
+        /// 显示图形 : M;
+        /// 二进制 : 0100 1101;
+        /// 十进制 : 77;
+        /// 十六进制 : 0x4D;
+        /// </summary>
+        public const byte M = 0x4D;
+
+        /// <summary>
         /// P。
         /// 显示图形 : P;
         /// 二进制 : 0101 0000;
