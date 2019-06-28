@@ -427,7 +427,7 @@ namespace Bing.Printer.EscPos
         public static readonly byte[] StyleDefaultRowHeight = {Esc, ASCIIShowConst.Two};
 
         /// <summary>
-        /// 国际字符。需要额外添加 n (0-255) 值。
+        /// 设置行高。需要额外添加 n (0-255) 值。
         /// 格式：
         /// ASCII码    ESC 3 n
         /// 十六进制码  0x1B 0x33 n

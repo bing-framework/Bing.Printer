@@ -55,5 +55,16 @@
         /// </summary>
         /// <returns></returns>
         T Right();
+
+        /// <summary>
+        /// 设置默认行高
+        /// </summary>
+        T RowHeight();
+
+        /// <summary>
+        /// 设置行高
+        /// </summary>
+        /// <param name="height">高度</param>
+        T RowHeight(int height);
     }
 }

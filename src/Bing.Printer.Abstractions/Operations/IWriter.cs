@@ -25,6 +25,12 @@
         T WriteLine(string value);
 
         /// <summary>
+        /// 写入并换行
+        /// </summary>
+        /// <param name="value">字节数组</param>
+        T WriteLine(byte[] value);
+
+        /// <summary>
         /// 添加行
         /// </summary>
         T NewLine();

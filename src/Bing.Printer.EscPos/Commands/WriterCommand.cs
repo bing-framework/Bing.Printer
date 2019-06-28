@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Bing.Printer.Extensions;
 using Bing.Printer.Operations;
 
 namespace Bing.Printer.EscPos.Commands
@@ -81,6 +82,34 @@ namespace Bing.Printer.EscPos.Commands
         {
             Write(value, true);
             return this;
+        }
+
+        /// <summary>
+        /// 写入并换行
+        /// </summary>
+        /// <param name="value">字节数组</param>
+        public IWriter WriteLine(byte[] value)
+        {
+            Write(value, true);
+            return this;
+        }
+
+        /// <summary>
+        /// 写入
+        /// </summary>
+        /// <param name="value">值</param>
+        /// <param name="useLf">是否换行</param>
+        private void Write(byte[] value, bool useLf)
+        {
+            if(value==null)
+                return;
+            if (useLf)
+                value.AddLf();
+            var list = new List<byte>();
+            if (_buffer != null)
+                list.AddRange(_buffer);
+            list.AddRange(value);
+            _buffer = list.ToArray();
         }
 
         /// <summary>

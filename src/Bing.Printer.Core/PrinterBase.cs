@@ -57,6 +57,16 @@ namespace Bing.Printer
         }
 
         /// <summary>
+        /// 写入并换行
+        /// </summary>
+        /// <param name="value">字节数组</param>
+        public TPrinter WriteLine(byte[] value)
+        {
+            Command.Writer.WriteLine(value);
+            return This();
+        }
+
+        /// <summary>
         /// 添加行
         /// </summary>
         public virtual TPrinter NewLine()
@@ -381,6 +391,17 @@ namespace Bing.Printer
         /// 右对齐
         /// </summary>
         public virtual TPrinter Right() => Write(Command.PrintStyle.Right());
+
+        /// <summary>
+        /// 设置默认行高
+        /// </summary>
+        public virtual TPrinter RowHeight() => Write(Command.PrintStyle.RowHeight());
+
+        /// <summary>
+        /// 设置行高
+        /// </summary>
+        /// <param name="height">高度</param>
+        public virtual TPrinter RowHeight(int height) => Write(Command.PrintStyle.RowHeight());
 
         /// <summary>
         /// 居中

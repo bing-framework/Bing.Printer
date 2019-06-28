@@ -61,5 +61,16 @@ namespace Bing.Printer.EscPos.Commands
         /// 右对齐
         /// </summary>
         public byte[] Right() => Command.StyleRightAlign;
+
+        /// <summary>
+        /// 设置默认行高
+        /// </summary>
+        public byte[] RowHeight() => Command.StyleDefaultRowHeight;
+
+        /// <summary>
+        /// 设置行高
+        /// </summary>
+        /// <param name="height">高度</param>
+        public byte[] RowHeight(int height) => Command.StyleRowHeight.AddByte(height.ToByte());
     }
 }
