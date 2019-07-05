@@ -29,6 +29,7 @@ namespace Bing.Printer
         , IStyle<TPrinter>
         , IInitializePrint<TPrinter>
         , IPrintLine<TPrinter>
+        , IImage<TPrinter>
         where TPrinter : IPrinter<TPrinter>
     {
     }

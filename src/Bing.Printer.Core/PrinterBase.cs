@@ -1,4 +1,6 @@
-﻿using Bing.Printer.Enums;
+﻿using System.Drawing;
+using System.IO;
+using Bing.Printer.Enums;
 using Bing.Printer.Options;
 
 namespace Bing.Printer
@@ -612,5 +614,34 @@ namespace Bing.Printer
         public virtual TPrinter WriteOneLine(string text1, string text2, string text3, string text4, int textSize) => Write(Command.PrintLine.WriteOneLine(text1, text2, text3, text4, textSize));
 
         #endregion
+
+        #region Image(图片)
+
+        /// <summary>
+        /// 打印图片
+        /// </summary>
+        /// <param name="imgPath">图片路径</param>
+        public virtual TPrinter PrintImage(string imgPath) => Write(Command.Image.PrintImage(imgPath));
+
+        /// <summary>
+        /// 打印图片
+        /// </summary>
+        /// <param name="stream">流</param>
+        public virtual TPrinter PrintImage(Stream stream) => Write(Command.Image.PrintImage(stream));
+
+        /// <summary>
+        /// 打印图片
+        /// </summary>
+        /// <param name="bytes">字节数组</param>
+        public virtual TPrinter PrintImage(byte[] bytes) => Write(Command.Image.PrintImage(bytes));
+
+        /// <summary>
+        /// 打印图片
+        /// </summary>
+        /// <param name="image">图片</param>
+        public virtual TPrinter PrintImage(Image image) => Write(Command.Image.PrintImage(image));
+
+        #endregion
+
     }
 }

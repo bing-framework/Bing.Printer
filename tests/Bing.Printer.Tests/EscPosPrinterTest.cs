@@ -1548,32 +1548,41 @@ namespace Bing.Printer.Tests
         [Fact]
         public void Test_PrintOrder()
         {
-            var logoPath = "D:\\utb_logo.png";
+            //var logoPath = "D:\\utopa.tms_logo_1.png";
+            var logoPath = "D:\\utopa.tms_logo.png";
+            //var logoPath = "D:\\test_image.jpg";
+            //var logoPath = "D:\\utb_logo.png";
             _printer.Initialize();
             _printer.NewLine();
             _printer.Center();
-            _printer.WriteLine("预留Logo位置");
-            //_printer.Write(PrintImage(logoPath));
-            _printer.Code128("0201902134", BarcodePositionType.Above, BarcodeWidth.Default, 100, true);
+            //_printer.WriteLine("预留Logo位置");
+            _printer.PrintImage(logoPath);
             _printer.NewLine();
-            _printer.SolidLine();
-            _printer.NewLine();
-
-            _printer.Left();
             _printer.FontType(FontType.Compress2);
             _printer.FontSize(FontSize.Size1);
-            PrintItem(_printer,26,168,"运单号", "Y20190618000001");
-            PrintItem(_printer,0,168,"配送中心", "天河高志体验店");
-            PrintItem(_printer,0,168,"配送时段", "2019-06-24 14:00-18:00");
+            _printer.WriteLine("联结你我 传送欢笑");
             _printer.Initialize();
-            PrintItem(_printer,52,168,"收货人", "来自隔壁老王的新手大礼包");
-            PrintItem(_printer,26,168,"联系电话", "18975927788");
-            PrintItem(_printer,26,168,"收货地址", "广州市天河区黄埔大道西120号高志大厦B1层");
+            _printer.Center();
+            _printer.NewLine();
+            _printer.Code128("b0201902134", BarcodePositionType.Below, BarcodeWidth.Default, 100, true);
+            _printer.NewLine();
+            //_printer.SolidLine();
+            //_printer.NewLine();
+
+            _printer.Left();
+            _printer.Initialize();
+            _printer.FontType(FontType.Compress2);
+            _printer.FontSize(FontSize.Size1);
+            PrintItem(_printer, 26, 168, "订单号", "lbz53968504");
+            PrintItem(_printer, 26, 168, "运单号", "Y20190618000001");
+            PrintItem(_printer, 0, 168, "配送中心", "天河高志体验店");
+            PrintItem(_printer, 0, 168, "配送区域", "隔壁老王");
+            PrintItem(_printer, 0, 168, "配送时段", "2019-06-24 14:00-18:00");
 
             _printer.Initialize();
-            _printer.SolidLine();
-            _printer.NewLine();
-            PrintItem(_printer,"订单号", "lbz53968504");
+            PrintItem(_printer, 52, 168, "收货人", "来自隔壁老王的新手大礼包");
+            PrintItem(_printer, 26, 168, "联系电话", "18975927788");
+            PrintItem(_printer, 26, 168, "收货地址", "广州市天河区黄埔大道西120号高志大厦B1层");
 
             _printer.Initialize();
             _printer.DottedLine();
@@ -1581,35 +1590,31 @@ namespace Bing.Printer.Tests
             _printer.WriteOneLine("商品名称", "数量", "单价", "合计    ");
             _printer.NewLine();
             _printer.DottedLine();
-            _printer.NewLine(2);
+            _printer.NewLine();
 
             for (int i = 0; i < 3; i++)
             {
                 _printer.WriteLine($"10023332  白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜白苋菜-{i}");
-                _printer.NewLine();
 
                 _printer.LeftMargin(180, 0);
                 _printer.PrintWidth(128, 0);
-                _printer.Write("1000000000");
+                _printer.Write("1");
 
                 _printer.LeftMargin(54, 1);
                 _printer.PrintWidth(130, 0);
-                _printer.Write("9999999.50");
+                _printer.Write("222.50");
 
                 _printer.LeftMargin(190, 1);
                 _printer.PrintWidth(180, 0);
-                _printer.Write("999999950000000.00");
+                _printer.Write("6666.00");
 
                 _printer.NewLine();
                 _printer.Initialize();
-                _printer.NewLine();
             }
 
             _printer.DottedLine();
             _printer.NewLine();
-            _printer.Right();
-            _printer.WriteLine("商品件数：3件 ");
-            _printer.Left();
+            _printer.WriteOneLine("合计", "30", "", "2010.00");
             _printer.NewLine();
             _printer.DottedLine();
             _printer.NewLine(2);
@@ -1862,9 +1867,10 @@ namespace Bing.Printer.Tests
             _printer.Initialize();
             _printer.Center();
             // 箱子抬头 logo
-            var logoPath = "D:\\utb_logo.png";
+            var logoPath = "D:\\utopa.tms_logo.png";
             _printer.Write(PrintImage(logoPath));
             _printer.NewLine();
+            _printer.WriteLine("联结你我 传送欢笑");
             // 左对齐
             _printer.Left();
             // 设置字体 ASCII 字体（8×16）+ 中文字体（16×16）
@@ -1944,7 +1950,7 @@ namespace Bing.Printer.Tests
             printer.Write(left);
             printer.LeftMargin(168);
             printer.Write(right);
-            printer.NewLine(2);
+            printer.NewLine(1);
         }
 
         private void PrintItem(IEscPosPrinter printer, int leftMargin, int rightMargin, string left, string right)
@@ -1953,7 +1959,7 @@ namespace Bing.Printer.Tests
             printer.Write(left);
             printer.LeftMargin(rightMargin);
             printer.Write(right);
-            printer.NewLine(2);
+            printer.NewLine(1);
         }
 
         /// <summary>

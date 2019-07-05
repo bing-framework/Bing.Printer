@@ -126,5 +126,81 @@ namespace Bing.Printer.EscPos.Commands
 
             return list.ToArray();
         }
+
+        private byte[] Draw2PxPoint(Bitmap bitmap)
+        {
+            // 先设置一个足够大的size，最后在用数组拷贝复制到一个精确大小的byte数组中
+
+            var list = new List<byte>();
+            // 设置行距为0
+            list.Add(0x1B);
+            list.Add(0x33);
+            list.Add(0x00);
+            // 居中打印
+            list.Add(0x1B);
+            list.Add(0x61);
+            list.Add(1);
+            for (int i = 0; i < bitmap.Height / 24f; i++)
+            {
+                list.Add(0x1B);
+                list.Add(0x2A); // 0x1B 2A 表示图片打印指令
+                list.Add(33); // m=33时，选择24点密度打印
+                list.Add((byte) (bitmap.Width % 256)); // nL
+                list.Add((byte) (bitmap.Width / 256));// nH
+                for (var j = 0; j < bitmap.Width; j++)
+                {
+                    for (var m = 0; m < 3; m++)
+                    {
+                        byte currentK = 0;
+                        for (int n = 0; n < 8; n++)
+                        {
+                            byte b = Px2Byte(j, i * 24 + m * 8 + n, bitmap);
+                            currentK += (byte) (currentK + b);
+                        }
+                        list.Add(currentK);
+                    }
+                }
+
+                list.Add(10);
+            }
+
+            list.Add(0x1B);
+            list.Add(0x32);
+
+            return list.ToArray();
+        }
+
+        private byte Px2Byte(int x, int y, Bitmap bitmap)
+        {
+            if (x < bitmap.Width && y < bitmap.Height)
+            {
+                byte b;
+                var pixel = bitmap.GetPixel(x, y);
+                var gray = Rgb2Gray(pixel.R, pixel.G, pixel.B);
+                if (gray < 128)
+                {
+                    b = 1;
+                }
+                else
+                {
+                    b = 0;
+                }
+
+                return b;
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// RGB转灰度值
+        /// </summary>
+        /// <param name="r">R</param>
+        /// <param name="g">G</param>
+        /// <param name="b">B</param>
+        private int Rgb2Gray(byte r, byte g, byte b)
+        {
+            return (int) (0.2990 * r + 0.58700 * g + 0.11400 * b);// 灰度转化公式
+        }
     }
 }
