@@ -239,6 +239,15 @@ namespace Bing.Printer.EscPos
         public static class ASCII
         {
             /// <summary>
+            /// 重置字体大小。ASCII字体(13 x 24)、中文字体(24 x 24)，专用于取消其他打印模式
+            /// 格式：
+            /// ASCII码    ESC ! NULL
+            /// 十六进制码  0x1B 0x21 0x00
+            /// 十进制码    27 33 0
+            /// </summary>
+            public static readonly byte[] FontSizeReset = { Esc, ASCIIShowConst.Bang, ASCIIControlConst.NULL };
+
+            /// <summary>
             /// 标准字体。ASCII字体(13 x 24)、中文字体(24 x 24)，专用于取消其他打印模式
             /// 格式：
             /// ASCII码    ESC ! NULL
@@ -272,7 +281,7 @@ namespace Bing.Printer.EscPos
             /// 十六进制码  0x1B 0x21 0x10
             /// 十进制码    27 33 16
             /// </summary>
-            public static readonly byte[] DoubleHeight = {Esc, ASCIIShowConst.Bang, ASCIIControlConst.LF};
+            public static readonly byte[] DoubleHeight = {Esc, ASCIIShowConst.Bang, ASCIIControlConst.DLE };
 
             /// <summary>
             /// 打印模式 - 设置加粗。

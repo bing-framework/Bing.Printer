@@ -1549,8 +1549,8 @@ namespace Bing.Printer.Tests
         public void Test_PrintOrder()
         {
             //var logoPath = "D:\\utopa.tms_logo_1.png";
-            var logoPath = "D:\\utopa.tms_logo.png";
-            //var logoPath = "D:\\test_image.jpg";
+            //var logoPath = "D:\\utopa.tms_logo.png";
+            var logoPath = "D:\\test_image4.jpg";
             //var logoPath = "D:\\utb_logo.png";
             _printer.Initialize();
             _printer.NewLine();
@@ -1950,7 +1950,7 @@ namespace Bing.Printer.Tests
             printer.Write(left);
             printer.LeftMargin(168);
             printer.Write(right);
-            printer.NewLine(1);
+            printer.NewLine(2);
         }
 
         private void PrintItem(IEscPosPrinter printer, int leftMargin, int rightMargin, string left, string right)
@@ -1959,7 +1959,7 @@ namespace Bing.Printer.Tests
             printer.Write(left);
             printer.LeftMargin(rightMargin);
             printer.Write(right);
-            printer.NewLine(1);
+            printer.NewLine(2);
         }
 
         /// <summary>

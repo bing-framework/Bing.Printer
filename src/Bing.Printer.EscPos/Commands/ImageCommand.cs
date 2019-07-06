@@ -84,7 +84,7 @@ namespace Bing.Printer.EscPos.Commands
             Color pixelColor;
             //ESC * m nL nH d1…dk   选择位图模式
             // ESC * m nL nH
-            byte[] escBmp = new byte[] { 0x1B, 0x2A, 0x00, 0x00, 0x00 };
+            byte[] escBmp = { 0x1B, 0x2A, 0x00, 0x00, 0x00 };
             escBmp[2] = (byte)'\x21';
             //nL, nH
             escBmp[3] = (byte)(bmp.Width % 256);
@@ -103,11 +103,14 @@ namespace Bing.Printer.EscPos.Commands
                         if (((i * 24) + k) < bmp.Height) // if within the BMP size
                         {
                             pixelColor = bmp.GetPixel(j, (i * 24) + k);
-                            if (pixelColor.R == 0)
+                            if (!(pixelColor.R > 160 && pixelColor.G > 160 && pixelColor.B > 160))
                             {
                                 data[k / 8] += (byte)(128 >> (k % 8));
-
                             }
+                            //if (pixelColor.R == 0)
+                            //{
+                            //    data[k / 8] += (byte)(128 >> (k % 8));
+                            //}
                         }
                     }
 

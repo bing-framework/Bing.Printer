@@ -34,12 +34,12 @@ namespace Bing.Printer.EscPos.Commands
         /// <summary>
         /// 倍宽-开
         /// </summary>
-        public byte[] DoubleWidthOn() => Command.Chinese.DoubleWidthOn;
+        public byte[] DoubleWidthOn() => Command.Chinese.DoubleWidthOn.AddBytes(Command.ASCII.DoubleWidth);
 
         /// <summary>
         /// 倍宽-关
         /// </summary>
-        public byte[] DoubleWidthOff() => Command.Chinese.FontSizeReset;
+        public byte[] DoubleWidthOff() => Command.Chinese.FontSizeReset.AddBytes(Command.ASCII.FontSizeReset);
 
         /// <summary>
         /// 倍高
@@ -50,12 +50,12 @@ namespace Bing.Printer.EscPos.Commands
         /// <summary>
         /// 倍高-开
         /// </summary>
-        public byte[] DoubleHeightOn() => Command.Chinese.DoubleHeightOn;
+        public byte[] DoubleHeightOn() => Command.Chinese.DoubleHeightOn.AddBytes(Command.ASCII.DoubleHeight);
 
         /// <summary>
         /// 倍高-关
         /// </summary>
-        public byte[] DoubleHeightOff() => Command.Chinese.FontSizeReset;
+        public byte[] DoubleHeightOff() => Command.Chinese.FontSizeReset.AddBytes(Command.ASCII.FontSizeReset);
 
         /// <summary>
         /// 下划线(1点宽)。为文字添加下划线
