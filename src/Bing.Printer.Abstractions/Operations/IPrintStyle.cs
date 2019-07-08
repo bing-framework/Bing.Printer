@@ -66,5 +66,13 @@
         /// </summary>
         /// <param name="height">高度</param>
         T RowHeight(int height);
+
+        /// <summary>
+        /// 设置中文字符间距
+        /// </summary>
+        /// <param name="left">左间距</param>
+        /// <param name="right">右间距</param>
+        // ReSharper disable once InconsistentNaming
+        T SpacingCN(int left = 0, int right = 0);
     }
 }

@@ -72,5 +72,13 @@ namespace Bing.Printer.EscPos.Commands
         /// </summary>
         /// <param name="height">高度</param>
         public byte[] RowHeight(int height) => Command.StyleRowHeight.AddByte(height.ToByte());
+
+        /// <summary>
+        /// 设置中文字符间距
+        /// </summary>
+        /// <param name="left">左间距</param>
+        /// <param name="right">右间距</param>
+        // ReSharper disable once InconsistentNaming
+        public byte[] SpacingCN(int left = 0, int right = 0) => Command.Chinese.SpaceingLeftRight.AddBytes(new[] {left.ToByte(), right.ToByte()});
     }
 }

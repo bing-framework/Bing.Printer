@@ -369,6 +369,14 @@ namespace Bing.Printer
         public virtual TPrinter RowHeight(int height) => Write(Command.PrintStyle.RowHeight(height));
 
         /// <summary>
+        /// 设置中文字符间距
+        /// </summary>
+        /// <param name="left">左间距</param>
+        /// <param name="right">右间距</param>
+        // ReSharper disable once InconsistentNaming
+        public virtual TPrinter SpacingCN(int left = 0, int right = 0) => Write(Command.PrintStyle.SpacingCN(left, right));
+
+        /// <summary>
         /// 居中
         /// </summary>
         public virtual TPrinter Center() => Write(Command.PrintStyle.Center());

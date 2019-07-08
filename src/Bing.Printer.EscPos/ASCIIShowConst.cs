@@ -394,6 +394,15 @@
         public const byte R = 0x52;
 
         /// <summary>
+        /// S。
+        /// 显示图形 : S;
+        /// 二进制 : 0101 0011;
+        /// 十进制 : 83;
+        /// 十六进制 : 0x53;
+        /// </summary>
+        public const byte S = 0x53;
+
+        /// <summary>
         /// V。
         /// 显示图形 : V;
         /// 二进制 : 0101 0110;

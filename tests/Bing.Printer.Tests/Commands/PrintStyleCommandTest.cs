@@ -49,20 +49,20 @@ namespace Bing.Printer.Tests.Commands
         {
             Printer.Initialize();
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.WriteLine("测试打印样式底边距");
+            Printer.WriteLine("测试打印样式底边距测试打印样式底边距测试打印样式底边距测试打印样式底边距");
 
-            Printer.Write(new byte[] { Command.Esc, 0x64, 0.ToByte() });
+            Printer.Write(new byte[] { Command.Esc, 0x51, 0.ToByte() });
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x64, 1.ToByte() });
+            Printer.WriteLine("测试打印样式底边距测试打印样式底边距测试打印样式底边距测试打印样式底边距");
+            Printer.Write(new byte[] { Command.Esc, 0x51, 1.ToByte() });
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x64, 10.ToByte() });
+            Printer.WriteLine("测试打印样式底边距测试打印样式底边距测试打印样式底边距测试打印样式底边距");
+            Printer.Write(new byte[] { Command.Esc, 0x51, 10.ToByte() });
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x64, 20.ToByte() });
+            Printer.WriteLine("测试打印样式底边距测试打印样式底边距测试打印样式底边距测试打印样式底边距");
+            Printer.Write(new byte[] { Command.Esc, 0x51, 20.ToByte() });
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.WriteLine("测试打印样式底边距");
+            Printer.WriteLine("测试打印样式底边距测试打印样式底边距测试打印样式底边距测试打印样式底边距");
            
             Printer.Initialize();
             Printer.WriteLine("Test Print Style Bottom Margin");
@@ -93,6 +93,45 @@ namespace Bing.Printer.Tests.Commands
             Printer.Initialize();
             Printer.WriteLine("Test Print Style Row Height");
             Printer.WriteLine("测试打印样式行高");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 设置中文字符间距
+        /// </summary>
+        [Fact]
+        public void Test_SpacingCN()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test Print Style SpacingCN");
+            Printer.WriteLine("测试打印样式中文字符间距");
+
+            Printer.SpacingCN();
+            Printer.WriteLine("Test Print Style SpacingCN");
+            Printer.WriteLine("测试打印样式中文字符间距");
+
+            Printer.SpacingCN(5, 5);
+            Printer.WriteLine("Test Print Style SpacingCN");
+            Printer.WriteLine("测试打印样式中文字符间距");
+
+            Printer.SpacingCN(10, 10);
+            Printer.WriteLine("Test Print Style SpacingCN");
+            Printer.WriteLine("测试打印样式中文字符间距");
+
+            Printer.SpacingCN(20, 20);
+            Printer.WriteLine("Test Print Style SpacingCN");
+            Printer.WriteLine("测试打印样式中文字符间距");
+
+            Printer.SpacingCN(30, 30);
+            Printer.WriteLine("Test Print Style SpacingCN");
+            Printer.WriteLine("测试打印样式中文字符间距");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test Print Style SpacingCN");
+            Printer.WriteLine("测试打印样式中文字符间距");
 
             Printer.NewLine(2);
 

@@ -427,6 +427,15 @@ namespace Bing.Printer.EscPos
             /// 十进制码    28 45 48
             /// </summary>
             public static readonly byte[] UnderlineOff = {FS, ASCIIShowConst.MinusSign, ASCIIShowConst.Zero};
+
+            /// <summary>
+            /// 设置汉字字符左右间距。
+            /// 格式：
+            /// ASCII码    FS S n1 n2
+            /// 十六进制码  0x1C 0x53 n1 n2
+            /// 十进制码    28 83 n1 n2
+            /// </summary>
+            public static readonly byte[] SpaceingLeftRight = {FS, ASCIIShowConst.S};
         }
 
         #endregion
