@@ -396,7 +396,7 @@ namespace Bing.Printer
         /// 设置行高
         /// </summary>
         /// <param name="height">高度</param>
-        public virtual TPrinter RowHeight(int height) => Write(Command.PrintStyle.RowHeight());
+        public virtual TPrinter RowHeight(int height) => Write(Command.PrintStyle.RowHeight(height));
 
         /// <summary>
         /// 居中
