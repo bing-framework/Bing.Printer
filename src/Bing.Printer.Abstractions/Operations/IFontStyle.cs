@@ -161,5 +161,17 @@ namespace Bing.Printer.Operations
         /// </summary>
         /// <param name="type">字体类型</param>
         T FontType(FontType type);
+
+        /// <summary>
+        /// 设置倍宽。仅支持4个级别
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        T DoubleWidth(FontSize size);
+
+        /// <summary>
+        /// 设置倍高。仅支持4个级别
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        T DoubleHeight(FontSize size);
     }
 }

@@ -569,6 +569,111 @@ namespace Bing.Printer.Tests.Commands
         }
 
         /// <summary>
+        /// 测试 - 设置字体大小 - 倍数(宽高)
+        /// </summary>
+        [Fact]
+        public void Test_FontSize_Double_Widht_Height()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.FontSize(0);
+            Printer.WriteLine("1 倍宽高大小");
+            Printer.WriteLine("1 Times Width Height Font Size");
+
+            Printer.FontSize(17);
+            Printer.WriteLine("2 倍宽高大小");
+            Printer.WriteLine("2 Times Width Height Font Size");
+
+            Printer.FontSize(34);
+            Printer.WriteLine("3 倍宽高大小");
+            Printer.WriteLine("4 Times Width Height Font Size");
+
+            Printer.FontSize(51);
+            Printer.WriteLine("4 倍宽高大小");
+            Printer.WriteLine("4 Times Width Height Font Size");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 设置字体大小 - 倍宽
+        /// </summary>
+        [Fact]
+        public void Test_FontSize_Double_Width()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.DoubleWidth(FontSize.Size0);
+            Printer.WriteLine("1 倍宽大小");
+            Printer.WriteLine("1 Times Width Font Size");
+
+            Printer.DoubleWidth(FontSize.Size1);
+            Printer.WriteLine("2 倍宽大小");
+            Printer.WriteLine("2 Times Width Font Size");
+
+            Printer.DoubleWidth(FontSize.Size2);
+            Printer.WriteLine("3 倍宽大小");
+            Printer.WriteLine("4 Times Width Font Size");
+
+            Printer.DoubleWidth(FontSize.Size3);
+            Printer.WriteLine("4 倍宽大小");
+            Printer.WriteLine("4 Times Width Font Size");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 设置字体大小 - 倍高
+        /// </summary>
+        [Fact]
+        public void Test_FontSize_Double_Height()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.DoubleHeight(FontSize.Size0);
+            Printer.WriteLine("1 倍高大小");
+            Printer.WriteLine("1 Times Height Font Size");
+
+            Printer.DoubleHeight(FontSize.Size1);
+            Printer.WriteLine("2 倍高大小");
+            Printer.WriteLine("2 Times Height Font Size");
+
+            Printer.DoubleHeight(FontSize.Size2);
+            Printer.WriteLine("3 倍高大小");
+            Printer.WriteLine("4 Times Height Font Size");
+
+            Printer.DoubleHeight(FontSize.Size3);
+            Printer.WriteLine("4 倍高大小");
+            Printer.WriteLine("4 Times Height Font Size");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
         /// 测试 - 设置字体类型
         /// </summary>
         [Fact]

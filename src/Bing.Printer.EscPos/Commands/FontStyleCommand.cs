@@ -1,4 +1,5 @@
 ﻿using Bing.Printer.Enums;
+using Bing.Printer.Exceptions;
 using Bing.Printer.Extensions;
 using Bing.Printer.Operations;
 
@@ -203,5 +204,59 @@ namespace Bing.Printer.EscPos.Commands
         /// </summary>
         /// <param name="type">字体类型</param>
         public byte[] FontType(FontType type) => Command.FontType.AddByte(type.ToByte());
+
+        /// <summary>
+        /// 设置倍宽。仅支持4个级别
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public byte[] DoubleWidth(FontSize size)
+        {
+            byte realSize = 0;
+            switch (size)
+            {
+                case Enums.FontSize.Size0:
+                    realSize = 0;
+                    break;
+                case Enums.FontSize.Size1:
+                    realSize = 16;
+                    break;
+                case Enums.FontSize.Size2:
+                    realSize = 32;
+                    break;
+                case Enums.FontSize.Size3:
+                    realSize = 48;
+                    break;
+                default:
+                    throw new PrintException("仅支持 FontSize0 - FontSize3 倍宽");
+            }
+            return Command.Size.AddByte(realSize);
+        }
+
+        /// <summary>
+        /// 设置倍高。仅支持4个级别
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public byte[] DoubleHeight(FontSize size)
+        {
+            byte realSize = 0;
+            switch (size)
+            {
+                case Enums.FontSize.Size0:
+                    realSize = 0;
+                    break;
+                case Enums.FontSize.Size1:
+                    realSize = 1;
+                    break;
+                case Enums.FontSize.Size2:
+                    realSize = 2;
+                    break;
+                case Enums.FontSize.Size3:
+                    realSize = 3;
+                    break;
+                default:
+                    throw new PrintException("仅支持 FontSize0 - FontSize3 倍高");
+            }
+            return Command.Size.AddByte(realSize);
+        }
     }
 }

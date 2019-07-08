@@ -18,11 +18,6 @@ namespace Bing.Printer
         IFontMode<byte[]> FontMode { get; set; }
 
         /// <summary>
-        /// 字体宽度操作
-        /// </summary>
-        IFontWidth<byte[]> FontWidth { get; set; }
-
-        /// <summary>
         /// 页面截断操作
         /// </summary>
         IPagerCut<byte[]> PagerCut { get; set; }

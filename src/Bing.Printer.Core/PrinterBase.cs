@@ -275,6 +275,18 @@ namespace Bing.Printer
         /// <param name="type">字体类型</param>
         public virtual TPrinter FontType(FontType type) => Write(Command.FontStyle.FontType(type));
 
+        /// <summary>
+        /// 设置倍宽。仅支持4个级别
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public virtual TPrinter DoubleWidth(FontSize size) => Write(Command.FontStyle.DoubleWidth(size));
+
+        /// <summary>
+        /// 设置倍高。仅支持4个级别
+        /// </summary>
+        /// <param name="size">字体大小</param>
+        public virtual TPrinter DoubleHeight(FontSize size) => Write(Command.FontStyle.DoubleHeight(size));
+
         #endregion
 
         #region FontMode(字体模式)
@@ -326,25 +338,6 @@ namespace Bing.Printer
         /// </summary>
         /// <param name="state">打印模式</param>
         public virtual TPrinter Condensed(PrinterModeState state) => Write(Command.FontMode.Condensed(state));
-
-        #endregion
-
-        #region FontWidth(字体宽度)
-
-        /// <summary>
-        /// 正常宽度
-        /// </summary>
-        public virtual TPrinter NormalWidth() => Write(Command.FontWidth.NormalWidth());
-
-        /// <summary>
-        /// 2倍宽度
-        /// </summary>
-        public virtual TPrinter DoubleWidth2() => Write(Command.FontWidth.DoubleWidth2());
-
-        /// <summary>
-        /// 3倍宽度
-        /// </summary>
-        public virtual TPrinter DoubleWidth3() => Write(Command.FontWidth.DoubleWidth3());
 
         #endregion
 
