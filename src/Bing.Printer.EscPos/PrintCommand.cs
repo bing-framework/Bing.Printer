@@ -17,11 +17,6 @@ namespace Bing.Printer.EscPos
         public IFontStyle<byte[]> FontStyle { get; set; }
 
         /// <summary>
-        /// 字体模式操作
-        /// </summary>
-        public IFontMode<byte[]> FontMode { get; set; }
-
-        /// <summary>
         /// 页面截断操作
         /// </summary>
         public IPagerCut<byte[]> PagerCut { get; set; }
@@ -87,7 +82,6 @@ namespace Bing.Printer.EscPos
             BarcodeBuilder = new BarcodeBuilder(encoding);
 
             FontStyle = new FontStyleCommand();
-            FontMode = new FontModeCommand();
             PagerCut = new PagerCutCommand();
             Drawer = new DrawerCommand();
             QrCode = new QRCodeCommand();

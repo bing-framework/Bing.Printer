@@ -691,14 +691,12 @@ namespace Bing.Printer.EscPos
         /// <summary>
         /// 切纸-全切纸
         /// </summary>
-        [Obsolete] public static readonly byte[] PagerFullCut =
-            {ASCIIControlConst.GS, ASCIIShowConst.V, ASCIIControlConst.NULL};
+        public static readonly byte[] PagerFullCut = {ASCIIControlConst.GS, ASCIIShowConst.V, ASCIIControlConst.NULL};
 
         /// <summary>
         /// 切纸-部分切纸
         /// </summary>
-        [Obsolete] public static readonly byte[] PagerPartialCut =
-            {ASCIIControlConst.GS, ASCIIShowConst.V, ASCIIControlConst.SOH};
+        public static readonly byte[] PagerPartialCut = {ASCIIControlConst.GS, ASCIIShowConst.V, ASCIIControlConst.SOH};
 
         /// <summary>
         /// 文本格式-正常文本

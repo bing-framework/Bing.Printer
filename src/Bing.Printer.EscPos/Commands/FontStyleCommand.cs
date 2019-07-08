@@ -274,5 +274,11 @@ namespace Bing.Printer.EscPos.Commands
             }
             return Command.Size.AddByte(realSize);
         }
+
+        /// <summary>
+        /// 设置字符代码页
+        /// </summary>
+        /// <param name="table">字符代码表</param>
+        public byte[] FontCode(CodeTable table) => Command.CharCodePage.AddByte(table.ToByte());
     }
 }

@@ -13,11 +13,6 @@ namespace Bing.Printer
         IFontStyle<byte[]> FontStyle { get; set; }
 
         /// <summary>
-        /// 字体模式操作
-        /// </summary>
-        IFontMode<byte[]> FontMode { get; set; }
-
-        /// <summary>
         /// 页面截断操作
         /// </summary>
         IPagerCut<byte[]> PagerCut { get; set; }

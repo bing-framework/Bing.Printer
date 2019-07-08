@@ -51,31 +51,19 @@ namespace Bing.Printer.Tests.Commands
             Printer.WriteLine("Test Print Style Bottom Margin");
             Printer.WriteLine("测试打印样式底边距");
 
-            Printer.Write(new byte[] { Command.Esc, 0x33, 0.ToByte() });
+            Printer.Write(new byte[] { Command.Esc, 0x64, 0.ToByte() });
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 10.ToByte() });
+            Printer.WriteLine("测试打印样式底边距");
+            Printer.Write(new byte[] { Command.Esc, 0x64, 1.ToByte() });
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 20.ToByte() });
             Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 30.ToByte() });
+            Printer.Write(new byte[] { Command.Esc, 0x64, 10.ToByte() });
             Printer.WriteLine("Test Print Style Bottom Margin");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 40.ToByte() });
             Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 50.ToByte() });
+            Printer.Write(new byte[] { Command.Esc, 0x64, 20.ToByte() });
+            Printer.WriteLine("Test Print Style Bottom Margin");
             Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 60.ToByte() });
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 70.ToByte() });
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 80.ToByte() });
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 90.ToByte() });
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 100.ToByte() });
-            Printer.WriteLine("测试打印样式底边距");
-            Printer.Write(new byte[] { Command.Esc, 0x33, 110.ToByte() });
-            Printer.WriteLine("测试打印样式底边距");
-
+           
             Printer.Initialize();
             Printer.WriteLine("Test Print Style Bottom Margin");
             Printer.WriteLine("测试打印样式底边距");

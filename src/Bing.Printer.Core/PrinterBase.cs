@@ -303,59 +303,13 @@ namespace Bing.Printer
         /// <param name="size">字体大小</param>
         public virtual TPrinter DoubleHeight(FontSize size) => Write(Command.FontStyle.DoubleHeight(size));
 
-        #endregion
-
-        #region FontMode(字体模式)
-
         /// <summary>
-        /// 倾斜。将文字变为斜体
+        /// 设置字符代码页
         /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Italic(string value) => Write(Command.FontMode.Italic(value));
+        /// <param name="table">字符代码表</param>
+        public virtual TPrinter FontCode(CodeTable table) => Write(Command.FontStyle.FontCode(table));
 
-        /// <summary>
-        /// 倾斜。将文字变为斜体
-        /// </summary>
-        /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Italic(PrinterModeState state) => Write(Command.FontMode.Italic(state));
-
-        /// <summary>
-        /// 加粗。将文字加粗
-        /// </summary>
-        /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Bold(PrinterModeState state) => Write(Command.FontMode.Bold(state));
-
-        /// <summary>
-        /// 下划线。为文字添加下划线
-        /// </summary>
-        /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Underline(PrinterModeState state) => Write(Command.FontMode.Underline(state));
-
-        /// <summary>
-        /// 稀疏
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Expanded(string value) => Write(Command.FontMode.Expanded(value));
-
-        /// <summary>
-        /// 稀疏
-        /// </summary>
-        /// <param name="state">打印模式状态</param>
-        public virtual TPrinter Expanded(PrinterModeState state) => Write(Command.FontMode.Expanded(state));
-
-        /// <summary>
-        /// 简明
-        /// </summary>
-        /// <param name="value">值</param>
-        public virtual TPrinter Condensed(string value) => Write(Command.FontMode.Condensed(value));
-
-        /// <summary>
-        /// 简明
-        /// </summary>
-        /// <param name="state">打印模式</param>
-        public virtual TPrinter Condensed(PrinterModeState state) => Write(Command.FontMode.Condensed(state));
-
-        #endregion
+        #endregion        
 
         #region PrintStyle(打印样式)
 
@@ -526,9 +480,9 @@ namespace Bing.Printer
         /// </summary>
         public virtual TPrinter Separator()
         {
-            Condensed(PrinterModeState.On);
+            FontType(Enums.FontType.Compress0);
             Write(Command.Style.Separator());
-            Condensed(PrinterModeState.Off);
+            FontType(Enums.FontType.Normal);
             NewLine();
             return This();
         }

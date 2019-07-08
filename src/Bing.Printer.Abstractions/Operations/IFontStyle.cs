@@ -189,5 +189,11 @@ namespace Bing.Printer.Operations
         /// </summary>
         /// <param name="size">字体大小</param>
         T DoubleHeight(FontSize size);
+
+        /// <summary>
+        /// 设置字符代码页
+        /// </summary>
+        /// <param name="table">字符代码表</param>
+        T FontCode(CodeTable table);
     }
 }
