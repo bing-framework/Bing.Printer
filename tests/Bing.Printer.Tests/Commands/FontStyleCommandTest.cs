@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Bing.Printer.Enums;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Bing.Printer.Tests.Commands
@@ -431,14 +432,175 @@ namespace Bing.Printer.Tests.Commands
         }
 
         /// <summary>
-        /// 测试 - 设置字体大小
+        /// 测试 - 设置字体大小 - 固定字体尺寸
         /// </summary>
         [Fact]
-        public void Test_FontSize()
+        public void Test_FontSize_1()
         {
             Printer.Initialize();
             Printer.WriteLine("Test World FontSize");
             Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.FontSize(FontSize.Size0);
+            Printer.WriteLine("0 级字体大小");
+            Printer.WriteLine("0 Level Font Size");
+
+            Printer.FontSize(FontSize.Size1);
+            Printer.WriteLine("1 级字体大小");
+            Printer.WriteLine("1 Level Font Size");
+
+            Printer.FontSize(FontSize.Size2);
+            Printer.WriteLine("2 级字体大小");
+            Printer.WriteLine("2 Level Font Size");
+
+            Printer.FontSize(FontSize.Size3);
+            Printer.WriteLine("3 级字体大小");
+            Printer.WriteLine("3 Level Font Size");
+
+            Printer.FontSize(FontSize.Size4);
+            Printer.WriteLine("4 级字体大小");
+            Printer.WriteLine("4 Level Font Size");
+
+            Printer.FontSize(FontSize.Size5);
+            Printer.WriteLine("5 级字体大小");
+            Printer.WriteLine("5 Level Font Size");
+
+            Printer.FontSize(FontSize.Size6);
+            Printer.WriteLine("6 级字体大小");
+            Printer.WriteLine("6 Level Font Size");
+
+            Printer.FontSize(FontSize.Size7);
+            Printer.WriteLine("7 级字体大小");
+            Printer.WriteLine("7 Level Font Size");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 设置字体大小 - 自定义尺寸
+        /// </summary>
+        [Fact]
+        public void Test_FontSize_2()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.FontSize(0);
+            Printer.WriteLine("0 级字体大小");
+            Printer.WriteLine("0 Level Font Size");
+
+            Printer.FontSize(17);
+            Printer.WriteLine("1 级字体大小");
+            Printer.WriteLine("1 Level Font Size");
+
+            Printer.FontSize(34);
+            Printer.WriteLine("2 级字体大小");
+            Printer.WriteLine("2 Level Font Size");
+
+            Printer.FontSize(51);
+            Printer.WriteLine("3 级字体大小");
+            Printer.WriteLine("3 Level Font Size");
+
+            Printer.FontSize(68);
+            Printer.WriteLine("4 级字体大小");
+            Printer.WriteLine("4 Level Font Size");
+
+            Printer.FontSize(85);
+            Printer.WriteLine("5 级字体大小");
+            Printer.WriteLine("5 Level Font Size");
+
+            Printer.FontSize(102);
+            Printer.WriteLine("6 级字体大小");
+            Printer.WriteLine("6 Level Font Size");
+
+            Printer.FontSize(119);
+            Printer.WriteLine("7 级字体大小");
+            Printer.WriteLine("7 Level Font Size");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 设置字体大小 - 自定义宽高
+        /// </summary>
+        [Fact]
+        public void Test_FontSize_3()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.FontSize(10, 20);
+            Printer.WriteLine("10 px, 20 px 字体大小");
+            Printer.WriteLine("10 px, 20 px FontSize");
+
+            Printer.FontSize(20, 20);
+            Printer.WriteLine("20 px, 20 px 字体大小");
+            Printer.WriteLine("20 px, 20 px FontSize");
+
+            Printer.FontSize(30, 30);
+            Printer.WriteLine("30 px, 30 px 字体大小");
+            Printer.WriteLine("30 px, 30 px FontSize");
+
+            Printer.FontSize(40, 40);
+            Printer.WriteLine("40 px, 40 px 字体大小");
+            Printer.WriteLine("40 px, 40 px FontSize");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体大小");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 设置字体类型
+        /// </summary>
+        [Fact]
+        public void Test_FonntType()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体类型");
+
+            Printer.FontType(FontType.Normal);
+            Printer.WriteLine("正常字体类型");
+            Printer.WriteLine("Test Normal Font Type");
+
+            Printer.FontType(FontType.Compress0);
+            Printer.WriteLine("压缩字体类型");
+            Printer.WriteLine("Test Compress0 Font Type");
+
+            Printer.FontType(FontType.Compress1);
+            Printer.WriteLine("压缩字体1类型");
+            Printer.WriteLine("Test Compress1 Font Type");
+
+            Printer.FontType(FontType.Compress2);
+            Printer.WriteLine("压缩字体2类型");
+            Printer.WriteLine("Test Compress2 Font Type");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test World FontSize");
+            Printer.WriteLine("测试中文设置字体类型");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
         }
     }
 }

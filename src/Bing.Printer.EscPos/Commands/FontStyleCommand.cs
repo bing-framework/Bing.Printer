@@ -192,7 +192,10 @@ namespace Bing.Printer.EscPos.Commands
         /// <param name="height">高度</param>
         public byte[] FontSize(int width, int height)
         {
-            throw new System.NotImplementedException();
+            var widthSize = (width - 1) * 16;
+            var heightSize = (height - 1);
+            var size = widthSize + heightSize;
+            return Command.Size.AddByte(size.ToByte());
         }
 
         /// <summary>
