@@ -170,6 +170,22 @@ namespace Bing.Printer
         public virtual TPrinter DoubleHeightOff() => Write(Command.FontStyle.DoubleHeightOff());
 
         /// <summary>
+        /// 倍宽高
+        /// </summary>
+        /// <param name="value">值</param>
+        public TPrinter DoubleWidthHeight(string value) => Write(Command.FontStyle.DoubleWidthHeight(value));
+
+        /// <summary>
+        /// 倍宽高-开
+        /// </summary>
+        public virtual TPrinter DoubleWidthHeightOn() => Write(Command.FontStyle.DoubleWidthHeightOn());
+
+        /// <summary>
+        /// 倍宽高-关
+        /// </summary>
+        public virtual TPrinter DoubleWidthHeightOff() => Write(Command.FontStyle.DoubleWidthHeightOff());
+
+        /// <summary>
         /// 下划线(1点宽)。为文字添加下划线
         /// </summary>
         /// <param name="value">值</param>

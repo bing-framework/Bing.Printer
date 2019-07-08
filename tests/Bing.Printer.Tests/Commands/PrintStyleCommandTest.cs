@@ -19,6 +19,29 @@ namespace Bing.Printer.Tests.Commands
         }
 
         /// <summary>
+        /// 测试 - Beep
+        /// </summary>
+        [Fact]
+        public void Test_Beep()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test Print Style Beep");
+            Printer.WriteLine("测试打印样式底边距");
+
+            Printer.Write(new byte[] {Command.Esc, 0x28, 0x41, 4, 0, 48, 51, 3, 15});
+            Printer.WriteLine("Test Print Style Beep");
+            Printer.WriteLine("测试打印样式底边距");
+
+            Printer.Initialize();
+            Printer.WriteLine("Test Print Style Beep");
+            Printer.WriteLine("测试打印样式底边距");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
         /// 测试 - 设置底边距
         /// </summary>
         [Fact]

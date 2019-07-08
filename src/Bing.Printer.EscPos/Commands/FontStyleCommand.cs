@@ -59,6 +59,22 @@ namespace Bing.Printer.EscPos.Commands
         public byte[] DoubleHeightOff() => Command.Chinese.FontSizeReset.AddBytes(Command.ASCII.FontSizeReset);
 
         /// <summary>
+        /// 倍宽高
+        /// </summary>
+        /// <param name="value">值</param>
+        public byte[] DoubleWidthHeight(string value) => DoubleWidthHeightOn().AddBytes(value).AddBytes(DoubleWidthHeightOff()).AddLf();
+
+        /// <summary>
+        /// 倍宽高-开
+        /// </summary>
+        public byte[] DoubleWidthHeightOn() => Command.Chinese.DoubleWidthHeightOn.AddBytes(Command.ASCII.DoubleWidthHeight);
+
+        /// <summary>
+        /// 倍宽高-关
+        /// </summary>
+        public byte[] DoubleWidthHeightOff() => Command.Chinese.FontSizeReset.AddBytes(Command.ASCII.FontSizeReset);
+
+        /// <summary>
         /// 下划线(1点宽)。为文字添加下划线
         /// </summary>
         /// <param name="value">值</param>

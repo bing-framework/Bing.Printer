@@ -1,4 +1,5 @@
 ﻿using Bing.Printer.Enums;
+using Bing.Printer.EscPos;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -149,6 +150,52 @@ namespace Bing.Printer.Tests.Commands
 
             Printer.WriteLine("Test World DoubleHeight");
             Printer.WriteLine("测试中文倍高");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 倍宽高
+        /// </summary>
+        [Fact]
+        public void Test_DoubleWidthHeight()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World DoubleWidthHeight");
+            Printer.WriteLine("测试中文倍宽高");
+
+            Printer.DoubleWidthHeight("Test World DoubleWidthHeight");
+            Printer.NewLine();
+            Printer.DoubleWidthHeight("测试中文倍宽高");
+            Printer.NewLine();
+
+            Printer.WriteLine("Test World DoubleWidthHeight");
+            Printer.WriteLine("测试中文倍宽高");
+
+            Printer.NewLine(2);
+
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 测试 - 倍宽高开关
+        /// </summary>
+        [Fact]
+        public void Test_DoubleWidthHeight_On_Off()
+        {
+            Printer.Initialize();
+            Printer.WriteLine("Test World DoubleWidthHeight");
+            Printer.WriteLine("测试中文倍宽高");
+
+            Printer.DoubleWidthHeightOn();
+            Printer.WriteLine("Test World DoubleWidthHeight");
+            Printer.WriteLine("测试中文倍宽高");
+            Printer.DoubleWidthHeightOff();
+
+            Printer.WriteLine("Test World DoubleWidthHeight");
+            Printer.WriteLine("测试中文倍宽高");
 
             Printer.NewLine(2);
 
@@ -677,7 +724,7 @@ namespace Bing.Printer.Tests.Commands
         /// 测试 - 设置字体类型
         /// </summary>
         [Fact]
-        public void Test_FonntType()
+        public void Test_FontType()
         {
             Printer.Initialize();
             Printer.WriteLine("Test World FontSize");

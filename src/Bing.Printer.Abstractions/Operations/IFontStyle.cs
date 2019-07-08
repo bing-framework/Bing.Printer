@@ -55,6 +55,22 @@ namespace Bing.Printer.Operations
         /// 倍高-关
         /// </summary>
         T DoubleHeightOff();
+
+        /// <summary>
+        /// 倍宽高
+        /// </summary>
+        /// <param name="value">值</param>
+        T DoubleWidthHeight(string value);
+
+        /// <summary>
+        /// 倍宽高-开
+        /// </summary>
+        T DoubleWidthHeightOn();
+
+        /// <summary>
+        /// 倍宽高-关
+        /// </summary>
+        T DoubleWidthHeightOff();
         
         /// <summary>
         /// 下划线(1点宽)。为文字添加下划线

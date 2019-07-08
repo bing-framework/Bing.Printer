@@ -284,6 +284,15 @@ namespace Bing.Printer.EscPos
             public static readonly byte[] DoubleHeight = {Esc, ASCIIShowConst.Bang, ASCIIControlConst.DLE };
 
             /// <summary>
+            /// 打印模式 - 设置倍宽高。
+            /// 格式：
+            /// ASCII码    ESC ! 0
+            /// 十六进制码  0x1B 0x21 0x30
+            /// 十进制码    27 33 48
+            /// </summary>
+            public static readonly byte[] DoubleWidthHeight = {Esc, ASCIIShowConst.Bang, ASCIIShowConst.Zero};
+
+            /// <summary>
             /// 打印模式 - 设置加粗。
             /// 格式：
             /// ASCII码    ESC ! BS
@@ -382,6 +391,15 @@ namespace Bing.Printer.EscPos
             /// 十进制码    28 33 8
             /// </summary>
             public static readonly byte[] DoubleHeightOn = {FS, ASCIIShowConst.Bang, ASCIIControlConst.BS};
+
+            /// <summary>
+            /// 设置倍宽高。
+            /// 格式：
+            /// ASCII码    FS ! FF
+            /// 十六进制码  0x1C 0x21 0x0C
+            /// 十进制码    28 33 12
+            /// </summary>
+            public static readonly byte[] DoubleWidthHeightOn = { FS, ASCIIShowConst.Bang, ASCIIControlConst.FF };
 
             /// <summary>
             /// 设置1点宽下划线。
