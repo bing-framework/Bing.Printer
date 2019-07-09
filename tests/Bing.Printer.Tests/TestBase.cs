@@ -1,5 +1,7 @@
+using System;
 using System.Text;
 using Bing.Printer.EscPos;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace Bing.Printer.Tests
@@ -28,6 +30,15 @@ namespace Bing.Printer.Tests
             Output = output;
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             Printer = new EscPosPrinter();
+        }
+
+        [Fact]
+        public void Test_Guid()
+        {
+            var guid = Guid.NewGuid();
+            Output.WriteLine(guid.ToString("N"));
+            var result = Guid.Parse("8c8710d3806e4973b9e871220fc4b34b");
+            Output.WriteLine(result.ToString());
         }
     }
 }
