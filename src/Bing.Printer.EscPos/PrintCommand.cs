@@ -76,7 +76,7 @@ namespace Bing.Printer.EscPos
         /// </summary>
         /// <param name="printPaper">打印纸</param>
         /// <param name="encoding">字符编码</param>
-        public PrintCommand(IPrintPaper printPaper ,Encoding encoding)
+        public PrintCommand(IPrintPaper printPaper, Encoding encoding)
         {
             Writer = new WriterCommand(encoding);
             BarcodeBuilder = new BarcodeBuilder(encoding);

@@ -107,7 +107,7 @@ namespace Bing.Printer.EscPos.Commands
         /// <param name="height">高度</param>
         /// <param name="fontB">是否使用字体B</param>
         public byte[] Code128(string value, BarcodePositionType position, BarcodeWidth width, int height, bool fontB) =>
-            Barcode(value, new BarcodeOptions()
+            Barcode(value, new BarcodeOptions
             {
                 Position = position,
                 Width = width,
@@ -141,6 +141,7 @@ namespace Bing.Printer.EscPos.Commands
         /// <param name="options">条形码选项</param>
         public byte[] Barcode(string value, BarcodeOptions options)
         {
+            Builder.Init();
             Builder.Width(options.Width ?? BarcodeWidth.Thinnest)
                 .Height(options.Height ?? 50)
                 .LabelPosition(options.Position ?? BarcodePositionType.None)

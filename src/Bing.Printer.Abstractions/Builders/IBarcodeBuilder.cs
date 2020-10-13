@@ -8,6 +8,11 @@ namespace Bing.Printer.Builders
     public interface IBarcodeBuilder
     {
         /// <summary>
+        /// 初始化
+        /// </summary>
+        void Init();
+
+        /// <summary>
         /// 设置宽度
         /// </summary>
         /// <param name="width">宽度</param>

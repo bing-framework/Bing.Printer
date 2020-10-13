@@ -241,5 +241,86 @@ namespace Bing.Printer.Tests
 
             return line;
         }
+
+        /// <summary>
+        /// 测试 - 循环打印条码
+        /// </summary>
+        [Fact]
+        public void Test_CyclePrint_Barcode()
+        {
+            for (var i = 1; i <= 3; i++)
+            {
+                CyclePrintItem(Printer, 3, i);
+            }
+            Output.WriteLine(Printer.ToHex());
+        }
+
+        /// <summary>
+        /// 循环打印项
+        /// </summary>
+        /// <param name="printer">打印</param>
+        /// <param name="totalPage">总页数</param>
+        /// <param name="currentPage">当前页</param>
+        private void CyclePrintItem(IEscPosPrinter printer, int totalPage,int currentPage)
+        {
+            printer.Initialize();
+            printer.Left();
+            printer.Write($"{currentPage}/{totalPage}");
+            printer.NewLine();
+
+            printer.Initialize();
+            printer.Center();
+            printer.Code128($"b0201902134-{currentPage}", BarcodePositionType.Below, BarcodeWidth.Default, 100, true);
+            printer.NewLine();
+
+            printer.Initialize();
+            printer.Left();
+
+            var order = "Y20190618000001";
+
+            printer.FontType(FontType.Compress2);
+            printer.FontSize(FontSize.Size1);
+            printer.LeftMargin(30);
+            printer.Write("运单号");
+            printer.LeftMargin(160);
+            printer.Write(order.Substring(0, order.Length - 4));
+            printer.FontType(FontType.Normal);
+            printer.FontSize(FontSize.Size1);
+            printer.Write(order.Substring(order.Length - 4, 4));
+            printer.RowHeight(30);
+            printer.NewLine();
+
+            printer.Initialize();
+            printer.Left();
+            printer.FontType(FontType.Compress2);
+            printer.FontSize(FontSize.Size1);
+            printer.RowHeight(30);
+            PrintItem(printer, 0, 160, "配送中心", "天河高志体验店", 30);
+            PrintItem(printer, 0, 160, "配送划区", "隔壁老王", 30);
+            PrintItem(printer, 0, 160, "配送时段", "2019-06-24 14:00-18:00", 30);
+            PrintItem(printer, 30, 160, "收货人", "来自隔壁老王的新手大礼包", 30);
+            PrintItem(printer, 0, 160, "联系电话", "18975927788", 30);
+            var content = "广州市天河区黄埔大道广州市天河区黄埔大道广州市天河区黄埔大道广州市天河区黄埔大广州市天河区黄埔大";
+            PrintItem(printer, 0, 160, "收货地址", content, 30);
+
+            var line = GetLines(content, 26);
+            printer.Initialize();
+
+            switch (line)
+            {
+                case 1:
+                    printer.Write(new byte[] { 0x1B, 0x4A, 222.ToByte() });
+                    break;
+                case 2:
+                    printer.Write(new byte[] { 0x1B, 0x4A, 155.ToByte() });
+                    break;
+                case 3:
+                    printer.Write(new byte[] { 0x1B, 0x4A, 100.ToByte() });
+                    break;
+                case 4:
+                    printer.Write(new byte[] { 0x1B, 0x4A, 40.ToByte() });
+                    break;
+            }
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace Bing.Printer.EscPos.Builders
         /// <summary>
         /// 字符编码
         /// </summary>
-        private Encoding _encoding;
+        private readonly Encoding _encoding;
 
         /// <summary>
         /// 初始化一个<see cref="BarcodeBuilder"/>类型的实例
@@ -29,6 +29,11 @@ namespace Bing.Printer.EscPos.Builders
         {
             _encoding = encoding;
         }
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init() => _buffer = null;
 
         /// <summary>
         /// 设置宽度
@@ -63,6 +68,7 @@ namespace Bing.Printer.EscPos.Builders
         /// <param name="value">值</param>
         public byte[] Build(BarcodeType type, string value)
         {
+            
             // 设置条形码类型
             Append(Command.BarcodeType.AddBytes(new[] {type.ToByte()}));
             Append(new[] {(byte) (value.Length + 2)});
